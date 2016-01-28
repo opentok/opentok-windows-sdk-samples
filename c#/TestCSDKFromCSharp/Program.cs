@@ -28,19 +28,19 @@ namespace TestCSDKFromCSharp
             Base.otc_init(IntPtr.Zero);
             //Base.otc_log_enable(1);
 
-            var callbacks = new Opentok.Session.otc_session_cb();
+            var session_callbacks = new Opentok.Session.otc_session_cb();
             var subscriber_callbacks = new Opentok.Subscriber.otc_subscriber_cb();
             var publisher_callbacks = new Opentok.Publisher.otc_publisher_cb();
 
-            callbacks.on_connected = (IntPtr session_cb, IntPtr userData) => {
+            session_callbacks.on_connected = (IntPtr session_cb, IntPtr userData) => {
                 waitHandle.Set();
             };
 
-            callbacks.on_disconnected = (IntPtr session_cb, IntPtr userData) => {
+            session_callbacks.on_disconnected = (IntPtr session_cb, IntPtr userData) => {
                 waitHandle.Set();
             };
 
-            callbacks.on_stream_received = (IntPtr session_cb, IntPtr user_data, IntPtr stream_cb) =>
+            session_callbacks.on_stream_received = (IntPtr session_cb, IntPtr user_data, IntPtr stream_cb) =>
             {
                 subscriber = Opentok.Subscriber.otc_subscriber_new(stream_cb, ref subscriber_callbacks);
 
@@ -63,7 +63,7 @@ namespace TestCSDKFromCSharp
             };
 
             // Connect to the session
-            var session = Opentok.Session.otc_session_new(API_KEY, SESSION_ID, ref callbacks);
+            var session = Opentok.Session.otc_session_new(API_KEY, SESSION_ID, ref session_callbacks);
             Console.WriteLine("Connecting session");
             Opentok.Session.otc_session_connect(session, TOKEN);
             waitHandle.WaitOne();
