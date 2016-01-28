@@ -1,7 +1,6 @@
 **TESTING THE SAMPLE APP:**
-* Import the project in Visual Studio by clicking on BasicSubscriber.sln file.
-* Include the files opentok_dyn.dll, pthreadVC2.dll in opentok-windows-sdk-samples\c#\TestCSDKFromCSharp\bin\Debug folder.
-
+* Import the project in Visual Studio by clicking on ``BasicSubscriber.sln`` file.
+* Include the files opentok_dyn.dll, pthreadVC2.dll in ``opentok-windows-sdk-samples\c#\TestCSDKFromCSharp\bin\Debug`` folder.
 
 **UNDERSTANDING THE CODE:**
 
