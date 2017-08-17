@@ -1,9 +1,10 @@
-﻿using System;
-using System.Windows;
-using OpenTok;
+﻿using OpenTok;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 
-namespace OpenTokWPFSample
+namespace ScreenSharingSample
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -15,7 +16,7 @@ namespace OpenTokWPFSample
         public const string SESSION_ID = "";
         public const string TOKEN = "";
 
-        VideoCapturer Capturer;
+        ScreenSharingCapturer Capturer;
         Session Session;
         Publisher Publisher;
         bool Disconnect = false;
@@ -26,20 +27,7 @@ namespace OpenTokWPFSample
         {
             InitializeComponent();
 
-            // This shows how to enumarate the available capturer devices on the system to allow the user of the app
-            // to select the desired camera. If a capturer is not provided in the publisher constructor the first available 
-            // camera will be used.
-            var devices = VideoCapturer.EnumerateDevices();
-            if (devices.Count > 0)
-            {
-                var selectedDevice = devices[0];
-                Console.WriteLine("Using camera: " + devices[0].Name);
-                Capturer = selectedDevice.CreateVideoCapturer(VideoCapturer.Resolution.High);
-            }
-            else
-            {
-                Console.WriteLine("Warning: no cameras available, the publisher will be audio only.");
-            }
+            Capturer = new ScreenSharingCapturer();
 
             // We create the publisher here to show the preview when application starts
             // Please note that the publisherVideo component is added in the xaml file
@@ -72,7 +60,6 @@ namespace OpenTokWPFSample
                 subscriber.Dispose();
             }
             Publisher?.Dispose();
-            Capturer?.Dispose();
             Session?.Dispose();
         }
 

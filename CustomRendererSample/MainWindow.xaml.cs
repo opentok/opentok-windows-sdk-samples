@@ -1,9 +1,12 @@
-﻿using System;
-using System.Windows;
-using OpenTok;
+﻿using OpenTok;
+using System;
 using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
-namespace OpenTokWPFSample
+namespace CustomRendererSample
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -116,7 +119,10 @@ namespace OpenTokWPFSample
         private void Session_StreamReceived(object sender, Session.StreamEventArgs e)
         {
             Console.WriteLine("Session stream received");
+
             VideoRenderer renderer = new VideoRenderer();
+            renderer.EnableBlueFilter = PublisherVideo.EnableBlueFilter;
+
             SubscriberGrid.Children.Add(renderer);
             UpdateGridSize(SubscriberGrid.Children.Count);
             Subscriber subscriber = new Subscriber(Context.Instance, e.Stream, renderer);
@@ -184,6 +190,16 @@ namespace OpenTokWPFSample
             }
             Disconnect = !Disconnect;
             ConnectDisconnectButton.Content = Disconnect ? "Disconnect" : "Connect";
+        }
+
+        private void FilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            PublisherVideo.EnableBlueFilter = !PublisherVideo.EnableBlueFilter;
+            foreach (var subscriber in SubscriberByStream.Values)
+            {
+                ((VideoRenderer)subscriber.VideoRenderer).EnableBlueFilter = PublisherVideo.EnableBlueFilter;
+            }
+
         }
     }
 }
