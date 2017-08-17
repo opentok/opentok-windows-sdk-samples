@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:OpenTokWPFSample"
-        xmlns:OpenTok="clr-namespace:OpenTok;assembly=WPFVideoRenderer" x:Class="OpenTokWPFSample.MainWindow"
+        xmlns:local="clr-namespace:SimpleMultiparty"
+        xmlns:OpenTok="clr-namespace:OpenTok;assembly=WPFVideoRenderer" x:Class="SimpleMultiparty.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" MinWidth="320" MinHeight="240">
+        Title="Simple Multiparty" Height="350" Width="525" MinWidth="320" MinHeight="240">
   <Grid>
     <UniformGrid x:Name="SubscriberGrid" Rows="1" Columns="0">
     </UniformGrid>

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTok;
+﻿using OpenTok;
+using System;
 using System.Drawing;
 using System.Threading;
 
-namespace OpenTokWPFSample
+namespace ScreenSharing
 {
     public class ScreenSharingCapturer : IVideoCapturer
     {
-        System.Threading.Timer timer;
+        Timer timer;
         IVideoFrameConsumer frameConsumer;
         const int WIDTH = 640;
         const int HEIGHT = 480;
@@ -24,7 +20,7 @@ namespace OpenTokWPFSample
 
         public void Start()
         {
-            timer = new System.Threading.Timer((Object stateInfo) =>
+            timer = new Timer((Object stateInfo) =>
             {
                 using (Bitmap bitmap = new Bitmap(WIDTH, HEIGHT, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
                 {
@@ -32,7 +28,7 @@ namespace OpenTokWPFSample
                     {
                         graphics.CopyFromScreen(0, 0, 0, 0, new Size(WIDTH, HEIGHT), CopyPixelOperation.SourceCopy);
                     }
-                    using (var frame = OpenTok.VideoFrame.CreateYuv420pFrameFromBitmap(bitmap))
+                    using (var frame = VideoFrame.CreateYuv420pFrameFromBitmap(bitmap))
                     {
                         frameConsumer.Consume(frame);
                     }

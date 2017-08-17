@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ScreenSharingSample.Properties
+namespace CustomVideoRenderer.Properties
 {
 
 

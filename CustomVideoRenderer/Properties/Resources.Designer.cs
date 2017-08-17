@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CustomRendererSample.Properties
+namespace CustomVideoRenderer.Properties
 {
 
 

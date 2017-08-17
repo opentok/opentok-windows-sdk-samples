@@ -1,17 +1,15 @@
 ﻿using OpenTok;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 
-namespace ScreenSharingSample
+namespace ScreenSharing
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-
         public const string API_KEY = "";
         public const string SESSION_ID = "";
         public const string TOKEN = "";
@@ -20,7 +18,6 @@ namespace ScreenSharingSample
         Session Session;
         Publisher Publisher;
         bool Disconnect = false;
-
         Dictionary<Stream, Subscriber> SubscriberByStream = new Dictionary<Stream, Subscriber>();
 
         public MainWindow()
@@ -30,12 +27,13 @@ namespace ScreenSharingSample
             Capturer = new ScreenSharingCapturer();
 
             // We create the publisher here to show the preview when application starts
-            // Please note that the publisherVideo component is added in the xaml file
+            // Please note that the PublisherVideo component is added in the xaml file
             Publisher = new Publisher(Context.Instance, renderer: PublisherVideo, capturer: Capturer);
 
             if (API_KEY == "" || SESSION_ID == "" || TOKEN == "")
             {
-                MessageBox.Show("Please fill out the API_KEY, SESSION_ID and TOKEN variables in the source code in order to connect to the session", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Please fill out the API_KEY, SESSION_ID and TOKEN variables in the source code" +
+                    "in order to connect to the session", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 ConnectDisconnectButton.IsEnabled = false;
             }
             else
@@ -45,7 +43,6 @@ namespace ScreenSharingSample
                 Session.Connected += Session_Connected;
                 Session.Disconnected += Session_Disconnected;
                 Session.Error += Session_Error;
-                Session.ConnectionCreated += Session_ConnectionCreated;
                 Session.StreamReceived += Session_StreamReceived;
                 Session.StreamDropped += Session_StreamDropped;
             }
@@ -63,23 +60,6 @@ namespace ScreenSharingSample
             Session?.Dispose();
         }
 
-        private void Session_ConnectionCreated(object sender, Session.ConnectionEventArgs e)
-        {
-            Console.WriteLine("Session connection created:" + e.Connection.Id);
-        }
-
-        private void Session_Error(object sender, Session.ErrorEventArgs e)
-        {
-            MessageBox.Show("Session error:" + e.ErrorCode, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-
-        private void Session_Disconnected(object sender, EventArgs e)
-        {
-            Console.WriteLine("Session disconnected");
-            SubscriberByStream.Clear();
-            SubscriberGrid.Children.Clear();
-        }
-
         private void Session_Connected(object sender, EventArgs e)
         {
             try
@@ -90,6 +70,18 @@ namespace ScreenSharingSample
             {
                 Console.WriteLine("OpenTokException " + ex.ToString());
             }
+        }
+
+        private void Session_Disconnected(object sender, EventArgs e)
+        {
+            Console.WriteLine("Session disconnected");
+            SubscriberByStream.Clear();
+            SubscriberGrid.Children.Clear();
+        }
+
+        private void Session_Error(object sender, Session.ErrorEventArgs e)
+        {
+            MessageBox.Show("Session error:" + e.ErrorCode, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void UpdateGridSize(int numberOfSubscribers)
@@ -138,7 +130,6 @@ namespace ScreenSharingSample
                 SubscriberGrid.Children.Remove((UIElement)subscriber.VideoRenderer);
                 UpdateGridSize(SubscriberGrid.Children.Count);
             }
-
         }
 
         private void Connect_Click(object sender, RoutedEventArgs e)
@@ -146,7 +137,6 @@ namespace ScreenSharingSample
             if (Disconnect)
             {
                 Console.WriteLine("Disconnecting session");
-
                 try
                 {
                     Session.Unpublish(Publisher);
