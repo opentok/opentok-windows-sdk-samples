@@ -1,17 +1,19 @@
 ﻿using OpenTok;
+using SharpDX;
+using SharpDX.Direct3D11;
+using SharpDX.DXGI;
 using System;
-using System.Drawing;
 using System.Threading;
 
 namespace ScreenSharing
 {
     public class ScreenSharingCapturer : IVideoCapturer
     {
+        const int FPS = 15;
+        int width;
+        int height;
         Timer timer;
         IVideoFrameConsumer frameConsumer;
-        const int WIDTH = 640;
-        const int HEIGHT = 480;
-        const int FPS = 30;        
 
         public void Init(IVideoFrameConsumer frameConsumer)
         {
@@ -20,21 +22,73 @@ namespace ScreenSharing
 
         public void Start()
         {
+            const int numAdapter = 0;
+
+            // Change the output number to select a different desktop
+            const int numOutput = 0;
+
+            var factory = new Factory1();
+            var adapter = factory.GetAdapter1(numAdapter);
+            var device = new SharpDX.Direct3D11.Device(adapter);
+
+            var output = adapter.GetOutput(numOutput);
+            var output1 = output.QueryInterface<Output1>();
+
+            width = output.Description.DesktopBounds.Right;
+            height = output.Description.DesktopBounds.Bottom;
+
+            var textureDesc = new Texture2DDescription
+            {
+                CpuAccessFlags = CpuAccessFlags.Read,
+                BindFlags = BindFlags.None,
+                Format = Format.B8G8R8A8_UNorm,
+                Width = width,
+                Height = height,
+                OptionFlags = ResourceOptionFlags.None,
+                MipLevels = 1,
+                ArraySize = 1,
+                SampleDescription = { Count = 1, Quality = 0 },
+                Usage = ResourceUsage.Staging
+            };
+            var screenTexture = new Texture2D(device, textureDesc);
+            var duplicatedOutput = output1.DuplicateOutput(device);
+
             timer = new Timer((Object stateInfo) =>
             {
-                using (Bitmap bitmap = new Bitmap(WIDTH, HEIGHT, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+                try
                 {
-                    using (Graphics graphics = Graphics.FromImage(bitmap as Image))
-                    {
-                        graphics.CopyFromScreen(0, 0, 0, 0, new Size(WIDTH, HEIGHT), CopyPixelOperation.SourceCopy);
-                    }
-                    using (var frame = VideoFrame.CreateYuv420pFrameFromBitmap(bitmap))
+                    SharpDX.DXGI.Resource screenResource;
+                    OutputDuplicateFrameInformation duplicateFrameInformation;
+
+                    duplicatedOutput.AcquireNextFrame(1000 / FPS, out duplicateFrameInformation, out screenResource);
+
+                    using (var screenTexture2D = screenResource.QueryInterface<Texture2D>())
+                        device.ImmediateContext.CopyResource(screenTexture2D, screenTexture);
+
+                    screenResource.Dispose();
+                    duplicatedOutput.ReleaseFrame();
+
+                    var mapSource = device.ImmediateContext.MapSubresource(screenTexture, 0, MapMode.Read,
+                                                                           SharpDX.Direct3D11.MapFlags.None);
+
+                    IntPtr[] planes = { mapSource.DataPointer };
+                    int[] strides = { mapSource.RowPitch };
+                    using (var frame = VideoFrame.CreateYuv420pFrameFromBuffer(PixelFormat.FormatArgb32, width, height,
+                                                                               planes, strides))
                     {
                         frameConsumer.Consume(frame);
                     }
-                }
 
+                    device.ImmediateContext.UnmapSubresource(screenTexture, 0);
+
+                }
+                catch (SharpDXException) { }
             }, null, 0, 1000 / FPS);
+
+            output1.Dispose();
+            output.Dispose();
+            adapter.Dispose();
+            factory.Dispose();
         }
 
         public void Stop()
@@ -57,12 +111,11 @@ namespace ScreenSharing
         public VideoCaptureSettings GetCaptureSettings()
         {
             VideoCaptureSettings settings = new VideoCaptureSettings();
-            settings.Width = WIDTH;
-            settings.Height = HEIGHT;
+            settings.Width = width;
+            settings.Height = height;
             settings.Fps = FPS;
             settings.MirrorOnLocalRender = false;
             settings.PixelFormat = PixelFormat.FormatYuv420p;
-
             return settings;
         }
     }

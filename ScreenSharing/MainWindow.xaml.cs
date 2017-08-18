@@ -28,8 +28,13 @@ namespace ScreenSharing
 
             // We create the publisher here to show the preview when application starts
             // Please note that the PublisherVideo component is added in the xaml file
-            Publisher = new Publisher(Context.Instance, renderer: PublisherVideo, capturer: Capturer);
-
+            Publisher = new Publisher(Context.Instance, renderer: PublisherVideo, 
+                                      capturer: Capturer, hasAudioTrack: false);
+            
+            // We set the video source type to screen to disable the downscaling of the video
+            // in low bandwidth situations, instead the frames per second will drop.
+            Publisher.VideoSourceType = VideoSourceType.Screen;
+            
             if (API_KEY == "" || SESSION_ID == "" || TOKEN == "")
             {
                 MessageBox.Show("Please fill out the API_KEY, SESSION_ID and TOKEN variables in the source code" +
