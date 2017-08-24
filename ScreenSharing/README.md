@@ -1,39 +1,24 @@
-Screen Sharing
-=========================
+ScreenSharing
+=============
 
 This project shows how to use OpenTok Windows SDK to publish a stream that uses
-the content of the screen as the video source.
+the content of the screen as the video source for an OpenTok publisher.
 
 *Important:* To use this application, follow the instructions in the
 [Quick Start](../README.md#quick-start) section of the main README file
 for this repository.
 
 ScreenSharingCapturer.cs
----------------------------------
+------------------------
 
-This is the core class of the sample, this class will capture the contents of the
-screen and will send the frames to the OpenTok SDK to publish them.
+This is the core class of the sample application. It captures the contents of the
+screen and uses the frames as the video source for an OpenTok Publisher object.
 
 To be able to provide frames to the OpenTok SDK you need to implement the
 `IVideoCapturer` interface. This is also known as building your own video Capturer.
 
-To implement this interface you need to provide 5 methods:
-
-```csharp
-void Destroy();
-void Init();
-void Start(IVideoFrameConsumer frameConsumer);
-void Stop();
-VideoCaptureSettings GetCaptureSettings();
-```
-
-OpenTok SDK will manage the capturer lifecycle by calling `Init`, `Start`, `Stop`
-and `Destroy` methods. First you need to return your capture settings in the
-`GetCaptureSettings` method. Note also that the `Start` method contains a parameter
-called `frameConsumer`. You need to save that parameter inside your class, since
-you will use it to provide a frame to the SDK.
-
-In the ScreenSharing capturer sample, we return this settings:
+The app returns the capture settings in the implementation of the
+`IVideoCapturer.GetCaptureSettings()` method:
 
 ```csharp
 public VideoCaptureSettings GetCaptureSettings()
@@ -48,12 +33,23 @@ public VideoCaptureSettings GetCaptureSettings()
 }
 ```
 
-Whenever we have a frame ready, we provide it to the SDK by calling:
+The application implements the `Init(frameConsumer)`, `Start()`, `Stop()`, and `Destroy()` methods
+defined by the `IVideoCapturer` interface of the OpenTok Windows SDK. The OpenTok SDK manages the
+capturer lifecycle by calling these methods when the Publisher initializes the video capturer,
+when it starts requesting frames, when it stops capturing frames, and when the capturer is
+destroyed.
+
+Note that the `Init` method contains a `frameConsumer` parameter. This object is defined by the
+`IVideoFrameConsumer` interface of the OpenTok Windows SDK. The app saves that parameter value and
+uses it to provide a frame to the custom video capturer for the Publisher.
+
+Whenever a frame is ready, the app calls the `Consume(frame)` method of the `frameConsumer`
+object (passing in the frame object):
 
 ```csharp
 using (var frame = VideoFrame.CreateYuv420pFrameFromBuffer(PixelFormat.FormatArgb32,
     width, height,
-    planes, strides)) // Being planes and strides the actual frame data
+    planes, strides)) // planes and strides the actual frame data
 {
     frameConsumer.Consume(frame);
 }
@@ -61,13 +57,15 @@ using (var frame = VideoFrame.CreateYuv420pFrameFromBuffer(PixelFormat.FormatArg
 
 #### Capturing the screen
 
-In this sample we use SharpDX (A DirectX c# wrapper) to capture the screen contents.
-To create the video, we use a timer which is scheduled to be called 15 times a second. In each tick, the timer will capture the screen and will provide the frame to the SDK by using the capturer interface.
+This sample uses SharpDX (a DirectX C# wrapper) to capture the screen contents. To create
+the video, the app uses a timer, which is called 15 times a second. In each tick, the timer
+captures the screen and provides the frame to custom video capturer by calling
+`frameConsumer.Consume(frame)`.
 
 MainWindow.xaml.cs
---------------------------
+------------------
 
-In order to use the capturer, we need to tell the Publisher to use it. We do that with this code:
+To use the capturer, pass it in as the `capturer` parameter of the `Publisher()` constructor:
 
 ```csharp
 Capturer = new ScreenSharingCapturer();

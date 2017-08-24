@@ -1,22 +1,33 @@
-Custom Video Renderer
-==================================
+CustomVideoRenderer
+=====================
 
 This project uses the custom video renderer features in the OpenTok Windows SDK.
 By the end of a code review, you should have a basic understanding of the
-internals of the video render API.
+internals of the OpenTok video renderer API.
+
+Most applications work fine with the default renderer (VideoRenderer) included with the OpenTok
+Windows SDK. However, you can define a custom video renderer to add custom effects. For example,
+when the user clicks a button, this sample application adds a blue filter to the rendered video.
 
 *Important:* To use this application, follow the instructions in the
 [Quick Start](../README.md#quick-start) section of the main README file
 for this repository.
 
 VideoRenderer.cs
-----------------------
+----------------
 
-For our example we create a new class Called VideoRenderer that will implement the `IVideoRenderer` interface.
+The VideoRenderer class implement the `IVideoRenderer` interface defined in the OpenTok
+Windows SDK.
 
-That interface constains just one method, `RenderFrame`. This method will be called everytime a new frame is ready to be drawed.
+That interface contains one method: `RenderFrame(VideoFrame)`. This method is called when a new frame is ready to be drawn.
 
-In order to draw the frames, the VideoRenderer class is also a WPF Control, and will use its inherited `background` property to fill it with the contents of the frame. In order to do so, we use a `WriteableBitmap` whcih will be updated in every frame using this code:
+To draw the frames, the VideoRenderer class is a WPF Control, and it uses the inherited
+`Background` property to fill the control with the contents of the frame. The VideoRenderer class
+creates a `WriteableBitmap` object, which is updated with every frame (when the `RenderFrame`
+method is called). The `frame` object passed into the `RenderFrame(VideoFrame)` method is an
+instance of the VideoFrame class, defined by the OpenTok Windows SDK. The
+`ConvertInPlace(destinationFormat, planes, strides)` method of this object copies the video frame
+to the `BackBuffer` property of the WriteableBitmap object:
 
 ```csharp
 public void RenderFrame(VideoFrame frame)
@@ -30,8 +41,7 @@ public void RenderFrame(VideoFrame frame)
   // ...
   IntPtr[] buffer = { videoBitmap.BackBuffer };
   int[] stride = { videoBitmap.BackBufferStride };
-  frame.ConvertInPlace(OpenTok.PixelFormat.FormatArgb32,buffer,
-    stride);
+  frame.ConvertInPlace(OpenTok.PixelFormat.FormatArgb32, buffer, stride);
 
   videoBitmap.AddDirtyRect(new Int32Rect(0, 0, width, height));
   videoBitmap.Unlock();
@@ -39,7 +49,8 @@ public void RenderFrame(VideoFrame frame)
   // ...
 ```
 
-Being a subclass of a WPF control, allow us to directly place it in the xaml file:
+Because VideoRenderer extends the WPF Control class, we can reference it in the MainWindow.xaml
+file:
 
 ```xaml
 <local:VideoRenderer
@@ -59,9 +70,10 @@ Being a subclass of a WPF control, allow us to directly place it in the xaml fil
 ```
 
 MainWindow.xaml.cs
-----------------------------
+------------------
 
-In order to use the new renderer, we need to tell the `Publisher` to use it. We can do it with this code:
+In order to use the new renderer, we pass it in as the `renderer` parameter of the
+`Publisher()` constructor:
 
 ```csharp
 Publisher = new Publisher(Context.Instance,
