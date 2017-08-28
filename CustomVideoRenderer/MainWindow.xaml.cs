@@ -110,7 +110,7 @@ namespace CustomVideoRenderer
         {
             Console.WriteLine("Session stream received");
 
-            VideoRenderer renderer = new VideoRenderer();
+            SampleVideoRenderer renderer = new SampleVideoRenderer();
             renderer.EnableBlueFilter = PublisherVideo.EnableBlueFilter;
 
             SubscriberGrid.Children.Add(renderer);
@@ -185,7 +185,7 @@ namespace CustomVideoRenderer
             PublisherVideo.EnableBlueFilter = !PublisherVideo.EnableBlueFilter;
             foreach (var subscriber in SubscriberByStream.Values)
             {
-                ((VideoRenderer)subscriber.VideoRenderer).EnableBlueFilter = PublisherVideo.EnableBlueFilter;
+                ((SampleVideoRenderer)subscriber.VideoRenderer).EnableBlueFilter = PublisherVideo.EnableBlueFilter;
             }
         }
     }

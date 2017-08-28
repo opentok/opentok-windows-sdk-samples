@@ -9,15 +9,15 @@
   <Grid>
     <UniformGrid x:Name="SubscriberGrid" Rows="1" Columns="0">
     </UniformGrid>
-    <local:VideoRenderer x:Name="PublisherVideo" HorizontalAlignment="Right" Height="114" VerticalAlignment="Bottom" Width="184" Margin="0,0,10.429,10.143" BorderBrush="#FF5B1919" BorderThickness="1" >
-      <local:VideoRenderer.Effect>
+    <local:SampleVideoRenderer x:Name="PublisherVideo" HorizontalAlignment="Right" Height="114" VerticalAlignment="Bottom" Width="184" Margin="0,0,10.429,10.143" BorderBrush="#FF5B1919" BorderThickness="1" >
+      <local:SampleVideoRenderer.Effect>
         <DropShadowEffect Opacity="0.6"/>
-      </local:VideoRenderer.Effect>
-      <local:VideoRenderer.Background>
+      </local:SampleVideoRenderer.Effect>
+      <local:SampleVideoRenderer.Background>
         <ImageBrush Stretch="UniformToFill">
         </ImageBrush>
-      </local:VideoRenderer.Background>
-    </local:VideoRenderer>
+      </local:SampleVideoRenderer.Background>
+    </local:SampleVideoRenderer>
     <Grid HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="100">
       <Button x:Name="ConnectDisconnectButton" Content="Connect" HorizontalAlignment="Left" Margin="10,10,0,160" Width="80" Click="Connect_Click"/>
       <Button x:Name="FilterButton" Content="Toggle filter" HorizontalAlignment="Left" Margin="10,50,0,120" Width="80" Click="FilterButton_Click"/>

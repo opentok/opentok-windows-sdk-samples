@@ -1,19 +1,10 @@
 ﻿using OpenTok;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CustomVideoRenderer
 {
@@ -24,13 +15,13 @@ namespace CustomVideoRenderer
     /// Add this XmlNamespace attribute to the root element of the markup file where it is 
     /// to be used:
     ///
-    ///     xmlns:MyNamespace="clr-namespace:CustomRendererSample"
+    ///     xmlns:MyNamespace="clr-namespace:CustomVideoRenderer"
     ///
     /// Step 1b) Using this custom control in a XAML file that exists in a different project.
     /// Add this XmlNamespace attribute to the root element of the markup file where it is 
     /// to be used:
     ///
-    ///     xmlns:MyNamespace="clr-namespace:CustomRendererSample;assembly=CustomRendererSample"
+    ///     xmlns:MyNamespace="clr-namespace:CustomVideoRenderer;assembly=SampleVideoRenderer"
     ///
     /// You will also need to add a project reference from the project where the XAML file lives
     /// to this project and Rebuild to avoid compilation errors:
@@ -41,23 +32,23 @@ namespace CustomVideoRenderer
     /// Step 2)
     /// Go ahead and use your control in the XAML file.
     ///
-    ///     <MyNamespace:VideoRenderer/>
+    ///     <MyNamespace:SampleVideoRenderer/>
     ///
     /// </summary>
-    public class VideoRenderer : Control, IVideoRenderer
+    public class SampleVideoRenderer : Control, IVideoRenderer
     {
-        private int width = -1;
-        private int height = -1;
-        private WriteableBitmap videoBitmap;
+        private int FrameWidth = -1;
+        private int FrameHeight = -1;
+        private WriteableBitmap VideoBitmap;
 
         public bool EnableBlueFilter;
 
-        static VideoRenderer()
+        static SampleVideoRenderer()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(VideoRenderer), new FrameworkPropertyMetadata(typeof(VideoRenderer)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(SampleVideoRenderer), new FrameworkPropertyMetadata(typeof(SampleVideoRenderer)));
         }
 
-        public VideoRenderer()
+        public SampleVideoRenderer()
         {
             var brush = new ImageBrush();
             brush.Stretch = Stretch.UniformToFill;
@@ -71,47 +62,47 @@ namespace CustomVideoRenderer
             {
                 try
                 {
-                    if (frame.Width != width || frame.Height != height)
+                    if (frame.Width != FrameWidth || frame.Height != FrameHeight)
                     {
-                        width = frame.Width;
-                        height = frame.Height;
-                        videoBitmap = new WriteableBitmap(width, height, 96, 96, PixelFormats.Bgr32, null);
+                        FrameWidth = frame.Width;
+                        FrameHeight = frame.Height;
+                        VideoBitmap = new WriteableBitmap(FrameWidth, FrameHeight, 96, 96, PixelFormats.Bgr32, null);
 
                         if (Background is ImageBrush)
                         {
                             ImageBrush b = (ImageBrush)Background;
-                            b.ImageSource = videoBitmap;
+                            b.ImageSource = VideoBitmap;
                         }
                         else
                         {
-                            throw new Exception("Please use an ImageBrush as background in the VideoRenderer control");
+                            throw new Exception("Please use an ImageBrush as background in the SampleVideoRenderer control");
                         }
                     }
 
-                    if (videoBitmap != null)
+                    if (VideoBitmap != null)
                     {
-                        videoBitmap.Lock();
+                        VideoBitmap.Lock();
                         {
-                            IntPtr[] buffer = { videoBitmap.BackBuffer };
-                            int[] stride = { videoBitmap.BackBufferStride };
+                            IntPtr[] buffer = { VideoBitmap.BackBuffer };
+                            int[] stride = { VideoBitmap.BackBufferStride };
                             frame.ConvertInPlace(OpenTok.PixelFormat.FormatArgb32, buffer, stride);
 
                             if (EnableBlueFilter)
                             {
                                 // This is a very slow filter just for demonstration purposes
-                                IntPtr p = videoBitmap.BackBuffer;
-                                for (int y = 0; y < height; y++)
+                                IntPtr p = VideoBitmap.BackBuffer;
+                                for (int y = 0; y < FrameHeight; y++)
                                 {
-                                    for (int x = 0; x < width; x++, p += 4)
+                                    for (int x = 0; x < FrameWidth; x++, p += 4)
                                     {
                                         Marshal.WriteInt32(p, Marshal.ReadInt32(p) & 0xff);
                                     }
-                                    p += stride[0] - width * 4;
+                                    p += stride[0] - FrameWidth * 4;
                                 }
                             }
                         }
-                        videoBitmap.AddDirtyRect(new Int32Rect(0, 0, width, height));
-                        videoBitmap.Unlock();
+                        VideoBitmap.AddDirtyRect(new Int32Rect(0, 0, FrameWidth, FrameHeight));
+                        VideoBitmap.Unlock();
                     }
                 }
                 finally
