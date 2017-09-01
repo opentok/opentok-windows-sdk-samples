@@ -32,7 +32,11 @@ NuGet automatically installs the OpenTok SDK when you build the project.
 
 ### SimpleMultiparty
 
-This app shows how to implement a simple video call application with several clients.
+This app shows how to implement a simple video call.
+
+### SimpleMultiparty
+
+This app shows how to implement a video call application with several clients.
 
 ### CustomVideoRenderer
 
