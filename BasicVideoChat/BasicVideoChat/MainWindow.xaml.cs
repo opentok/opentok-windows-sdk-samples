@@ -7,51 +7,31 @@ namespace BasicVideoChat
     public partial class MainWindow : Window
     {
         public const string API_KEY = "472032"; 
-        public const string SESSION_ID = "2_MX40NzIwMzJ-fjE1MDQyMjY5Njg0Njd-YUxKZXNNUm11eVA3Vms0SU94cW40dFFPfn4"; 
-        public const string TOKEN = "T1==cGFydG5lcl9pZD00NzIwMzImc2RrX3ZlcnNpb249ZGVidWdnZXImc2lnPThiZWZlOGI3MTQ5OGQwZmY3OWZlNzdhODVhZDU0ZjJiMjIyZWEwMTI6c2Vzc2lvbl9pZD0yX01YNDBOekl3TXpKLWZqRTFNRFF5TWpZNU5qZzBOamQtWVV4S1pYTk5VbTExZVZBM1ZtczBTVTk0Y1c0MGRGRlBmbjQmY3JlYXRlX3RpbWU9MTUwNDIyNjk2OCZyb2xlPW1vZGVyYXRvciZub25jZT0xNTA0MjI2OTY4LjQ5Mzc2MzQ3MTc5MTcmZXhwaXJlX3RpbWU9MTUwNjgxODk2OA==";
+        public const string SESSION_ID = "2_MX40NzIwMzJ-fjE1MDQyOTIzMjMzMjh-M0w0NkVuSDlTN2JQdUEwUWV1akJJZGx2fn4"; 
+        public const string TOKEN = "T1==cGFydG5lcl9pZD00NzIwMzImc2RrX3ZlcnNpb249ZGVidWdnZXImc2lnPWVhMjdhYTlhMzEyNzY0NTE2MmQ2MDc0ZTM5MWQzNWU2MjcxMGM3Yzk6c2Vzc2lvbl9pZD0yX01YNDBOekl3TXpKLWZqRTFNRFF5T1RJek1qTXpNamgtTTB3ME5rVnVTRGxUTjJKUWRVRXdVV1YxYWtKSlpHeDJmbjQmY3JlYXRlX3RpbWU9MTUwNDI5MjMyMyZyb2xlPW1vZGVyYXRvciZub25jZT0xNTA0MjkyMzIzLjM1NDE5MjYzMjE1OTMmZXhwaXJlX3RpbWU9MTUwNjg4NDMyMyZjb25uZWN0aW9uX2RhdGE9SmVmZg==";
          
         Session Session;
-        VideoCapturer Capturer;
         Publisher Publisher;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            var devices = VideoCapturer.EnumerateDevices();
-
-            if (devices.Count > 0)
-            {
-                var selectedDevice = devices[0];
-                Capturer = selectedDevice.CreateVideoCapturer(VideoCapturer.Resolution.High);
-            }
-            else
-            {
-                Console.WriteLine("Warning: no cameras available, the publisher will be audio only.");
-            }
-
-            Publisher = new Publisher(Context.Instance, renderer: PublisherVideo, capturer: Capturer);
+            Publisher = new Publisher(Context.Instance, renderer: PublisherVideo);
 
             Session = new Session(Context.Instance, API_KEY, SESSION_ID);
             Session.Connected += Session_Connected;
             Session.Disconnected += Session_Disconnected;
             Session.Error += Session_Error;
             Session.StreamReceived += Session_StreamReceived;
-
             Session.Connect(TOKEN);
         }
 
         private void Session_Connected(object sender, System.EventArgs e)
         {
-            try
-            {
-                Session.Publish(Publisher);
-            }
-            catch (OpenTokException ex)
-            {
-                Console.WriteLine("Session.Publish() exception " + ex.ToString());
-            }
+            Session.Publish(Publisher);
         }
+ 
         private void Session_Disconnected(object sender, System.EventArgs e)
         {
             Console.WriteLine("Session disconnected.");
@@ -67,6 +47,5 @@ namespace BasicVideoChat
             Subscriber subscriber = new Subscriber(Context.Instance, e.Stream, SubscriberVideo);
             Session.Subscribe(subscriber);
         }
-
     }
 }
