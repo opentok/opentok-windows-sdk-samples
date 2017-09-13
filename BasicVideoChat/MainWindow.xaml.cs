@@ -6,7 +6,7 @@ namespace BasicVideoChat
 {
     public partial class MainWindow : Window
     {
-        public const string API_KEY = ""; 
+        public const string API_KEY = "";
         public const string SESSION_ID = ""; 
         public const string TOKEN = "";
 
