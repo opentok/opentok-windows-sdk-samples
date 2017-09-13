@@ -45,7 +45,7 @@ namespace CustomVideoRenderer
 
             if (API_KEY == "" || SESSION_ID == "" || TOKEN == "")
             {
-                MessageBox.Show("Please fill out the API_KEY, SESSION_ID and TOKEN variables in the source code" +
+                MessageBox.Show("Please fill out the API_KEY, SESSION_ID and TOKEN variables in the source code " +
                     "in order to connect to the session", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 ConnectDisconnectButton.IsEnabled = false;
             }
