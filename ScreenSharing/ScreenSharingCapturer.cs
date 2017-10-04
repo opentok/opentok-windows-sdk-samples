@@ -15,6 +15,9 @@ namespace ScreenSharing
         Timer timer;
         IVideoFrameConsumer frameConsumer;
 
+        Texture2D screenTexture;
+        OutputDuplication duplicatedOutput;
+
         public void Init(IVideoFrameConsumer frameConsumer)
         {
             this.frameConsumer = frameConsumer;
@@ -50,8 +53,8 @@ namespace ScreenSharing
                 SampleDescription = { Count = 1, Quality = 0 },
                 Usage = ResourceUsage.Staging
             };
-            var screenTexture = new Texture2D(device, textureDesc);
-            var duplicatedOutput = output1.DuplicateOutput(device);
+            screenTexture = new Texture2D(device, textureDesc);
+            duplicatedOutput = output1.DuplicateOutput(device);
 
             timer = new Timer((Object stateInfo) =>
             {
@@ -106,9 +109,11 @@ namespace ScreenSharing
 
         public void Destroy()
         {
+          duplicatedOutput.Dispose();
+          screenTexture.Dispose();
         }
 
-        public VideoCaptureSettings GetCaptureSettings()
+    public VideoCaptureSettings GetCaptureSettings()
         {
             VideoCaptureSettings settings = new VideoCaptureSettings();
             settings.Width = width;
