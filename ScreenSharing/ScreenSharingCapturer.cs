@@ -37,8 +37,12 @@ namespace ScreenSharing
             var output = adapter.GetOutput(numOutput);
             var output1 = output.QueryInterface<Output1>();
 
-            width = output.Description.DesktopBounds.Right;
-            height = output.Description.DesktopBounds.Bottom;
+            // When you have a multimonitor setup, the coordinates might be a little bit strange
+            // depending on how you've setup the environment.
+            // In any case Right - Left should give the width, and Bottom - Top the height.
+            var desktopBounds = output.Description.DesktopBounds;
+            width = desktopBounds.Right - desktopBounds.Left;
+            height = desktopBounds.Bottom - desktopBounds.Top;
 
             var textureDesc = new Texture2DDescription
             {
