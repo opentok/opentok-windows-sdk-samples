@@ -30,7 +30,7 @@ NuGet automatically installs the OpenTok SDK when you build the project.
 
 ## What's Inside
 
-### SimpleMultiparty
+### BasicVideoChat
 
 This app shows how to implement a simple video call.
 
