@@ -28,9 +28,16 @@
 
 NuGet automatically installs the OpenTok SDK when you build the project.
 
+**Test on non-development machines**: OpenTok SDK includes native code that depends on
+[Visual C++ Redistributable for Visual Studio 2015](https://www.microsoft.com/en-us/download/details.aspx?id=48145
+"Visual C++ Redistributable for Visual Studio 2015").  It's probably
+already installed on your development machine but not on test
+machines.  Also, you may need 32-bit version even if all your code is
+AnyCPU running on a 64-bit OS.
+
 ## What's Inside
 
-### SimpleMultiparty
+### BasicVideoChat
 
 This app shows how to implement a simple video call.
 
