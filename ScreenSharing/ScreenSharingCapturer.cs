@@ -15,6 +15,9 @@ namespace ScreenSharing
         Timer timer;
         IVideoFrameConsumer frameConsumer;
 
+        Texture2D screenTexture;
+        OutputDuplication duplicatedOutput;
+
         public void Init(IVideoFrameConsumer frameConsumer)
         {
             this.frameConsumer = frameConsumer;
@@ -34,8 +37,12 @@ namespace ScreenSharing
             var output = adapter.GetOutput(numOutput);
             var output1 = output.QueryInterface<Output1>();
 
-            width = output.Description.DesktopBounds.Right;
-            height = output.Description.DesktopBounds.Bottom;
+            // When you have a multimonitor setup, the coordinates might be a little bit strange
+            // depending on how you've setup the environment.
+            // In any case Right - Left should give the width, and Bottom - Top the height.
+            var desktopBounds = output.Description.DesktopBounds;
+            width = desktopBounds.Right - desktopBounds.Left;
+            height = desktopBounds.Bottom - desktopBounds.Top;
 
             var textureDesc = new Texture2DDescription
             {
@@ -50,8 +57,8 @@ namespace ScreenSharing
                 SampleDescription = { Count = 1, Quality = 0 },
                 Usage = ResourceUsage.Staging
             };
-            var screenTexture = new Texture2D(device, textureDesc);
-            var duplicatedOutput = output1.DuplicateOutput(device);
+            screenTexture = new Texture2D(device, textureDesc);
+            duplicatedOutput = output1.DuplicateOutput(device);
 
             timer = new Timer((Object stateInfo) =>
             {
@@ -106,9 +113,11 @@ namespace ScreenSharing
 
         public void Destroy()
         {
+          duplicatedOutput.Dispose();
+          screenTexture.Dispose();
         }
 
-        public VideoCaptureSettings GetCaptureSettings()
+    public VideoCaptureSettings GetCaptureSettings()
         {
             VideoCaptureSettings settings = new VideoCaptureSettings();
             settings.Width = width;
