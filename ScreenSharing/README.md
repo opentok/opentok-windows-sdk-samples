@@ -8,6 +8,11 @@ the content of the screen as the video source for an OpenTok publisher.
 [Quick Start](../README.md#quick-start) section of the main README file
 for this repository.
 
+Application Notes
+-----------------
+  * This application uses Microsoft DirectX graphics APIs not supported on
+    Windows 7 so this sample code works on Windows 8+.
+
 ScreenSharingCapturer.cs
 ------------------------
 
