@@ -10,8 +10,8 @@ for this repository.
 
 Application Notes
 -----------------
-  * This application uses Microsoft DirectX graphics APIs not supported on
-    Windows 7 so this sample code works on Windows 8+.
+  * This application uses Microsoft DirectX graphics APIs, which are not supported on
+    Windows 7. This sample code works on Windows 8+.
 
 ScreenSharingCapturer.cs
 ------------------------
