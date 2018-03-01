@@ -96,6 +96,7 @@ namespace SimpleMultiparty
 
         private void Session_Error(object sender, Session.ErrorEventArgs e)
         {
+            Trace.WriteLine("Session error:" + e.ErrorCode);
             MessageBox.Show("Session error:" + e.ErrorCode, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
