@@ -1,6 +1,7 @@
 ﻿using OpenTok;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 
 namespace SimpleMultiparty
@@ -31,12 +32,12 @@ namespace SimpleMultiparty
             if (devices.Count > 0)
             {
                 var selectedDevice = devices[0];
-                Console.WriteLine("Using camera: " + devices[0].Name);
+                Trace.WriteLine("Using camera: " + devices[0].Name);
                 Capturer = selectedDevice.CreateVideoCapturer(VideoCapturer.Resolution.High);
             }
             else
             {
-                Console.WriteLine("Warning: no cameras available, the publisher will be audio only.");
+                Trace.WriteLine("Warning: no cameras available, the publisher will be audio only.");
             }
 
             // We create the publisher here to show the preview when application starts
@@ -82,19 +83,20 @@ namespace SimpleMultiparty
             }
             catch (OpenTokException ex)
             {
-                Console.WriteLine("OpenTokException " + ex.ToString());
+                Trace.WriteLine("OpenTokException " + ex.ToString());
             }
         }
 
         private void Session_Disconnected(object sender, EventArgs e)
         {
-            Console.WriteLine("Session disconnected");
+            Trace.WriteLine("Session disconnected");
             SubscriberByStream.Clear();
             SubscriberGrid.Children.Clear();
         }
 
         private void Session_Error(object sender, Session.ErrorEventArgs e)
         {
+            Trace.WriteLine("Session error:" + e.ErrorCode);
             MessageBox.Show("Session error:" + e.ErrorCode, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
@@ -108,7 +110,7 @@ namespace SimpleMultiparty
 
         private void Session_StreamReceived(object sender, Session.StreamEventArgs e)
         {
-            Console.WriteLine("Session stream received");
+            Trace.WriteLine("Session stream received");
 
             VideoRenderer renderer = new VideoRenderer();
             SubscriberGrid.Children.Add(renderer);
@@ -122,13 +124,13 @@ namespace SimpleMultiparty
             }
             catch (OpenTokException ex)
             {
-                Console.WriteLine("OpenTokException " + ex.ToString());
+                Trace.WriteLine("OpenTokException " + ex.ToString());
             }
         }
 
         private void Session_StreamDropped(object sender, Session.StreamEventArgs e)
         {
-            Console.WriteLine("Session stream dropped");
+            Trace.WriteLine("Session stream dropped");
             var subscriber = SubscriberByStream[e.Stream];
             if (subscriber != null)
             {
@@ -139,7 +141,7 @@ namespace SimpleMultiparty
                 }
                 catch (OpenTokException ex)
                 {
-                    Console.WriteLine("OpenTokException " + ex.ToString());
+                    Trace.WriteLine("OpenTokException " + ex.ToString());
                 }
 
                 SubscriberGrid.Children.Remove((UIElement)subscriber.VideoRenderer);
@@ -151,7 +153,7 @@ namespace SimpleMultiparty
         {
             if (Disconnect)
             {
-                Console.WriteLine("Disconnecting session");
+                Trace.WriteLine("Disconnecting session");
                 try
                 {
                     Session.Unpublish(Publisher);
@@ -159,19 +161,19 @@ namespace SimpleMultiparty
                 }
                 catch (OpenTokException ex)
                 {
-                    Console.WriteLine("OpenTokException " + ex.ToString());
+                    Trace.WriteLine("OpenTokException " + ex.ToString());
                 }
             }
             else
             {
-                Console.WriteLine("Connecting session");
+                Trace.WriteLine("Connecting session");
                 try
                 {
                     Session.Connect(TOKEN);
                 }
                 catch (OpenTokException ex)
                 {
-                    Console.WriteLine("OpenTokException " + ex.ToString());
+                    Trace.WriteLine("OpenTokException " + ex.ToString());
                 }
             }
             Disconnect = !Disconnect;

@@ -1,6 +1,7 @@
 ﻿using OpenTok;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 
 namespace CustomVideoRenderer
@@ -31,12 +32,12 @@ namespace CustomVideoRenderer
             if (devices.Count > 0)
             {
                 var selectedDevice = devices[0];
-                Console.WriteLine("Using camera: " + devices[0].Name);
+                Trace.WriteLine("Using camera: " + devices[0].Name);
                 Capturer = selectedDevice.CreateVideoCapturer(VideoCapturer.Resolution.High);
             }
             else
             {
-                Console.WriteLine("Warning: no cameras available, the publisher will be audio only.");
+                Trace.WriteLine("Warning: no cameras available, the publisher will be audio only.");
             }
 
             // We create the publisher here to show the preview when application starts
@@ -82,13 +83,13 @@ namespace CustomVideoRenderer
             }
             catch (OpenTokException ex)
             {
-                Console.WriteLine("OpenTokException " + ex.ToString());
+                Trace.WriteLine("OpenTokException " + ex.ToString());
             }
         }
 
         private void Session_Disconnected(object sender, EventArgs e)
         {
-            Console.WriteLine("Session disconnected");
+            Trace.WriteLine("Session disconnected");
             SubscriberByStream.Clear();
             SubscriberGrid.Children.Clear();
         }
@@ -108,7 +109,7 @@ namespace CustomVideoRenderer
 
         private void Session_StreamReceived(object sender, Session.StreamEventArgs e)
         {
-            Console.WriteLine("Session stream received");
+            Trace.WriteLine("Session stream received");
 
             SampleVideoRenderer renderer = new SampleVideoRenderer();
             renderer.EnableBlueFilter = PublisherVideo.EnableBlueFilter;
@@ -124,13 +125,13 @@ namespace CustomVideoRenderer
             }
             catch (OpenTokException ex)
             {
-                Console.WriteLine("OpenTokException " + ex.ToString());
+                Trace.WriteLine("OpenTokException " + ex.ToString());
             }
         }
 
         private void Session_StreamDropped(object sender, Session.StreamEventArgs e)
         {
-            Console.WriteLine("Session stream dropped");
+            Trace.WriteLine("Session stream dropped");
             var subscriber = SubscriberByStream[e.Stream];
             if (subscriber != null)
             {
@@ -141,7 +142,7 @@ namespace CustomVideoRenderer
                 }
                 catch (OpenTokException ex)
                 {
-                    Console.WriteLine("OpenTokException " + ex.ToString());
+                    Trace.WriteLine("OpenTokException " + ex.ToString());
                 }
 
                 SubscriberGrid.Children.Remove((UIElement)subscriber.VideoRenderer);
@@ -153,7 +154,7 @@ namespace CustomVideoRenderer
         {
             if (Disconnect)
             {
-                Console.WriteLine("Disconnecting session");
+                Trace.WriteLine("Disconnecting session");
                 try
                 {
                     Session.Unpublish(Publisher);
@@ -161,19 +162,19 @@ namespace CustomVideoRenderer
                 }
                 catch (OpenTokException ex)
                 {
-                    Console.WriteLine("OpenTokException " + ex.ToString());
+                    Trace.WriteLine("OpenTokException " + ex.ToString());
                 }
             }
             else
             {
-                Console.WriteLine("Connecting session");
+                Trace.WriteLine("Connecting session");
                 try
                 {
                     Session.Connect(TOKEN);
                 }
                 catch (OpenTokException ex)
                 {
-                    Console.WriteLine("OpenTokException " + ex.ToString());
+                    Trace.WriteLine("OpenTokException " + ex.ToString());
                 }
             }
             Disconnect = !Disconnect;

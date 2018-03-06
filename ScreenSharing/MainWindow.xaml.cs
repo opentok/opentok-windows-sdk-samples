@@ -1,6 +1,7 @@
 ﻿using OpenTok;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 
 namespace ScreenSharing
@@ -73,13 +74,13 @@ namespace ScreenSharing
             }
             catch (OpenTokException ex)
             {
-                Console.WriteLine("OpenTokException " + ex.ToString());
+                Trace.WriteLine("OpenTokException " + ex.ToString());
             }
         }
 
         private void Session_Disconnected(object sender, EventArgs e)
         {
-            Console.WriteLine("Session disconnected");
+            Trace.WriteLine("Session disconnected");
             SubscriberByStream.Clear();
             SubscriberGrid.Children.Clear();
         }
@@ -99,7 +100,7 @@ namespace ScreenSharing
 
         private void Session_StreamReceived(object sender, Session.StreamEventArgs e)
         {
-            Console.WriteLine("Session stream received");
+            Trace.WriteLine("Session stream received");
             VideoRenderer renderer = new VideoRenderer();
             SubscriberGrid.Children.Add(renderer);
             UpdateGridSize(SubscriberGrid.Children.Count);
@@ -112,13 +113,13 @@ namespace ScreenSharing
             }
             catch (OpenTokException ex)
             {
-                Console.WriteLine("OpenTokException " + ex.ToString());
+                Trace.WriteLine("OpenTokException " + ex.ToString());
             }
         }
 
         private void Session_StreamDropped(object sender, Session.StreamEventArgs e)
         {
-            Console.WriteLine("Session stream dropped");
+            Trace.WriteLine("Session stream dropped");
             var subscriber = SubscriberByStream[e.Stream];
             if (subscriber != null)
             {
@@ -129,7 +130,7 @@ namespace ScreenSharing
                 }
                 catch (OpenTokException ex)
                 {
-                    Console.WriteLine("OpenTokException " + ex.ToString());
+                    Trace.WriteLine("OpenTokException " + ex.ToString());
                 }
 
                 SubscriberGrid.Children.Remove((UIElement)subscriber.VideoRenderer);
@@ -141,7 +142,7 @@ namespace ScreenSharing
         {
             if (Disconnect)
             {
-                Console.WriteLine("Disconnecting session");
+                Trace.WriteLine("Disconnecting session");
                 try
                 {
                     Session.Unpublish(Publisher);
@@ -149,19 +150,19 @@ namespace ScreenSharing
                 }
                 catch (OpenTokException ex)
                 {
-                    Console.WriteLine("OpenTokException " + ex.ToString());
+                    Trace.WriteLine("OpenTokException " + ex.ToString());
                 }
             }
             else
             {
-                Console.WriteLine("Connecting session");
+                Trace.WriteLine("Connecting session");
                 try
                 {
                     Session.Connect(TOKEN);
                 }
                 catch (OpenTokException ex)
                 {
-                    Console.WriteLine("OpenTokException " + ex.ToString());
+                    Trace.WriteLine("OpenTokException " + ex.ToString());
                 }
             }
             Disconnect = !Disconnect;
