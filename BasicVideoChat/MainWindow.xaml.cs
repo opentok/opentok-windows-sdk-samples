@@ -1,5 +1,6 @@
 ﻿using OpenTok;
 using System;
+using System.Diagnostics;
 using System.Windows;
 
 namespace BasicVideoChat
@@ -34,12 +35,12 @@ namespace BasicVideoChat
  
         private void Session_Disconnected(object sender, System.EventArgs e)
         {
-            Console.WriteLine("Session disconnected.");
+            Trace.WriteLine("Session disconnected.");
         }
 
         private void Session_Error(object sender, Session.ErrorEventArgs e)
         {
-            Console.WriteLine("Session error:" + e.ErrorCode);
+            Trace.WriteLine("Session error:" + e.ErrorCode);
         }
 
         private void Session_StreamReceived(object sender, Session.StreamEventArgs e)
