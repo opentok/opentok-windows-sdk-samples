@@ -144,10 +144,14 @@ In order to use the custom video renderer for the publisher, we pass it in as
 the `renderer` parameter of the `Publisher()` constructor:
 
 ```csharp
+PublisherVideo.StreamSourceType = "Publisher";
 Publisher = new Publisher(Context.Instance,
   renderer: PublisherVideo,
   capturer: Capturer);
 ```
+
+The `SampleVideoRenderer` class includes a public `StreamSourceType`, which we set to
+identify the renderer as belonging to a Publisher or Subscriber.
 
 In order to use the custom video renderer for the subscriber, we create a new instance
 of the SampleVideoRenderer class and pass it in as the `renderer` parameter of the
@@ -155,6 +159,7 @@ of the SampleVideoRenderer class and pass it in as the `renderer` parameter of t
 
 ```csharp
 SampleVideoRenderer renderer = new SampleVideoRenderer();
+renderer.StreamSourceType = "Subscriber";
 Subscriber subscriber = new Subscriber(Context.Instance, e.Stream, renderer);
 ```
 
