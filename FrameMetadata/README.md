@@ -164,13 +164,11 @@ Subscriber subscriber = new Subscriber(Context.Instance, e.Stream, renderer);
 ```
 
 To use the custom video capturer for the publisher, we create a new instance of the
-SampleVideoCapturer class, call it's `Start()` method, and pass it in as the `capturer`
-parameter of the `Publisher()` constructor:
+SampleVideoCapturer class, and pass it in as the `capturer` parameter of the `Publisher()`
+constructor:
 
 ```csharp
 Capturer = new SampleVideoCapturer();
-Capturer.Start();
-
 Publisher = new Publisher(Context.Instance,
   renderer: PublisherVideo,
   capturer: Capturer);

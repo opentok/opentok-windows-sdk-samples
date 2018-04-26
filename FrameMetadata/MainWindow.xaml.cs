@@ -25,11 +25,9 @@ namespace FrameMetadata
         {
             InitializeComponent();
 
-            // We create the publisher here to show the preview when application starts
-            // Please note that the PublisherVideo component is added in the xaml file
+            // We create the publisher here to show the preview when application starts.
+            // Note that the PublisherVideo component is added in the xaml file.
             Capturer = new SampleVideoCapturer();
-            Capturer.Start();
-
             PublisherVideo.StreamSourceType = "Publisher";
             Publisher = new Publisher(Context.Instance, renderer: PublisherVideo, capturer: Capturer);
 
