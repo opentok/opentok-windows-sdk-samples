@@ -60,4 +60,5 @@ capturer to capturer to capture the screen as the video source for an OpenTok pu
 ### FrameMetadata
 
 This app shows how to add metadata to video frames in a published stream and how to read
-the metadata in a subscriber to the stream.
+the metadata in a subscriber to the stream. It also shows to to use a very simple custom
+video capturer and custom video renderer.

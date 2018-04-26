@@ -4,9 +4,11 @@ FrameMetadata
 This app shows how to add metadata to video frames in a published stream and how to read
 the metadata in a subscriber to the stream.
 
-This project uses the custom video renderer features in the OpenTok Windows SDK.
-By the end of a code review, you should have a basic understanding of the
-internals of the OpenTok video renderer API.
+This project uses a custom video capturers to provide video frames for the publisher.
+And it uses a custom video renderer to render video frames for the publisher and subscriber.
+When creating each video frame, the video capturer adds frame metadata (a timestamp). And
+when rendering each video frame, the video renderer reads the frame metadata and logs it to
+the console.
 
 *Important:* To use this application, follow the instructions in the
 [Quick Start](../README.md#quick-start) section of the main README file
@@ -18,12 +20,54 @@ SampleVideoCapturer.cs
 The SampleVideoCapturer class implements the `IVideoCapturer` interface defined in the OpenTok
 Windows SDK. 
 
-When composing the frame to be used by the video capturer, it sets the `Metadata` property
-of the VideoFrame object to a DateTime timestamp:
+The `Init()` method of the SampleVideoCapturer (inherited from the `IVideoCapturer`
+interface) is called when the video capturer is initialized. An object that implements
+the `IVideoFrameConsumer` interface (defined by the OpenTok Windows SDK) is passed into
+the method:
 
 ```csharp
-frame.Metadata = Encoding.ASCII.GetBytes(DateTime.Now.ToString("MM/dd/yyy hh:mm:ss.fff"));
+public void Init(IVideoFrameConsumer frameConsumer)
+{
+    this.frameConsumer = frameConsumer;
+}
 ```
+
+The application calls the `Start()` method of the video capturer after the capturer is created.
+(This method is inherited from the `IVideoCapturer` interface.) In its implementation of the method, the SampleVideoCapturer instantiates a Timer:
+
+```csharp
+public void Start()
+{
+    timer = new Timer(1000);
+    timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+    timer.Enabled = true;
+}
+```
+
+The `OnTimedEvent()` method is called at each interval of the timer. It creates an instance of
+the VideoFrame class (also defined by the OpenTok Windows SDK), which represents the video frame
+to be used by the video capturer:
+
+```csharp
+private void OnTimedEvent(object source, ElapsedEventArgs e)
+{
+    Bitmap bitmap = new Bitmap(WIDTH, HEIGHT);
+    Graphics gfx = Graphics.FromImage(bitmap);
+    SolidBrush brush = new SolidBrush(Color.FromArgb(255, 0, 255, 0));
+    gfx.FillRectangle(brush, 0, 0, WIDTH, HEIGHT);
+    VideoFrame frame = VideoFrame.CreateYuv420pFrameFromBitmap(bitmap);
+    frame.Metadata = Encoding.ASCII.GetBytes(DateTime.Now.ToString("MM/dd/yyy hh:mm:ss.fff"));
+    frameConsumer.Consume(frame);
+    frame.Dispose();
+}
+```
+
+In this sample application, the video capturer renders a green rectangle to be used as the
+bitmap source for each video frame.
+
+When composing the frame, the application sets the `Metadata` property of the VideoFrame object
+to a DateTime timestamp.
+
 
 SampleVideoRenderer.cs
 ----------------------
@@ -32,7 +76,7 @@ The SampleVideoRenderer class implements the `IVideoRenderer` interface defined 
 Windows SDK. That interface contains one method: `RenderFrame(VideoFrame)`. This method is called
 when a new frame is ready to be drawn.
 
-This sample simply logs the frame metadata (if there is any) to the console:
+This sample application simply logs the frame metadata (if there is any) to the console:
 
 ```csharp
 public void RenderFrame(VideoFrame frame)
@@ -56,8 +100,8 @@ to the `BackBuffer` property of the WriteableBitmap object:
 ```csharp
 public void RenderFrame(VideoFrame frame)
 {
-  // This code has been simplified for the sake of clarity
-  // Please refer to the actual class to get the whole sample
+  // This code has been simplified for the sake of clarity.
+  // Please refer to the actual class to get the whole sample.
   // ...
   videoBitmap = new WriteableBitmap(width, height, 96, 96, PixelFormats.Bgr32, null);
   ImageBrush b = (ImageBrush)Background;
@@ -73,8 +117,8 @@ public void RenderFrame(VideoFrame frame)
   // ...
 ```
 
-Because SampleVideoRenderer extends the WPF Control class, we can reference it in the MainWindow.xaml
-file:
+Because SampleVideoRenderer extends the WPF Control class, we can reference it in
+the MainWindow.xaml file:
 
 ```xaml
 <local:SampleVideoRenderer
