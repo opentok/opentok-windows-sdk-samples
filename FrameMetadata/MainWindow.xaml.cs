@@ -15,7 +15,7 @@ namespace FrameMetadata
         public const string SESSION_ID = "";
         public const string TOKEN = "";
 
-        VideoCapturer Capturer;
+        SampleVideoCapturer Capturer;
         Session Session;
         Publisher Publisher;
         bool Disconnect = false;
@@ -25,23 +25,11 @@ namespace FrameMetadata
         {
             InitializeComponent();
 
-            // This shows how to enumarate the available capturer devices on the system to allow the user of the app
-            // to select the desired camera. If a capturer is not provided in the publisher constructor the first available 
-            // camera will be used.
-            var devices = VideoCapturer.EnumerateDevices();
-            if (devices.Count > 0)
-            {
-                var selectedDevice = devices[0];
-                Trace.WriteLine("Using camera: " + devices[0].Name);
-                Capturer = selectedDevice.CreateVideoCapturer(VideoCapturer.Resolution.High);
-            }
-            else
-            {
-                Trace.WriteLine("Warning: no cameras available, the publisher will be audio only.");
-            }
-
             // We create the publisher here to show the preview when application starts
             // Please note that the PublisherVideo component is added in the xaml file
+            Capturer = new SampleVideoCapturer();
+            Capturer.Start();
+
             Publisher = new Publisher(Context.Instance, renderer: PublisherVideo, capturer: Capturer);
 
             if (API_KEY == "" || SESSION_ID == "" || TOKEN == "")
@@ -71,7 +59,7 @@ namespace FrameMetadata
                 subscriber.Dispose();
             }
             Publisher?.Dispose();
-            Capturer?.Dispose();
+            Capturer?.Destroy();
             Session?.Dispose();
         }
 
@@ -112,7 +100,6 @@ namespace FrameMetadata
             Trace.WriteLine("Session stream received");
 
             SampleVideoRenderer renderer = new SampleVideoRenderer();
-            renderer.EnableBlueFilter = PublisherVideo.EnableBlueFilter;
 
             SubscriberGrid.Children.Add(renderer);
             UpdateGridSize(SubscriberGrid.Children.Count);
@@ -179,15 +166,6 @@ namespace FrameMetadata
             }
             Disconnect = !Disconnect;
             ConnectDisconnectButton.Content = Disconnect ? "Disconnect" : "Connect";
-        }
-
-        private void FilterButton_Click(object sender, RoutedEventArgs e)
-        {
-            PublisherVideo.EnableBlueFilter = !PublisherVideo.EnableBlueFilter;
-            foreach (var subscriber in SubscriberByStream.Values)
-            {
-                ((SampleVideoRenderer)subscriber.VideoRenderer).EnableBlueFilter = PublisherVideo.EnableBlueFilter;
-            }
         }
     }
 }
