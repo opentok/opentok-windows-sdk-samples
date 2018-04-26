@@ -30,6 +30,7 @@ namespace FrameMetadata
             Capturer = new SampleVideoCapturer();
             Capturer.Start();
 
+            PublisherVideo.StreamSourceType = "Publisher";
             Publisher = new Publisher(Context.Instance, renderer: PublisherVideo, capturer: Capturer);
 
             if (API_KEY == "" || SESSION_ID == "" || TOKEN == "")
@@ -100,6 +101,7 @@ namespace FrameMetadata
             Trace.WriteLine("Session stream received");
 
             SampleVideoRenderer renderer = new SampleVideoRenderer();
+            renderer.StreamSourceType = "Subscriber";
 
             SubscriberGrid.Children.Add(renderer);
             UpdateGridSize(SubscriberGrid.Children.Count);

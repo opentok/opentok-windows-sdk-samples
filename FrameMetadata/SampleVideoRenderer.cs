@@ -15,6 +15,8 @@ namespace FrameMetadata
         private int FrameHeight = -1;
         private WriteableBitmap VideoBitmap;
 
+        public String StreamSourceType; // Used to identify the renderer as being a Publisher or a Subscriber renderer 
+
         static SampleVideoRenderer()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SampleVideoRenderer), new FrameworkPropertyMetadata(typeof(SampleVideoRenderer)));
@@ -31,7 +33,7 @@ namespace FrameMetadata
         {
             if (frame.Metadata != null)
             {
-                Trace.WriteLine("Video frame metadata: " + Encoding.ASCII.GetString(frame.Metadata));
+                Trace.WriteLine(StreamSourceType + " video frame metadata: " + Encoding.ASCII.GetString(frame.Metadata));
             }
             // WritableBitmap has to be accessed from a STA thread
             Dispatcher.BeginInvoke(new Action(() =>
