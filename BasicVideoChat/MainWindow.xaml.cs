@@ -14,9 +14,14 @@ namespace BasicVideoChat
         Session Session;
         Publisher Publisher;
 
+        
+
         public MainWindow()
         {
             InitializeComponent();
+
+            // Uncomment following line to get debug logging
+            // LogUtil.Instance.EnableLogging();
 
             Publisher = new Publisher(Context.Instance, renderer: PublisherVideo);
 
