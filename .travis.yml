@@ -2,7 +2,3 @@ language: csharp
 solution: "./BasicVideoChat/BasicVideoChat.sln"
 os: windows
 mono: none
-install:
-    - nuget restore ./BasicVideoChat/BasicVideoChat.sln
-script:
-    - xbuild /p:Configuration=Release ./BasicVideoChat/BasicVideoChat.sln /p:TargetFrameworkVersion="v4.5"
