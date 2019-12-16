@@ -1,4 +1,4 @@
 language: csharp
-solution: "./BasicVideoChat/BasicVideoChat.sln"
+solution: BasicVideoChat.sln
 os: windows
 mono: none
