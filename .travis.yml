@@ -3,4 +3,4 @@ solution: BasicVideoChat.sln
 os: windows
 mono: none
 before_script:
-    - cd BasicVideoChat
+    - cd BasicVideoChatddd
