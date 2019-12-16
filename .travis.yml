@@ -1,7 +1,6 @@
 language: csharp
 solution: "./BasicVideoChat/BasicVideoChat.sln"
-mono: none
-os: windows
-dist: xenial
+install:
+    - nuget restore ./BasicVideoChat/BasicVideoChat.sln
 script:
-    - msbuild /p:Configuration=Release ./BasicVideoChat/BasicVideoChat.sln
+    - xbuild /p:Configuration=Release ./BasicVideoChat/BasicVideoChat.sln /p:TargetFrameworkVersion="v4.5"
