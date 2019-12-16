@@ -1,6 +1,7 @@
 language: csharp
 solution: "./BasicVideoChat/BasicVideoChat.sln"
 os: windows
+mono: none
 install:
     - nuget restore ./BasicVideoChat/BasicVideoChat.sln
 script:
