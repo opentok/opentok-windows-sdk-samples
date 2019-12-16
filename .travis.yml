@@ -3,7 +3,5 @@ solution: "./BasicVideoChat/BasicVideoChat.sln"
 mono: none
 os: windows
 dist: xenial
-dotnet: 2.1.502
 script:
-    - dotnet restore
-    - dotnet build
+    - msbuild /p:Configuration=Release ./BasicVideoChat/BasicVideoChat.sln
