@@ -3,4 +3,7 @@ solution: BasicVideoChat.sln
 os: windows
 mono: none
 before_script:
-    - cd BasicVideoChatddd
+    - cd BasicVideoChat
+script:
+    - dotnet restore
+    - dotnet build
