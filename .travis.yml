@@ -3,5 +3,5 @@ solution: "./BasicVideoChat/BasicVideoChat.sln"
 mono: none
 os: windows
 script:
- - dotnet restore
- - dotnet build 
+  - dotnet restore
+  - dotnet build BasicVideoChat\BasicVideoChat.sln
