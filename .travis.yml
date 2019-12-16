@@ -4,4 +4,4 @@ mono: none
 os: windows
 script:
   - dotnet restore
-  - dotnet build \BasicVideoChat\BasicVideoChat.sln
+  - dotnet build /BasicVideoChat/BasicVideoChat.sln
