@@ -1,5 +1,2 @@
 language: csharp
 solution: "./BasicVideoChat/BasicVideoChat.sln"
-mono: none
-dotnet: 4.5.2
-dist: xenial
