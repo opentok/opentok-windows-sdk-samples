@@ -2,3 +2,6 @@ language: csharp
 solution: "./BasicVideoChat/BasicVideoChat.sln"
 mono: none
 os: windows
+script:
+ - dotnet restore
+ - dotnet build 
