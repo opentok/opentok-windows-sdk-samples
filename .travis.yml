@@ -3,7 +3,7 @@ os: windows
 solution: BasicVideoChat/BasicVideoChat.sln
 mono: none
 before_install: 
-    - powershell -c "Import-Module PackageManagement; Install-Package -Source NuGetOrg -Name NuGet.CommandLine -Force -ExcludeVersion -Destination C:\tools"
+    - choco install nuget.commandline
 before_script:
     - cd BasicVideoChat
 script:
