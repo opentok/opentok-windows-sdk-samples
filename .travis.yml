@@ -8,4 +8,4 @@ before_script:
     - cd BasicVideoChat
 script:
     - nuget restore BasicVideoChat.sln
-    - msbuild /p:TargetFrameworkVersion="v4.5.2" /p:Configuration=Release /p:Platform=x64 /property:Prefer32bit=false
+    - msbuild.exe /p:TargetFrameworkVersion="v4.5.2" /p:Configuration=Release /p:Platform=x64 /property:Prefer32bit=false
