@@ -1,4 +1,2 @@
 language: csharp
-solution: BasicVideoChat.sln
-before_script:
-    - cd BasicVideoChat
+solution: BasicVideoChat/BasicVideoChat.sln
