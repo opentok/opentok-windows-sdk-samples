@@ -10,6 +10,7 @@ install:
     - export PATH="$PATH:/home/travis/.dotnet/tools"
     - export PATH="$PATH:$HOME/.local/bin"
     - sudo snap alias dotnet-sdk.dotnet dotnet
+    - export FrameworkPathOverride=$(dirname $(which mono))/../lib/mono/4.5/
 before_script:
     - cd BasicVideoChat
     - ls
