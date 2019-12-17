@@ -1,9 +1,10 @@
 language: csharp
-solution: BasicVideoChat.sln
-os: windows
-mono: none
-before_script:
-    - cd BasicVideoChat
-script:
-    - dotnet restore
-    - dotnet build
+solution: BasicVideoChat/BasicVideoChat.sln
+dist: xenial
+addons:
+    snaps:
+      - name: dotnet-sdk
+        confinement: classic
+        channel: 3.1/stable
+install:
+    - export FrameworkPathOverride=$(dirname $(which mono))/../lib/mono/4.5/
