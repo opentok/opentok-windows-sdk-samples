@@ -1,4 +1,8 @@
 language: csharp
+os: windows
 solution: BasicVideoChat/BasicVideoChat.sln
-install:
-    - export FrameworkPathOverride=$(dirname $(which mono))/../lib/mono/4.5/
+before_script:
+    - cd BasicVideoChat
+script:
+    - nuget restore BasicVideoChat.sln
+    - msbuild /p:Configuration=Release /p:Platform=x64 /property:Prefer32bit=false
