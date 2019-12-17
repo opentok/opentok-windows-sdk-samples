@@ -1,7 +1,6 @@
 language: csharp
 solution: BasicVideoChat/BasicVideoChat.sln
 dist: xenial
-mono: none
 addons:
     snaps:
       - name: dotnet-sdk
