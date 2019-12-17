@@ -2,3 +2,5 @@ language: csharp
 solution: BasicVideoChat/BasicVideoChat.sln
 dist: trusty
 mono: none
+before_install:
+    - sudo apt-get install nunit-console
