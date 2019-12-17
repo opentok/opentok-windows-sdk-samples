@@ -2,9 +2,8 @@ language: csharp
 solution: BasicVideoChat/BasicVideoChat.sln
 dist: trusty
 mono: none
+dotnet: latest
 before_install:
-    - sudo apt-get update
-    - sudo apt-get install -qq dotnet-sdk-3.0
     - sudo apt-get install nunit-console
 before_script:
     - cd BasicVideoChat
