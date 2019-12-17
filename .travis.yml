@@ -2,9 +2,15 @@ language: csharp
 solution: BasicVideoChat/BasicVideoChat.sln
 dist: trusty
 mono: none
-dotnet: 2.2
-before_install:
-    - sudo apt-get install nunit-console
+addons:
+    snaps:
+      - name: dotnet-sdk
+        confinement: classic
+        channel: 3.1/stable
+install:
+    - export PATH="$PATH:/home/travis/.dotnet/tools"
+    - export PATH="$PATH:$HOME/.local/bin"
+    - sudo snap alias dotnet-sdk.dotnet dotnet
 before_script:
     - cd BasicVideoChat
     - ls
