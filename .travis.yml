@@ -1,19 +1,9 @@
 language: csharp
-solution: BasicVideoChat/BasicVideoChat.sln
-dist: xenial
-addons:
-    snaps:
-      - name: dotnet-sdk
-        confinement: classic
-        channel: 3.1/stable
-install:
-    - export PATH="$PATH:/home/travis/.dotnet/tools"
-    - export PATH="$PATH:$HOME/.local/bin"
-    - sudo snap alias dotnet-sdk.dotnet dotnet
-    - export FrameworkPathOverride=$(dirname $(which mono))/../lib/mono/4.5/
+solution: BasicVideoChat.sln
+os: windows
+mono: none
 before_script:
     - cd BasicVideoChat
-    - ls
 script:
     - dotnet restore
     - dotnet build
