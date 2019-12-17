@@ -1,9 +1,4 @@
 language: csharp
 solution: BasicVideoChat.sln
-os: windows
-mono: none
 before_script:
     - cd BasicVideoChat
-script:
-    - dotnet restore
-    - dotnet build
