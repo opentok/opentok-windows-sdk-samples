@@ -1,6 +1,6 @@
 language: csharp
 solution: BasicVideoChat/BasicVideoChat.sln
-dist: trusty
+dist: xenial
 mono: none
 addons:
     snaps:
