@@ -1,4 +1,3 @@
 language: csharp
 solution: BasicVideoChat/BasicVideoChat.sln
-os: windows
-mono: none
+dist: trusty
