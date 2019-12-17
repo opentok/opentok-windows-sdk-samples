@@ -1,8 +1,9 @@
 language: csharp
 os: windows
 solution: BasicVideoChat/BasicVideoChat.sln
+mono: none
 before_script:
     - cd BasicVideoChat
 script:
     - nuget restore BasicVideoChat.sln
-    - msbuild /p:Configuration=Release /p:Platform=x64 /property:Prefer32bit=false
+    - msbuild /p:TargetFrameworkVersion="v4.5.2" /p:Configuration=Release /p:Platform=x64 /property:Prefer32bit=false
