@@ -8,4 +8,5 @@ before_script:
     - cd BasicVideoChat
 script:
     - nuget restore BasicVideoChat.sln
-    - C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\bin\msbuild.exe /p:TargetFrameworkVersion="v4.5.2" /p:Configuration=Release /p:Platform=x64 /property:Prefer32bit=false
+    - call "%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" x64
+    - msbuild. /p:TargetFrameworkVersion="v4.5.2" /p:Configuration=Release /p:Platform=x64 /property:Prefer32bit=false
