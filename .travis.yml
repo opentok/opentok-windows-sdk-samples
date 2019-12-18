@@ -7,5 +7,5 @@ install:
 before_script:
     - cd BasicVideoChat
 script:
-    - nuget restore BasicVideoChat.sln
+    - nuget restore BasicVideoChat.sln 
     - "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\bin\msbuild.exe"
