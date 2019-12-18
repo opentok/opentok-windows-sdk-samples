@@ -2,7 +2,7 @@ language: csharp
 os: windows
 solution: BasicVideoChat/BasicVideoChat.sln
 mono: none
-install: 
+before_install: 
     - choco install nuget.commandline
 before_script:
     - cd BasicVideoChat
