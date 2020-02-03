@@ -87,8 +87,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTokNET, Version=2.16.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\OpenTok.Client.2.16.2\lib\net40-client\OpenTokNET.dll</HintPath>
+    <Reference Include="OpenTokNET, Version=2.16.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\OpenTok.Client.2.16.3\lib\net40-client\OpenTokNET.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -107,7 +107,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WPFVideoRenderer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\OpenTok.Client.2.16.2\lib\net40-client\WPFVideoRenderer.dll</HintPath>
+      <HintPath>packages\OpenTok.Client.2.16.3\lib\net40-client\WPFVideoRenderer.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -165,9 +165,9 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\OpenTok.Client.2.16.2\build\OpenTok.Client.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\OpenTok.Client.2.16.2\build\OpenTok.Client.targets'))" />
+    <Error Condition="!Exists('packages\OpenTok.Client.2.16.3\build\OpenTok.Client.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\OpenTok.Client.2.16.3\build\OpenTok.Client.targets'))" />
   </Target>
-  <Import Project="packages\OpenTok.Client.2.16.2\build\OpenTok.Client.targets" Condition="Exists('packages\OpenTok.Client.2.16.2\build\OpenTok.Client.targets')" />
+  <Import Project="packages\OpenTok.Client.2.16.3\build\OpenTok.Client.targets" Condition="Exists('packages\OpenTok.Client.2.16.3\build\OpenTok.Client.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
