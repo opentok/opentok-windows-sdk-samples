@@ -1,0 +1,2584 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OpenTokNET</name>
+    </assembly>
+    <members>
+        <member name="T:OpenTok.AudioDevice">
+            <summary>
+            A class that includes methods for setting the audio device to be used by publishers
+            and subscribers.
+            </summary>
+        </member>
+        <member name="T:OpenTok.AudioDevice.InputAudioDevice">
+            <summary>
+            Represents an input audio device (such as a microphone) available on the Windows system.
+            See <see cref="M:OpenTok.AudioDevice.EnumerateInputAudioDevices"/> and
+            <see cref="M:OpenTok.AudioDevice.SetInputAudioDevice(OpenTok.AudioDevice.InputAudioDevice)"/>.
+            </summary>
+        </member>
+        <member name="P:OpenTok.AudioDevice.InputAudioDevice.Name">
+            <summary>
+            The name of the device.
+            </summary>
+        </member>
+        <member name="P:OpenTok.AudioDevice.InputAudioDevice.Id">
+            <summary>
+            The ID of the device.
+            </summary>
+        </member>
+        <member name="M:OpenTok.AudioDevice.EnumerateInputAudioDevices">
+             <summary>
+             Returns a list of available audio input devices on the system.
+             </summary>
+            
+             <returns>A list of InputAudioDevice objects, representing available Audio input devices
+             on the system.</returns>
+        </member>
+        <member name="M:OpenTok.AudioDevice.SetInputAudioDevice(OpenTok.AudioDevice.InputAudioDevice)">
+             <summary>
+             Sets the input audio device to be used by all publishers. See
+             <see cref="M:OpenTok.AudioDevice.EnumerateInputAudioDevices"/>.
+             </summary>
+            
+             <returns>void</returns>
+        </member>
+        <member name="M:OpenTok.AudioDevice.SetCustomAudioDevice(OpenTok.Context,OpenTok.IAudioDevice)">
+             <summary>
+             Sets an instance of the <see cref="T:OpenTok.IAudioDevice"/> interface as the
+             virtual audio device for a custom audio driver used by all
+             publishers and subscribers.
+             </summary>
+            
+             <returns>void</returns>
+        </member>
+        <member name="T:OpenTok.AudioDevice.AudioBus">
+            An audio bus used for all publisher and subscribers.
+        </member>
+        <member name="M:OpenTok.AudioDevice.AudioBus.ReadRenderData(System.IntPtr,System.Int32)">
+            Reads audio data from subscriber audio streams to be rendered.
+        </member>
+        <member name="M:OpenTok.AudioDevice.AudioBus.WriteCaptureData(System.IntPtr,System.Int32)">
+            Writes audio data (to publishers) to be captured and sent in the audio stream.
+        </member>
+        <member name="M:OpenTok.AudioDevice.NativeMethods.otc_audio_device_read_render_data(System.IntPtr,System.UIntPtr)">
+            Return Type: size_t
+        </member>
+        <member name="M:OpenTok.AudioDevice.NativeMethods.otc_audio_device_write_capture_data(System.IntPtr,System.UIntPtr)">
+            Return Type: int
+        </member>
+        <member name="M:OpenTok.AudioDevice.NativeMethods.otc_set_audio_device(OpenTok.AudioDeviceCallbacks@)">
+            Return Type: int
+        </member>
+        <member name="M:OpenTok.AudioDevice.NativeMethods.otc_audio_capturer_device_enumerator_new">
+            Return Type: audio_capturer_device_enumerator*
+        </member>
+        <member name="T:OpenTok.AudioDeviceSettings">
+            <summary>
+            Defines the settings retrieved from the
+            IAudioDevice.GetAudioCapturerSettings() and IAudioDevice.GetAudioRendererSettings() methods.
+            </summary>
+        </member>
+        <member name="F:OpenTok.AudioDeviceSettings.SamplingRate">
+            The sampling rate of the audio device.
+        </member>
+        <member name="F:OpenTok.AudioDeviceSettings.NumChannels">
+            The number of channels of the audio device.
+        </member>
+        <member name="T:OpenTok.IAudioDevice">
+            <summary>
+            Defines an Audio device to be used by all publishers and subscribers.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.InitAudio(OpenTok.AudioDevice.AudioBus)">
+             <summary>
+             Called when the AudioDevice is initialized. Use
+             the AudioBus object to read write audio data.
+             Call the AudioBus.ReadRenderData(IntPtr buffer, int numberOfSamples) and
+             AudioBus.WriteCaptureData(IntPtr buffer, int numberOfSamples) methods
+             to read render data from subscribers and write capture data to publishers.
+             </summary>
+            
+             <param name="audioBus">The instance of the AudioBus to use for all publishers and
+             subscribers.</param>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.DestroyAudio">
+            <summary>
+            Called when the IAudioDevice instance is destroyed.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.InitAudioCapturer">
+            <summary>
+            Called when the audio capturer for the IAudioDevice instance is initialized.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.DestroyAudioCapturer">
+            <summary>
+            Called when th audio capturer for the IAudioDevice instance is destroyed.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.StartAudioCapturer">
+            <summary>
+            Called when the audio capturer starts. You should begin providing
+            audio samples to the AudioBus.WriteCaptureData(IntPtr buffer, int numberOfSamples)
+            method.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.StopAudioCapturer">
+            <summary>
+            Called when the audio capturer stops.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.IsAudioCapturerInitialized">
+            <summary>
+            Checks if the audio capturer for the IAudioDevice instance is initialized.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.IsAudioCapturerStarted">
+            <summary>
+            Checks if the audio capturer for the IAudioDevice instance is started.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.GetEstimatedAudioCaptureDelay">
+            <summary>
+            Gets the estimated audio capture delay.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.GetAudioCapturerSettings">
+            <summary>
+            Called when the IAudioDevice instance requires settings.
+            In your implementation of this method, return an AudioDeviceSettings
+            objecdt.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.InitAudioRenderer">
+            <summary>
+            Called when the audio renderer for the IAudioDevice instance is initialized.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.DestroyAudioRenderer">
+            <summary>
+            Called when th audio renderer for the IAudioDevice instance is destroyed.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.StartAudioRenderer">
+            <summary>
+            Called when the audio renderer starts. You should begin receiving audio
+            samples from the AudioBus.ReadRenderData(IntPtr buffer, int numberOfSamples)
+            method.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.StopAudioRenderer">
+            <summary>
+            Called when the audio renderer stops.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.IsAudioRendererInitialized">
+            <summary>
+            Checks if the audio renderer for the IAudioDevice instance is initialized.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.IsAudioRendererStarted">
+            <summary>
+            Checks if the audio renderer for the IAudioDevice instance is started.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.GetEstimatedAudioRenderDelay">
+            <summary>
+            Gets the estimated audio render delay.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IAudioDevice.GetAudioRendererSettings">
+            <summary>
+            Gets settings for the audio renderer for the IAudioDevice instance.
+            </summary>
+        </member>
+        <member name="T:OpenTok.IceConfig">
+            <summary>
+            A class for setting custom ICE configuration.
+            </summary>
+            <remarks>
+            This is used for the
+            <a target="_top" href="https://tokbox.com/developer/guides/configurable-turn-servers/">configurable TURN feature</a>.
+            Pass this in as the <c>iceConfig</c> parameter of the 
+            <see cref="M:OpenTok.Session.#ctor(OpenTok.Context,System.String,System.String,System.Boolean,System.Uri,System.Boolean,System.Uri,OpenTok.IceConfig)"/> constructor.
+            </remarks>
+        </member>
+        <member name="M:OpenTok.IceConfig.#ctor(System.Collections.Generic.List{OpenTok.IceServer},OpenTok.ICETransport,OpenTok.ICEIncludeServers)">
+            <summary>
+            The constructor for IceConfig object passed into the
+            <see cref="M:OpenTok.Session.#ctor(OpenTok.Context,System.String,System.String,System.Boolean,System.Uri,System.Boolean,System.Uri,OpenTok.IceConfig)"/> constructor.
+            </summary>
+            <param name="customIceServers">A list of IceServer objects, representing custom TURN servers
+            to be used by the client.
+            </param>
+            <param name="transportPolicy">Whether to use all ICE transport types (such as host, srflx, and TURN)
+            to establish media connectivity or to only use TURN.
+            </param>
+            <param name="includeServers">Whether to use only the custom servers or both OpenTok servers
+            and the custom servers.
+            </param>
+        </member>
+        <member name="P:OpenTok.IceConfig.CustomIceServers">
+            The list of IceServer objects, representing custom TURN servers
+            to be used by the client.
+        </member>
+        <member name="P:OpenTok.IceConfig.TransportPolicy">
+            Whether to use all ICE transport types (such as host, srflx, and TURN)
+            to establish media connectivity or to only use TURN.
+        </member>
+        <member name="P:OpenTok.IceConfig.IncludeServers">
+            Whether to use only the custom servers or both OpenTok servers
+            and the custom servers.
+        </member>
+        <member name="T:OpenTok.VideoCapturer">
+             <summary>
+             A video capturer implementation that captures video from on of the cameras
+             available on the system.
+             </summary>
+            
+             <remarks>
+             Use VideoCapturer.EnumerateDevices() to get a list of available video devices
+             (cameras). Use one of the <c>CreateVideoCapturer()</c> methods of
+             the VideoDevice class to instantiate a VideoCapturer object.
+             <para>
+             The VideoCapturer class implements the System.IDisposable interface. Be sure to
+             call the <see cref="M:OpenTok.VideoCapturer.Dispose" /> method of the VideoCapturer object to release its
+             resources when you no longer need the object (for example, when the Publisher using the
+             capturer is removed or when the app or window is closing).
+             </para>
+             </remarks>
+        </member>
+        <member name="T:OpenTok.VideoCapturer.Resolution">
+            <summary>
+            Enumerates common pre-defined video resolutions.
+            </summary>
+        </member>
+        <member name="F:OpenTok.VideoCapturer.Resolution.Low">
+            <summary>
+            The lowest available camera capture resolution supported in the OpenTok Windows SDK
+            (320x240) or the closest resolution supported on the system.
+            </summary>
+        </member>
+        <member name="F:OpenTok.VideoCapturer.Resolution.Medium">
+            <summary>
+            VGA resolution (640x480) or the closest resolution supported on the system.
+            </summary>
+        </member>
+        <member name="F:OpenTok.VideoCapturer.Resolution.High">
+            <summary>
+            The highest available camera capture resolution supported in the OpenTok Windows
+            SDK (1280x720) or the closest resolution supported on the system.
+            </summary>
+        </member>
+        <member name="T:OpenTok.VideoCapturer.FrameRate">
+            <summary>
+            Enumerates common pre-defined video frame rates.
+            </summary>
+        </member>
+        <member name="F:OpenTok.VideoCapturer.FrameRate.Fps30">
+            <summary>
+            30 frames per second.
+            </summary>
+        </member>
+        <member name="F:OpenTok.VideoCapturer.FrameRate.Fps15">
+            <summary>
+            15 frames per second.
+            </summary>
+        </member>
+        <member name="F:OpenTok.VideoCapturer.FrameRate.Fps7">
+            <summary>
+            7 frames per second.
+            </summary>
+        </member>
+        <member name="F:OpenTok.VideoCapturer.FrameRate.Fps1">
+            <summary>
+            1 frame1 per second.
+            </summary>
+        </member>
+        <member name="T:OpenTok.VideoCapturer.VideoDevice">
+             <summary>
+             Defines a video device (such as a camera).
+             </summary>
+            
+             <para>
+             Use the VideoCapturer.EnumerateDevices() method to get a list of available
+             video devices on the system.
+             </para>
+        </member>
+        <member name="P:OpenTok.VideoCapturer.VideoDevice.Name">
+            <summary>
+            The name of the device.
+            </summary>
+        </member>
+        <member name="P:OpenTok.VideoCapturer.VideoDevice.Id">
+            <summary>
+            The ID of the device.
+            </summary>
+        </member>
+        <member name="M:OpenTok.VideoCapturer.VideoDevice.ListFormats">
+            <summary>
+            Returns a list of video formats available for the device.
+            </summary>
+        </member>
+        <member name="M:OpenTok.VideoCapturer.VideoDevice.CreateVideoCapturer(OpenTok.VideoCapturer.VideoFormat)">
+             <summary>
+             Creates a video capturer that uses the provided video format.
+             </summary>
+            
+             <param name="format">The video format the video capturer should use.</param>
+            
+             <returns>The VideoCapturer.</returns>
+            
+             <seealso cref="M:OpenTok.VideoCapturer.VideoDevice.ListFormats"/>
+        </member>
+        <member name="M:OpenTok.VideoCapturer.VideoDevice.CreateVideoCapturer(System.Int32,System.Int32,System.Int32)">
+             <summary>
+             Creates a video capturer that uses the provided width, height, and frame rate.
+             The video capturer will use the closest available settings.
+             </summary>
+            
+             <param name="width">The width of the video, in pixels.</param>
+            
+             <param name="height">The height of the video, in pixels.</param>
+            
+             <param name="fps">The frame rate of the video, in frames per second.</param>
+            
+             <returns>The VideoCapturer.</returns>
+        </member>
+        <member name="M:OpenTok.VideoCapturer.VideoDevice.CreateVideoCapturer(OpenTok.VideoCapturer.Resolution,OpenTok.VideoCapturer.FrameRate)">
+             <summary>
+             Creates a video capturer that uses the provided resolution and frame rate.
+             The video capturer will use the closest available settings.
+             </summary>
+            
+             <param name="resolution">The resolution of the video, as defined by values in
+             the Resolution enum.</param>
+            
+             <param name="frameRate">The frame rate of the video, as defined by values in
+             the FrameRate enum</param>
+            
+             <returns>The VideoCapturer.</returns>
+        </member>
+        <member name="M:OpenTok.VideoCapturer.VideoDevice.Dispose">
+            <summary>
+            Disposes of the VideoDevice object's resources.
+            </summary>
+        </member>
+        <member name="T:OpenTok.VideoCapturer.VideoFormat">
+             <summary>
+             Defines a video format available to a video device.
+             </summary>
+            
+             <para>
+             Use the VideoDevice.ListFormats() method to get a list of VideoFormat
+             objects for a device.
+             </para>
+        </member>
+        <member name="P:OpenTok.VideoCapturer.VideoFormat.Width">
+            <summary>
+            The width of the video frames, in pixels.
+            </summary>
+        </member>
+        <member name="P:OpenTok.VideoCapturer.VideoFormat.Height">
+            <summary>
+            The height of the video frames, in pixels.
+            </summary>
+        </member>
+        <member name="P:OpenTok.VideoCapturer.VideoFormat.Fps">
+            <summary>
+            The frame rate of the video, in frames per second.
+            </summary>
+        </member>
+        <member name="P:OpenTok.VideoCapturer.VideoFormat.PixelFormat">
+            <summary>
+            The pixel format of the video frames, as defined by the OpenTok.PixelFormat enum.
+            </summary>
+        </member>
+        <member name="M:OpenTok.VideoCapturer.EnumerateDevices">
+             <summary>
+             Returns a list of available video devices on the system.
+             </summary>
+            
+             <returns>A list of VideoDevice objects, representing available video devices
+             on the system.</returns>
+        </member>
+        <member name="M:OpenTok.VideoCapturer.Dispose">
+            <summary>
+            Disposes of the VideoCapturer object's resources.
+            </summary>
+        </member>
+        <member name="M:OpenTok.VideoCapturer.NativeMethods.mf_capturer_device_enumerator_number_of_devices(System.IntPtr)">
+             Return Type: int
+            cap_enum: mf_capturer_device_enumerator*
+        </member>
+        <member name="M:OpenTok.VideoCapturer.NativeMethods.internal_mf_capturer_device_enumerator_get_device_id(System.IntPtr,System.Int32)">
+             Return Type: char*
+            cap_enum: mf_capturer_device_enumerator*
+            device: int
+        </member>
+        <member name="M:OpenTok.VideoCapturer.NativeMethods.internal_mf_capturer_device_enumerator_get_device_name(System.IntPtr,System.Int32)">
+             Return Type: char*
+            cap_enum: mf_capturer_device_enumerator*
+            device: int
+        </member>
+        <member name="M:OpenTok.VideoCapturer.NativeMethods.mf_capturer_device_enumerator_delete(System.IntPtr)">
+             Return Type: mf_status_t->int
+            cap_enum: mf_capturer_device_enumerator*
+        </member>
+        <member name="M:OpenTok.VideoCapturer.NativeMethods.mf_capturer_format_enumerator_new(System.String)">
+             Return Type: mf_capturer_format_enumerator*
+            device_id: char*
+        </member>
+        <member name="M:OpenTok.VideoCapturer.NativeMethods.mf_capturer_format_enumerator_delete(System.IntPtr)">
+             Return Type: mf_status_t->int
+            format_enum: mf_capturer_format_enumerator*
+        </member>
+        <member name="M:OpenTok.VideoCapturer.NativeMethods.mf_capturer_format_enumerator_number_of_formats(System.IntPtr)">
+             Return Type: int
+            format_enum: mf_capturer_format_enumerator*
+        </member>
+        <member name="M:OpenTok.VideoCapturer.NativeMethods.mf_capturer_format_enumerator_get_format(System.IntPtr,System.Int32,OpenTok.mf_capturer_format@)">
+             Return Type: mf_status_t->int
+            format_enum: mf_capturer_format_enumerator*
+            index: int
+            output: mf_capturer_format*
+        </member>
+        <member name="M:OpenTok.VideoCapturer.NativeMethods.mf_capturer_new(System.String,OpenTok.mf_capturer_cb_on_frame)">
+             Return Type: mf_capturer*
+            capturer_id: char*
+            out_cb: mf_capturer_cb*
+        </member>
+        <member name="M:OpenTok.VideoCapturer.NativeMethods.mf_capturer_start(System.IntPtr,System.Int32)">
+             Return Type: mf_status_t->int
+            capturer: mf_capturer*
+            format_index: int
+        </member>
+        <member name="M:OpenTok.VideoCapturer.NativeMethods.mf_capturer_stop(System.IntPtr)">
+             Return Type: mf_status_t->int
+            capturer: mf_capturer*
+        </member>
+        <member name="M:OpenTok.VideoCapturer.NativeMethods.mf_capturer_delete(System.IntPtr)">
+             Return Type: mf_status_t->int
+            capturer: mf_capturer*
+        </member>
+        <member name="M:OpenTok.DshowCapturer.SelectDevice(OpenTok.DshowCapturer.Device)">
+            <summary>
+            
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="M:OpenTok.DshowCapturer.NativeMethods.dshow_capturer_device_enumerator_number_of_devices(System.IntPtr)">
+             Return Type: int
+            cap_enum: dshow_capturer_device_enumerator*
+        </member>
+        <member name="M:OpenTok.DshowCapturer.NativeMethods.internal_dshow_capturer_device_enumerator_get_device_id(System.IntPtr,System.Int32)">
+             Return Type: char*
+            cap_enum: dshow_capturer_device_enumerator*
+            device: int
+        </member>
+        <member name="M:OpenTok.DshowCapturer.NativeMethods.internal_dshow_capturer_device_enumerator_get_device_name(System.IntPtr,System.Int32)">
+             Return Type: char*
+            cap_enum: dshow_capturer_device_enumerator*
+            device: int
+        </member>
+        <member name="M:OpenTok.DshowCapturer.NativeMethods.dshow_capturer_device_enumerator_delete(System.IntPtr)">
+             Return Type: dshow_status_t->int
+            cap_enum: dshow_capturer_device_enumerator*
+        </member>
+        <member name="M:OpenTok.DshowCapturer.NativeMethods.dshow_capturer_format_enumerator_new(System.String)">
+             Return Type: dshow_capturer_format_enumerator*
+            device_id: char*
+        </member>
+        <member name="M:OpenTok.DshowCapturer.NativeMethods.dshow_capturer_format_enumerator_delete(System.IntPtr)">
+             Return Type: dshow_status_t->int
+            format_enum: dshow_capturer_format_enumerator*
+        </member>
+        <member name="M:OpenTok.DshowCapturer.NativeMethods.dshow_capturer_format_enumerator_number_of_formats(System.IntPtr)">
+             Return Type: int
+            format_enum: dshow_capturer_format_enumerator*
+        </member>
+        <member name="M:OpenTok.DshowCapturer.NativeMethods.dshow_capturer_format_enumerator_get_format(System.IntPtr,System.Int32,OpenTok.dshow_capturer_format@)">
+             Return Type: dshow_status_t->int
+            format_enum: dshow_capturer_format_enumerator*
+            index: int
+            output: dshow_capturer_format*
+        </member>
+        <member name="M:OpenTok.DshowCapturer.NativeMethods.dshow_capturer_format_enumerator_get_best_format(System.IntPtr,OpenTok.dshow_capturer_format@)">
+             Return Type: int
+            format_enum: dshow_capturer_format_enumerator*
+            desired: dshow_capturer_format*
+        </member>
+        <member name="M:OpenTok.DshowCapturer.NativeMethods.dshow_capturer_new(System.String,OpenTok.dshow_capturer_cb_on_frame)">
+             Return Type: dshow_capturer*
+            capturer_id: char*
+            out_cb: dshow_capturer_cb*
+        </member>
+        <member name="M:OpenTok.DshowCapturer.NativeMethods.dshow_capturer_start(System.IntPtr,System.IntPtr,System.Int32)">
+             Return Type: dshow_status_t->int
+            capturer: dshow_capturer*
+            format_index: int
+        </member>
+        <member name="M:OpenTok.DshowCapturer.NativeMethods.dshow_capturer_stop(System.IntPtr)">
+             Return Type: dshow_status_t->int
+            capturer: dshow_capturer*
+        </member>
+        <member name="M:OpenTok.DshowCapturer.NativeMethods.dshow_capturer_delete(System.IntPtr)">
+             Return Type: dshow_status_t->int
+            capturer: dshow_capturer*
+        </member>
+        <member name="T:OpenTok.VideoCaptureSettings">
+            <summary>
+            Defines the settings passed into the
+            VideoCapturer.UpdateCaptureSettings(ref VideoCaptureSettings) method.
+            </summary>
+        </member>
+        <member name="F:OpenTok.VideoCaptureSettings.PixelFormat">
+            The pixel format
+        </member>
+        <member name="F:OpenTok.VideoCaptureSettings.Width">
+            The width of each frame, in pixels
+        </member>
+        <member name="F:OpenTok.VideoCaptureSettings.Height">
+            The height of each frame, in pixels
+        </member>
+        <member name="F:OpenTok.VideoCaptureSettings.Fps">
+            The width of each frame, in frames per second
+        </member>
+        <member name="F:OpenTok.VideoCaptureSettings.ExpectedCaptureDelay">
+            The expected delay of the frame capturer, in milliseconds
+        </member>
+        <member name="F:OpenTok.VideoCaptureSettings.MirrorOnLocalRender">
+            Whether to mirror the local preview of the Publisher's video.
+        </member>
+        <member name="T:OpenTok.IVideoCapturer">
+            <summary>
+            Defines a video capturer to be used by a Publisher object.
+            </summary>
+            <seealso cref="P:OpenTok.Publisher.VideoCapturer"/>
+        </member>
+        <member name="M:OpenTok.IVideoCapturer.Init(OpenTok.IVideoFrameConsumer)">
+             <summary>
+             Initializes the VideoCapturer with a video frame consumer.
+             </summary>
+            
+             <param name="frameConsumer">The instance of the IVideoFrameConsumer to use.</param>
+        </member>
+        <member name="M:OpenTok.IVideoCapturer.Start">
+            <summary>
+            Called when the Publisher starts publishing video.
+            Call the <see cref="M:OpenTok.IVideoFrameConsumer.Consume(OpenTok.VideoFrame)"/>
+            method whenever a new frame is available.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IVideoCapturer.Stop">
+            <summary>
+            Called when the Publisher stops publishing video.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IVideoCapturer.Destroy">
+            <summary>
+            Called when the Publisher object using this VideoFrameConsumer is destroyed.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IVideoCapturer.GetCaptureSettings">
+            <summary>
+            The OpenTok Windows SDK calls this method to get the video settings for the
+            video capturer. In your implementation of this method, create a new 
+            <c>settings</c> object to define the video settings to be used.
+            </summary>
+        </member>
+        <member name="T:OpenTok.IVideoFrameConsumer">
+             <summary>
+             Defines a video frame consumer to be used by the VideoCapturer of a Publisher.
+             </summary>
+            
+             <seealso cref="T:OpenTok.VideoCapturer"/>
+        </member>
+        <member name="M:OpenTok.IVideoFrameConsumer.Consume(OpenTok.VideoFrame)">
+            <summary>
+            Called whenever a frame is made available to the video frame consumer.
+            </summary>
+        </member>
+        <member name="M:OpenTok.IVideoFrameConsumer.Consume(OpenTok.VideoFrame,System.Int32)">
+            <summary>
+            Called whenever a frame is made available to the video frame consumer.
+            Use this method to add orientation information to the frame.
+            </summary>
+        </member>
+        <member name="T:OpenTok.PublisherAudioNetworkStats">
+            <summary>
+            PublisherAudioNetworkStats struct for receiving subscriber audio stats from webrtc
+            </summary>
+        </member>
+        <member name="F:OpenTok.PublisherAudioNetworkStats.connection_id">
+            <summary>
+            The connection id of the other side of this peer connection.
+            </summary>
+        </member>
+        <member name="F:OpenTok.PublisherAudioNetworkStats.subscriber_id">
+            <summary>
+            The subscriber id of the other side of this peer connection.
+            </summary>
+        </member>
+        <member name="F:OpenTok.PublisherAudioNetworkStats.packets_lost">
+            <summary>
+            Audio packets loss stat
+            </summary>
+        </member>
+        <member name="F:OpenTok.PublisherAudioNetworkStats.packets_sent">
+            <summary>
+            Audio packets sent stat
+            </summary>
+        </member>
+        <member name="F:OpenTok.PublisherAudioNetworkStats.bytes_sent">
+            <summary>
+            Audio bytes sent stat
+            </summary>
+        </member>
+        <member name="F:OpenTok.PublisherAudioNetworkStats.audioLevel">
+            <summary>
+            Audio volume level
+            </summary>
+        </member>
+        <member name="F:OpenTok.PublisherAudioNetworkStats.timestamp">
+            <summary>
+            Timestamp on audio packet
+            </summary>
+        </member>
+        <member name="F:OpenTok.PublisherAudioNetworkStats.start_time">
+            <summary>
+            The timestamp, in milliseconds since the Unix epoch, from which
+            the cumulative totals started accumulating.
+            </summary>
+        </member>
+        <member name="T:OpenTok.PublisherVideoNetworkStats">
+            <summary>
+            PublisherVideoNetworkStats struct for receiving subscriber audio stats from webrtc
+            </summary>
+        </member>
+        <member name="F:OpenTok.PublisherVideoNetworkStats.connection_id">
+            <summary>
+            The connection id of the other side of this peer connection.
+            </summary>
+        </member>
+        <member name="F:OpenTok.PublisherVideoNetworkStats.subscriber_id">
+            <summary>
+            The subscriber id of the other side of this peer connection.
+            </summary>
+        </member>
+        <member name="F:OpenTok.PublisherVideoNetworkStats.packets_lost">
+            <summary>
+            Video packets loss stat
+            </summary>
+        </member>
+        <member name="F:OpenTok.PublisherVideoNetworkStats.packets_sent">
+            <summary>
+            Video packets sent stat
+            </summary>
+        </member>
+        <member name="F:OpenTok.PublisherVideoNetworkStats.bytes_sent">
+            <summary>
+            Video bytes sent stat
+            </summary>
+        </member>
+        <member name="F:OpenTok.PublisherVideoNetworkStats.timestamp">
+            <summary>
+            Timestamp on Video packet
+            </summary>
+        </member>
+        <member name="F:OpenTok.PublisherVideoNetworkStats.start_time">
+            <summary>
+            The timestamp, in milliseconds since the Unix epoch, from which
+            the cumulative totals started accumulating.
+            </summary>
+        </member>
+        <member name="T:OpenTok.IVideoRenderer">
+            <summary>
+            Defines a video renderer to be used by a Publisher or Subscriber object.
+            </summary>
+            <seealso cref="P:OpenTok.Publisher.VideoRenderer"/>
+            <seealso cref="P:OpenTok.Subscriber.VideoRenderer"/>
+        </member>
+        <member name="M:OpenTok.IVideoRenderer.RenderFrame(OpenTok.VideoFrame)">
+            <summary>
+            Called when a frame for the video stream is available to be rendered.
+            </summary>
+            <remarks>
+            At the end of the implementation of this method, be sure to call the 
+            <see cref="M:OpenTok.VideoFrame.Dispose"/> method of the <c>frame</c> object to prevent
+            memory leaks.
+            </remarks>
+            <param name="frame">The video frame.</param>
+        </member>
+        <member name="T:OpenTok.AudioNetworkStats">
+            <summary>
+            AudioNetworkStats struct for receiving subscriber audio stats from webrtc
+            </summary>
+        </member>
+        <member name="F:OpenTok.AudioNetworkStats.packets_lost">
+            <summary>
+            Audio packets loss stat
+            </summary>
+        </member>
+        <member name="F:OpenTok.AudioNetworkStats.packets_received">
+            <summary>
+            Audio packets received stat
+            </summary>
+        </member>
+        <member name="F:OpenTok.AudioNetworkStats.bytes_received">
+            <summary>
+            Audio bytes received stat
+            </summary>
+        </member>
+        <member name="F:OpenTok.AudioNetworkStats.audioLevel">
+            <summary>
+            Audio volume level
+            </summary>
+        </member>
+        <member name="F:OpenTok.AudioNetworkStats.timestamp">
+            <summary>
+            Timestamp on audio packet
+            </summary>
+        </member>
+        <member name="T:OpenTok.VideoNetworkStats">
+            <summary>
+            VideoNetworkStats struct for receiving subscriber audio stats from webrtc
+            </summary>
+        </member>
+        <member name="F:OpenTok.VideoNetworkStats.packets_lost">
+            <summary>
+            Video packets loss stat
+            </summary>
+        </member>
+        <member name="F:OpenTok.VideoNetworkStats.packets_received">
+            <summary>
+            Video packets received stat
+            </summary>
+        </member>
+        <member name="F:OpenTok.VideoNetworkStats.bytes_received">
+            <summary>
+            Video bytes received stat
+            </summary>
+        </member>
+        <member name="F:OpenTok.VideoNetworkStats.timestamp">
+            <summary>
+            Timestamp on Video packet
+            </summary>
+        </member>
+        <member name="T:OpenTok.Connection">
+            <summary>
+            Represents a connection between a client and an OpenTok session.
+            </summary>
+            <remarks>
+            The <c>Session.Connection</c> property is set to a Connection object that
+            represents the local user's connection. The <c>Stream.Connection</c> property
+            is set to a Connection object that represents the stream publisher's connection.
+            To initialize a session, call the
+            <para>
+            <see cref="M:OpenTok.Session.#ctor(OpenTok.Context,System.String,System.String,System.Boolean,System.Uri,System.Boolean,System.Uri,OpenTok.IceConfig)"/> constructor, which returns
+            the Session object. Then call the <see cref="M:OpenTok.Session.Connect(System.String)"/> method to connect
+            to the session. When the connection to the session is made, the Session object sends the
+            <see cref="E:OpenTok.Session.Connected"/> event.
+            </para>
+            <para>
+            When streams connect to a session, the Session object sends the <see cref="E:OpenTok.Session.StreamReceived"/>
+            event. Compare the <c>connection</c> property of a Stream
+            object with the <c>connection</c> property of the Session object to determine if a stream is
+            published by your client or another.</para>
+            </remarks>
+            <seealso cref="E:OpenTok.Session.StreamReceived"/>
+            <seealso cref="E:OpenTok.Session.Connected"/>
+        </member>
+        <member name="M:OpenTok.Connection.#ctor(System.IntPtr,System.Boolean)">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
+        <member name="M:OpenTok.Connection.Dispose(System.Boolean)">
+             <summary>
+            
+             </summary>
+             <param name="disposing"></param>
+        </member>
+        <member name="M:OpenTok.Connection.Dispose">
+            <summary>
+            Disposes of the Connection object's resources.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Connection.Id">
+            <summary>
+            The unique ID for this connection.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Connection.Data">
+            <summary>
+            A string containing metadata describing the connection. You can add this
+            connection data when you
+            <a target="_top" href="https://tokbox.com/developer/guides/create-token">create
+            a token</a>.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Connection.CreationTime">
+            <summary>
+            Returns the time at which the connection was created on the OpenTok server.
+            </summary>
+        </member>
+        <member name="M:OpenTok.Connection.Equals(System.Object)">
+             <summary>
+            
+             </summary>
+             <param name="obj"></param>
+             <returns></returns>
+        </member>
+        <member name="M:OpenTok.Connection.GetHashCode">
+             <summary>
+            
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="T:OpenTok.Stream">
+            <summary>
+            Represents an audio-video stream in an OpenTok session.
+            </summary>
+            <remarks>
+            The Session object sends the <see cref="E:OpenTok.Session.StreamReceived"/> event when there is
+            a new stream in the session.
+            <para>
+            The Session sends a <see cref="E:OpenTok.Session.StreamDropped"/> event when a stream is dropped
+            from the session (for example, when it is unpublished).
+            </para>
+            </remarks>
+        </member>
+        <member name="M:OpenTok.Stream.#ctor(System.IntPtr)">
+            <summary>
+            For internal use.
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:OpenTok.Stream.Dispose">
+            <summary>
+            Disposes of the Stream object's resources.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Stream.Id">
+            <summary>
+            The unique identifier for this stream.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Stream.Name">
+            <summary>
+            The name of the stream. You can display this name to identify the stream's publisher.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Stream.HasAudio">
+            <summary>
+            Whether this stream has video (<c>true</c>) or not (<c>false</c>).
+            </summary>
+        </member>
+        <member name="P:OpenTok.Stream.HasVideo">
+            <summary>
+            Whether this stream has video (<c>true</c>) or not (<c>false</c>).
+            </summary>
+        </member>
+        <member name="P:OpenTok.Stream.Width">
+            <summary>
+            The width of the video from this stream.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Stream.Height">
+            <summary>
+            The height of the video from this stream.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Stream.CreationTime">
+            <summary>
+            The creation time of this stream.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Stream.VideoSourceType">
+            <summary>
+            The video source type of the stream (either camera or screen sharing), as defined by
+            the OpenTok.VideoSourceType enum.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Stream.Connection">
+            <summary>
+            The Connection object corresponding to the client that is publishing the stream.
+            </summary>
+        </member>
+        <member name="T:OpenTok.Context">
+            <summary>
+            Used to manage resources for <see cref="T:OpenTok.Session"/>, <see cref="T:OpenTok.Publisher"/>, and
+            <see cref="T:OpenTok.Subscriber"/> objects.
+            </summary>
+            <remarks>
+            Call the <see cref="M:OpenTok.Context.Dispose"/> method to dispose of the all OpenTok resources
+            used in the context.
+            </remarks>
+        </member>
+        <member name="P:OpenTok.Context.Instance">
+            <summary>
+            The Context instance. This is a singleton instance. However it is reset to
+            a new instance after you call the <see cref="M:OpenTok.Context.Dispose"/> method.
+            </summary>
+        </member>
+        <member name="M:OpenTok.Context.Dispose">
+            <summary>
+            Disposes of the all OpenTok resources used in the current context. Call this after
+            you call <see cref="M:OpenTok.Session.Disconnect"/> to clean up unused resources.
+            </summary>
+        </member>
+        <member name="T:OpenTok.Capabilities">
+            <summary>
+            Defines values for the <c>Capabilities</c> property of a Session object,
+            based on the role assigned to the token used to connect to the session.
+            </summary>
+            <remarks>
+            See the
+            <a href="https://tokbox.com/developer/guides/create-token/">Token creation overview</a>.
+            </remarks>
+        </member>
+        <member name="F:OpenTok.Capabilities.CanPublish">
+            The client can publish and subscribe to streams.
+        </member>
+        <member name="F:OpenTok.Capabilities.CanSubscribe">
+            The client can subscribe to streams, but cannot publish streams.
+        </member>
+        <member name="T:OpenTok.IceServer">
+            <summary>
+            Defines the object to add to the List for the <c>CustomIceServers</c> property
+            of the IceConfig class.
+            </summary>
+            <remarks>
+            An IceServer object represents a custom TURN server to be used by the client.
+            </remarks>
+        </member>
+        <member name="M:OpenTok.IceServer.#ctor(System.String,System.String,System.String)">
+            <summary>
+            The constructor.
+            <param name="url">The URL for the custom TURN server.</param>
+            <param name="user">The username for the TURN server.</param>
+            <param name="credential">ThisThe credential string for the TURN server.</param>
+            </summary>
+        </member>
+        <member name="P:OpenTok.IceServer.Url">
+            The URL for the custom TURN server.
+        </member>
+        <member name="P:OpenTok.IceServer.User">
+            The username for the TURN server.
+        </member>
+        <member name="P:OpenTok.IceServer.Credential">
+            The credential string for the TURN server.
+        </member>
+        <member name="T:OpenTok.ICEIncludeServers">
+            <summary>
+            Defines values for the <c>IncludeServers</c> property of the IceConfig class.
+            </summary>
+        </member>
+        <member name="T:OpenTok.ICETransport">
+            <summary>
+            Defines values for the <c>TransportPolicy</c> property of the IceConfig class.
+            </summary>
+        </member>
+        <member name="T:OpenTok.Session">
+            <summary>
+            Represents an OpenTok session in which the client is participating.
+            </summary>
+            <remarks>
+            The first step in using the OpenTok Windows SDK is to instantiate a Session
+            object using the Session.Builder class.
+            <para>
+            The Session class implements the System.IDisposable interface. Be sure to call the
+            <see cref="M:OpenTok.Session.Dispose" /> method of the Session object to release its resources
+            when you no longer need the object (for example, when the app or window is closing).
+            </para>
+            <para>
+            See also
+            <a href="https://tokbox.com/developer/guides/create-session/" target="_top">Session
+            Creation</a> and
+            <a href="https://tokbox.com/developer/guides/create-token/" target="_top">Token
+            Creation</a>.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:OpenTok.Session.ConnectionEventArgs">
+            <summary>
+            Defines arguments for the <see cref="E:OpenTok.Session.ConnectionCreated"/> and
+            <see cref="E:OpenTok.Session.ConnectionDropped"/>events.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.ConnectionEventArgs.Connection">
+            <summary>
+            The connection related to the event.
+            </summary>
+        </member>
+        <member name="T:OpenTok.Session.ErrorEventArgs">
+            <summary>
+            Defines arguments for the <see cref="E:OpenTok.Session.Error"/> event.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.ErrorEventArgs.ErrorCode">
+            <summary>
+            The error code.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.ErrorEventArgs.ErrorDescription">
+            <summary>
+            The error description.
+            </summary>
+        </member>
+        <member name="T:OpenTok.Session.SignalEventArgs">
+            <summary>
+            Defines arguments for the <see cref="E:OpenTok.Session.Signal"/> event.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.SignalEventArgs.Type">
+            <summary>
+            The type string of the signal.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.SignalEventArgs.Data">
+            <summary>
+            The signal data.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.SignalEventArgs.Connection">
+            <summary>
+            The connection identifying the client that sent the signal.
+            This value can be <c>null</c>.
+            </summary>
+        </member>
+        <member name="T:OpenTok.Session.StreamEventArgs">
+            <summary>
+            Defines arguments for the <see cref="E:OpenTok.Session.StreamReceived"/> and
+            <see cref="E:OpenTok.Session.StreamDropped"/> events.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.StreamEventArgs.Stream">
+            <summary>
+            The stream related to the event.
+            </summary>
+        </member>
+        <member name="T:OpenTok.Session.ArchiveStartedEventArgs">
+            <summary>
+            Defines arguments for the <see cref="E:OpenTok.Session.ArchiveStarted"/> event.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.ArchiveStartedEventArgs.ArchiveId">
+            <summary>
+            The archive ID.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.ArchiveStartedEventArgs.ArchiveName">
+            <summary>
+            The name of the archive.
+            </summary>
+        </member>
+        <member name="T:OpenTok.Session.ArchiveStoppedEventArgs">
+            <summary>
+            Defines arguments for the <see cref="E:OpenTok.Session.ArchiveStopped"/> event.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.ArchiveStoppedEventArgs.ArchiveId">
+            <summary>
+            The archive ID.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Session.Connected">
+            <summary>
+            Sent when the client connects to the OpenTok session.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Session.Disconnected">
+            <summary>
+            Sent when the client disconnects from the OpenTok session.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Session.ConnectionCreated">
+            <summary>
+            Sent when another client connects to the session.
+            </summary>
+            <remarks>
+            The <see cref="P:OpenTok.Session.ConnectionEventArgs.Connection"/> object
+            represents the client's connection to the session. Note that this
+            method is invoked when <i>other</i> clients connect to the session. When
+            your <i>own</i> client client connects, the Session sends the
+            <see cref="E:OpenTok.Session.Connected"/> event.
+            </remarks>
+        </member>
+        <member name="E:OpenTok.Session.ConnectionDropped">
+            <summary>
+            Sent when another client leaves the session.
+            </summary>
+            <remarks>
+            The <see cref="P:OpenTok.Session.ConnectionEventArgs.Connection"/> object
+            represents the client's previous connection to the session. Note that
+            this method is called when <i>other</i> clients leave the session. When
+            your <i>own</i> client client disconnects, the Session object sends the
+            <see cref="E:OpenTok.Session.Connected"/> event.
+            </remarks>
+        </member>
+        <member name="E:OpenTok.Session.StreamReceived">
+            <summary>
+            Sent when a there is a new stream published by <i>another</i> client
+            in this OpenTok session.
+            </summary>
+            <remarks>
+            The <see cref="P:OpenTok.Session.StreamEventArgs.Stream"/> object represents the new stream.
+            Create a <see cref="T:OpenTok.Subscriber"/> and call the <see cref="M:OpenTok.Session.Subscribe(OpenTok.Subscriber)"/> method
+            to subscribe to the stream.
+            </remarks>
+        </member>
+        <member name="E:OpenTok.Session.StreamDropped">
+            <summary>
+            Sent when <i>another</i> client stops publishing a stream to this
+            OpenTok session.
+            </summary>
+            <remarks>
+            The <see cref="P:OpenTok.Session.StreamEventArgs.Stream"/> represents the dropped stream,
+            which can be used to identify a corresponding Subscriber (if there is one).
+            </remarks>
+        </member>
+        <member name="E:OpenTok.Session.Error">
+            <summary>
+            Sent when something goes wrong when connecting or connected to the
+            session.
+            </summary>
+            <remarks>
+            This event is sent if the attempt to connect to the session fails.
+            It is also sent if the connection to the session drops due to an error after
+            a successful connection, and in this case the event is sent just before
+            the <see cref="E:OpenTok.Session.Disconnected"/> event is sent.
+            </remarks>
+        </member>
+        <member name="E:OpenTok.Session.Signal">
+            <summary>
+            Called when a signal is received in the session.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Session.StreamHasAudioChanged">
+            <summary>
+            Called when a stream in the session changes between having audio and not
+            having audio.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Session.StreamHasVideoChanged">
+            <summary>
+            Called when a stream in the session changes between having video and not
+            having video.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Session.StreamDimensionsChanged">
+            <summary>
+            Called when the video dimensions of a stream in the session change.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Session.ReconnectionStart">
+            <summary>
+            Sent when the local client has lost its connection to an OpenTok session and is trying
+            to reconnect. This results from a loss in network connectivity.
+            </summary>
+            <remarks>
+            If the client can reconnect to the session, the Session object sends the
+            <see cref="E:OpenTok.Session.ReconnectionSuccess"/> event. Otherwise, if the client cannot
+            reconnect, the Session object sends the <see cref="E:OpenTok.Session.Disconnected"/> event.
+            <para>
+            In response to this method being called, you may want to provide a user interface
+            notification, to let the user know that the app is trying to reconnect to the session
+            and that audio-video streams are temporarily disconnected.
+            </para>
+            </remarks>
+            <seealso cref="E:OpenTok.Session.ReconnectionSuccess"/>
+            <seealso cref="E:OpenTok.Session.Disconnected"/>
+        </member>
+        <member name="E:OpenTok.Session.ReconnectionSuccess">
+            <summary>
+            Invoked when the local client has reconnected to the OpenTok session after its
+            network connection was lost temporarily.
+            </summary>
+            <remarks>
+            When the connection is lost, the Session object sends the
+            Session.ReconnectionStart event, prior to sending the Session.ReconnectionSuccess
+            event. If the client cannot reconnect to the session, the Session object
+            sends the Session.Disconnected event.
+            <para>
+            Any existing publishers and subscribers are automatically reconnected when the client
+            reconnects and this method is called.
+            </para>
+            <para>
+            By default, any signals initiated by the the local client using the
+            <see cref="M:OpenTok.Session.SendSignal(System.String,System.String,OpenTok.Connection,System.Boolean)"/> method are sent when the client
+            reconnects. To prevent any signals initiated while disconnected from being sent,
+            set the <c>retryAfterReconnect</c> parameter of the <see cref="M:OpenTok.Session.SendSignal(System.String,System.String,OpenTok.Connection,System.Boolean)"/> method
+            to <c>false</c>. (All signals sent by other clients while your client was
+            disconnected are received upon reconnecting.)
+            </para>
+            </remarks>
+            <seealso cref="E:OpenTok.Session.ReconnectionStart"/>
+        </member>
+        <member name="E:OpenTok.Session.ArchiveStarted">
+            <summary>
+            Called when an archive of the session starts recording. In response to
+            this method, you may want to add a user interface notification (such as
+            an icon in the Publisher view) that indicates the session is being
+            recorded.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Session.ArchiveStopped">
+            <summary>
+            Called when an archive of the session stops being recorded. In response
+            to this method, you may want to remove a user interface notification
+            (such as an icon in the Publisher view) the session recording has
+            stopped.
+            </summary>
+        </member>
+        <member name="T:OpenTok.Session.Builder">
+            <summary>
+            Used to create a Session instance.
+            </summary>
+            <remarks>
+            Instantiate a Builder instance by calling the Builder() constructor.
+            Then (optionally), set properties of the Builder object. Then call
+            the Build() method to create a Session object.
+            </remarks>
+        </member>
+        <member name="P:OpenTok.Session.Builder.ConnectionEventsSuppressed">
+            <summary>
+            Prevent connection events (such as
+            <see cref="E:OpenTok.Session.ConnectionCreated"/> from being dispatched. The default value is <c>false</c>.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.Builder.IpWhitelist">
+            <summary>
+            Set this to <c>true</c> if IP white listing
+            is enabled for your project. (This is available as an add-on feature for
+            <a target="_top" href="https://tokbox.com/pricing/plans">enterprise</a> accounts only.
+            The default value is <c>false</c>.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.Builder.ProxyUrl">
+            <summary>
+            This parameter is part of a private beta program.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.Builder.IceConfig">
+            <summary>
+            This property is used by the
+            <a target="_top" href="https://tokbox.com/developer/guides/configurable-turn-servers/">configurable TURN feature</a>.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.Builder.Context">
+            <summary>
+            The Content object used to manage resources for the Session.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.Builder.ApiKey">
+            <summary>
+            Your OpenTok API key. See the your
+            <a target="_top" href="https://tokbox.com/account">TokBox account page</a>.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.Builder.SessionId">
+            <summary>
+            The OpenTok session ID this instance should connect to. For
+            test purposes, you can generate test session by logging into your
+            <a target="_top" href="https://tokbox.com/account">TokBox account</a>.
+            Use the <a target="_top" href="https://tokbox.com/opentok/libraries/server/">OpenTok
+            server SDKs</a> to generate session IDs in your shipping application.
+            </summary>
+        </member>
+        <member name="M:OpenTok.Session.Builder.#ctor(OpenTok.Context,System.String,System.String)">
+            <summary>
+            Creates a new Builder instance.
+            </summary>
+            <param name="context">The Content object used to manage resources for the Session.</param>
+            <param name="apiKey">Your OpenTok API key. See the your
+            <a target="_top" href="https://tokbox.com/account">TokBox account page</a>.</param>
+            <param name="sessionId">The OpenTok session ID this instance should connect to. For
+            test purposes, you can generate test session by logging into your
+            <a target="_top" href="https://tokbox.com/account">TokBox account</a>.
+            Use the <a target="_top" href="https://tokbox.com/opentok/libraries/server/">OpenTok
+            server SDKs</a> to generate session IDs in your shipping application.</param>
+        </member>
+        <member name="M:OpenTok.Session.Builder.Build">
+            <summary>
+            Creates a Session object.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenTok.Session.#ctor(OpenTok.Context,System.String,System.String,System.Boolean,System.Uri,System.Boolean,System.Uri,OpenTok.IceConfig)">
+            <summary>
+            Creates a Session instance.
+            </summary>
+            <param name="context">The Content object used to manage resources for the Session.
+            </param>
+            <param name="apiKey">Your OpenTok API key. See the your
+            <a target="_top" href="https://tokbox.com/account">TokBox account page</a>.</param>
+            <param name="sessionId">The OpenTok session ID this instance should connect to. For
+            test purposes, you can generate test session by logging into your
+            <a target="_top" href="https://tokbox.com/account">TokBox account</a>.
+            Use the <a target="_top" href="https://tokbox.com/opentok/libraries/server/">OpenTok
+            server SDKs</a> to generate session IDs in your shipping application.</param>
+            <param name="connectionEventsSuppressed">Prevent connection events (such as
+            <see cref="E:OpenTok.Session.ConnectionCreated"/> from being dispatched. The default value is <c>false</c>.</param>
+            <param name="apiUrl">This parameter is deprecated. (Its value is ignored.)</param>
+            <param name="ipWhitelist"> Set this to <c>true</c> if IP white listing
+            is enabled for your project. (This is available as an add-on feature for
+            <a target="_top" href="https://www.vonage.com/communications-apis/video/pricing//plans">enterprise</a> accounts only.
+            The default value is <c>false</c>.
+            </param>
+            <param name="proxyUrl"> This parameter is used by the
+            <a target="_top" href="https://tokbox.com/developer/guides/ip-proxy">IP proxy feature</a>.
+            </param>
+            <param name="iceConfig">This parameter is used by the
+            <a target="_top" href="https://tokbox.com/developer/guides/configurable-turn-servers/">configurable TURN feature</a>.</param>.
+            <seealso cref="M:OpenTok.Session.Connect(System.String)"/>
+            <seealso cref="E:OpenTok.Session.Connected"/>
+        </member>
+        <member name="M:OpenTok.Session.Dispose">
+            <summary>
+            Disposes of the Session object's resources.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.Connection">
+            <summary>
+            Returns the Connection corresponding to this client's connection to this Session.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Session.Capabilities">
+            <summary>
+            Whether the client can only subscribe to streams, or both publish and subscribe
+            to streams, based on the role assigned to the token used to connect to the session.
+            </summary>
+        </member>
+        <member name="M:OpenTok.Session.Connect(System.String)">
+             <summary>
+             Connects to the OpenTok session provided in the Session constructor, using the
+             provided authentication token.
+             </summary>
+             <remarks>
+             When the session connects, the Session object sends the <see cref="E:OpenTok.Session.Connected"/>
+             event.
+             <para>
+             If the session fails to connect, the Session objecdt sends the <see cref="E:OpenTok.Session.Error"/> event.
+             </para>
+             </remarks>
+            
+             <param name="token">The token for the user. See <a target="_top"
+             href="http://tokbox.com/opentok/tutorials/create-token/">Token Creation
+             Overview</a>.</param>
+        </member>
+        <member name="M:OpenTok.Session.Disconnect">
+            <summary>
+            Disconnects from this session. All Subscriber and Publisher instances
+            will be disconnected.
+            </summary>
+            <remarks>
+            When the session disconnects, the Session sends the <see cref="E:OpenTok.Session.Disconnected"/>
+            event.
+            </remarks>
+        </member>
+        <member name="M:OpenTok.Session.SendSignal(System.String,System.String,OpenTok.Connection,System.Boolean)">
+             <summary>
+             Sends a signal to all clients in the session.
+             </summary>
+            
+             <param name="type">The type of the signal. The type is set in the
+             <see cref="P:OpenTok.Session.SignalEventArgs.Type"/> argument of the
+             <see cref="E:OpenTok.Session.Signal"/> event listener.</param>
+             <param name="data">The data to send. The limit to the size of data is 8kB.
+             The type is set in the <see cref="P:OpenTok.Session.SignalEventArgs.Data"/> argument of the
+             <see cref="E:OpenTok.Session.Signal"/> event listener.</param>
+             <param name="connection"></param>
+             <param name="retryAfterReconnect"></param>
+        </member>
+        <member name="M:OpenTok.Session.Subscribe(OpenTok.Subscriber)">
+            <summary>
+            Start receiving and rendering audio-video stream data for the specified
+            subscriber.
+            </summary>
+            <param name="subscriber">The subscriber bound to the stream to be received.</param>
+        </member>
+        <member name="M:OpenTok.Session.Unsubscribe(OpenTok.Subscriber)">
+            <summary>
+            Stops subscribing (receiving a stream) to a specified subscriber in the
+            session.
+            </summary>
+            <param name="subscriber">The Subcriber you want to stop subscribing to.</param>
+        </member>
+        <member name="M:OpenTok.Session.Publish(OpenTok.Publisher)">
+            <summary>
+            Starts a Publisher streaming to the session.
+            </summary>
+            <param name="publisher">The Publisher that you want to stream to the session.</param>
+        </member>
+        <member name="M:OpenTok.Session.Unpublish(OpenTok.Publisher)">
+            <summary>
+            Disconnects the Publisher from the session.
+            </summary>
+            <param name="publisher">The Publisher to unpublish.</param>
+        </member>
+        <member name="T:OpenTok.ErrorCode">
+            <summary>
+            Defines error code values for OpenTokException objects.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.UnknownError">
+            <summary>
+            Used for an unknown error.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.GenericSDKError">
+            <summary>
+            Used for generic error. See provided error description.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.AuthorizationFailure">
+            <summary>
+            An invalid API key or token was provided.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.InvalidSessionId">
+            <summary>
+            Unable to connect: an invalid session ID was provided.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.ConnectionFailed">
+            <summary>
+            The session failed to connect.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.NoMessagingServer">
+            <summary>
+            There was an error connecting to the OpenTok messaging server.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.ConnectionRefused">
+            <summary>
+            A socket could not be opened to OpenTok the messaging server. Check that
+            outbound ports 443 and 8080 are accessible.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SessionStateFailed">
+            <summary>
+            The connection timed out while attempting to get the session's state.
+            Check the network connection.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.P2PSessionMaxParticipants">
+            <summary>
+            A peer-to-peer enabled session can only have two participants.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SessionConnectionTimeout">
+            <summary>
+            The connection timed out while attempting to connect to the session.
+            Check the network connection.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SessionInternalError">
+            <summary>
+            Internal error connecting to the session. Try connecting again.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SessionInvalidSignalType">
+            <summary>
+            Invalid signal type.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SessionSignalDataTooLong">
+            <summary>
+            Invalid signal -- the data string is too long. The maximum length is 8196.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SessionSignalTypeTooLong">
+            <summary>
+            Invalid signal -- the type string is too long. The maximum length is 128.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.ConnectionDropped">
+            <summary>
+            The connection to the OpenTok messaging server was dropped.
+            Check the network connection.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SessionDisconnected">
+            <summary>
+            Attempting to publish to a disconnected session.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.PublisherInternalError">
+            <summary>
+            Internal error when publishing. Try publishing again.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.PublisherWebRTCError">
+            <summary>
+            Publisher WebRTC failure.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.PublisherUnableToPublish">
+            <summary>
+            The publisher is unable to publish.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.PublisherUnexpectedPeerConnectionDisconnection">
+            <summary>
+            The PeerConnection for the publisher's stream unexpectedly disconnected.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.PublisherCannotAccessCamera">
+            <summary>
+            The publisher cannot access the specified camera.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.PublisherCameraAccessDenied">
+            <summary>
+            The user denied access to the camera.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.ConnectionTimedOut">
+            <summary>
+            Subscriber timed out while attempting to connect to the stream.
+            Try resubscribing to the stream.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SubscriberSessionDisconnected">
+            <summary>
+            Attempting to subscribe to a stream in a session that you have disconnected from.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SubscriberWebRTCError">
+            <summary>
+            Subscriber WebRTC failure.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SubscriberServerCannotFindStream">
+            <summary>
+            The subscriber failed due to the stream being missing. This can
+            happen if the subscriber is created at the same time the stream is
+            removed from the session.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SubscriberStreamLimitExceeded">
+            <summary>
+            The subscriber failed due to the the limit to the number of
+            subscribers the servers support.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SubscriberInternalError">
+            <summary>
+            Internal error when subscribing. Try subscribing again.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.UnknownPublisherInstance">
+            <summary>
+            Cannot unpublish: An unknown Publisher instance was passed into
+            the <see cref="M:OpenTok.Session.Unpublish(OpenTok.Publisher)"/>  method.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.UnknownSubscriberInstance">
+            <summary>
+            Cannot unsubscribe: An unknown Subscriber instance was passed into
+            the <see cref="M:OpenTok.Session.Unsubscribe(OpenTok.Subscriber)"/> method.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SessionNullOrInvalidParameter">
+            <summary>
+            You passed an invalid parameter or the Session is null.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.VideoCaptureFailed">
+            <summary>
+            There was an error in the video capturer.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.CameraFailed">
+            <summary>
+            There was an error in acquiring video from the camera.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.VideoRenderFailed">
+            <summary>
+            There was an error in the video renderer.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SessionSubscriberNotFound">
+            <summary>
+            The subscriber is unknown to this session. This is usually the result of
+            calling <see cref="M:OpenTok.Session.Unsubscribe(OpenTok.Subscriber)"/> with a subscriber that
+            is not associated with the session.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SessionPublisherNotFound">
+            <summary>
+            The publisher is unknown to this session. This is usually the result of calling
+            <see cref="M:OpenTok.Session.Unpublish(OpenTok.Publisher)"/> with a publisher that is not
+            publishing a stream to the session.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.PublisherTimeout">
+            <summary>
+            Timeout while attempting to publish.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SessionBlockedCountry">
+            <summary>
+            Unable to connect to the session. Terms of service violation:
+            export compliance.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SessionConnectionLimitExceeded">
+            <summary>
+            The connection failed due to the the limit to the number of
+            connections the servers support.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SessionUnexpectedGetSessionInfoResponse">
+            <summary>
+            Unable to connect to the session. Try connecting again.
+            </summary>
+        </member>
+        <member name="F:OpenTok.ErrorCode.SessionIllegalState">
+            <summary>
+            Unable to connect to a session that is already connected.
+            Or unable to subscribe to a stream that is no longer in the session.
+            </summary>
+        </member>
+        <member name="T:OpenTok.OpenTokException">
+            <summary>
+            Defines errors thrown by the OpenTok Windows SDK.
+            </summary>
+            <remarks>
+            Check the <see cref="F:OpenTok.OpenTokException.ErrorCode"/> and <c>Message</c> properties for details
+            on the error.
+            </remarks>
+        </member>
+        <member name="M:OpenTok.OpenTokException.#ctor(System.Int32)">
+            <summary>
+            For internal use only.
+            </summary>
+            <param name="errorCode"></param>
+        </member>
+        <member name="M:OpenTok.OpenTokException.#ctor(OpenTok.ErrorCode)">
+            <summary>
+            For internal use only.
+            </summary>
+            <param name="errorCode"></param>
+        </member>
+        <member name="F:OpenTok.OpenTokException.ErrorCode">
+            <summary>
+            The error code. See the OpenTok.ErrorCode enum.
+            </summary>
+        </member>
+        <member name="T:OpenTok.Subscriber">
+            <summary>
+            Used to consume an audio-video stream in the OpenTok session.
+            </summary>
+            <remarks>
+            Use the Subscriber.Builder class to create a Subscriber instance.
+            Subscribers can connect to receive media when you call the
+            <see cref="M:OpenTok.Session.Subscribe(OpenTok.Subscriber)"/> method.
+            <para>
+            The Subscriber class implements the System.IDisposable interface. Be sure to
+            call the <see cref="M:OpenTok.Subscriber.Dispose" /> method of the Subscriber object to release its resources
+            when you no longer need the object (for example, when the Subscriber stops streaming video
+            or when the app or window is closing).
+            </para>
+            </remarks>
+        </member>
+        <member name="T:OpenTok.Subscriber.VideoReason">
+            <summary>
+            Defines values for the <see cref="P:OpenTok.Subscriber.VideoEventArgs.Reason" />
+            and <see cref="P:OpenTok.Subscriber.VideoEventArgs.Reason" /> properties.
+            </summary>
+        </member>
+        <member name="F:OpenTok.Subscriber.VideoReason.PublishVideo">
+            <summary>
+            The event occured because the publisher of the stream
+            started or stopped publishing video.
+            </summary>
+        </member>
+        <member name="F:OpenTok.Subscriber.VideoReason.SubscriberToVideo">
+            <summary>
+            The event occured because the local client started or
+            stopped subscribing to video.
+            </summary>
+        </member>
+        <member name="F:OpenTok.Subscriber.VideoReason.Quality">
+            <summary>
+            The video event was caused by a change to the video stream quality.
+            </summary>
+            <remarks>
+            Stream quality may change due to network conditions or CPU usage
+            on either the subscriber or publisher.
+            <para>
+            This reason is only used in sessions that have the media mode set to
+            "routed". (See
+            <a target="_top"
+            href='https://tokbox.com/developer/guides/create-session/#media-mode'>The
+            OpenTok Media Router and media modes</a>.
+            This feature of the OpenTok Media Router has a subscriber drop the video
+            stream when the video stream quality degrades, and the Subscriber sends the
+            <see cref="E:OpenTok.Subscriber.VideoDisabled"/> event.
+            When conditions improve, the video stream resumes, and the Subscriber sends the
+            <see cref="E:OpenTok.Subscriber.VideoEnabled"/> event.
+            </para>
+            <para>
+            When the video stream is dropped, the subscriber continues to receive
+            the audio stream, if there is one.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:OpenTok.Subscriber.Stream">
+            <summary>
+            The Stream corresponding to this subscriber.
+            </summary>
+        </member>
+        <member name="T:OpenTok.Subscriber.ErrorEventArgs">
+            <summary>
+            Defines arguments for the <see cref="E:OpenTok.Subscriber.Error"/> event.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Subscriber.ErrorEventArgs.ErrorCode">
+            <summary>
+            The error code.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Subscriber.ErrorEventArgs.ErrorDescription">
+            <summary>
+            The error description.
+            </summary>
+        </member>
+        <member name="T:OpenTok.Subscriber.VideoEventArgs">
+            <summary>
+            Defines arguments for the <see cref="E:OpenTok.Subscriber.VideoEnabled"/> and <see cref="E:OpenTok.Subscriber.VideoDisabled"/> events.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Subscriber.VideoEventArgs.Reason">
+            <summary>
+            The reason that the video track was started (or resumed).
+            </summary>
+            <remarks>
+            This is set to a value defined by the OpenTok.Subscriber.VideoReason enum:
+            <c>PublishVideo</c>, <c>SubscribeToVideo</c>, or <c>Quality</c>.
+            </remarks>
+        </member>
+        <member name="T:OpenTok.Subscriber.AudioNetworkStatsEventArgs">
+            <summary>
+            Defines arguments for <see cref="E:OpenTok.Subscriber.AudioStatsUpdated"/> events.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Subscriber.AudioNetworkStatsEventArgs.PacketsLost">
+            The total number of audio packets lost by the subscriber.
+        </member>
+        <member name="P:OpenTok.Subscriber.AudioNetworkStatsEventArgs.PacketsReceived">
+            The total number of audio packets received by the subscriber.
+        </member>
+        <member name="P:OpenTok.Subscriber.AudioNetworkStatsEventArgs.BytesReceived">
+            The total number of audio bytes received by the subscriber.
+        </member>
+        <member name="P:OpenTok.Subscriber.AudioNetworkStatsEventArgs.Timestamp">
+            The timestamp for when these stats were gathered.
+        </member>
+        <member name="T:OpenTok.Subscriber.VideoNetworkStatsEventArgs">
+            <summary>
+            Defines arguments for <see cref="E:OpenTok.Subscriber.VideoStatsUpdated"/> events.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Subscriber.VideoNetworkStatsEventArgs.PacketsLost">
+            The total number of video packets lost by the subscriber.
+        </member>
+        <member name="P:OpenTok.Subscriber.VideoNetworkStatsEventArgs.PacketsReceived">
+            The total number of video packets received by the subscriber.
+        </member>
+        <member name="P:OpenTok.Subscriber.VideoNetworkStatsEventArgs.BytesReceived">
+            The total number of video bytes received by the subscriber.
+        </member>
+        <member name="P:OpenTok.Subscriber.VideoNetworkStatsEventArgs.Timestamp">
+            The timestamp for when these stats were gathered.
+        </member>
+        <member name="T:OpenTok.Subscriber.AudioLevelArgs">
+            <summary>
+            Defines arguments for <see cref="P:OpenTok.Subscriber.AudioLevelArgs.AudioLevel"/> events.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Subscriber.AudioLevelArgs.AudioLevel">
+            <summary>
+            The audio level, from 0 to 1.0. Adjust this value logarithmically for use
+            in a user interface visualization (such as a volume meter).
+            </summary>
+        </member>
+        <member name="E:OpenTok.Subscriber.Connected">
+            <summary>
+            Invoked when the instance has successfully connected to the stream and begins playing
+            media.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Subscriber.StreamDisconnected">
+            <summary>
+            Called when the subscriber's stream has been interrupted.
+            </summary>
+            <remarks>
+            In response to this method being called, you may want to provide a user interface
+            notification, to let the user know that the audio-video stream is temporarily
+            disconnected and the app is trying to reconnect to the stream.
+            <para>
+            If the client reconnects to the stream, the Subscribers sends the
+            <see cref="E:OpenTok.Subscriber.StreamReconnected"/> event. Otherwise, the Session object sends the
+            <see cref="E:OpenTok.Session.StreamDropped"/> event.
+            </para>
+            </remarks>
+        </member>
+        <member name="E:OpenTok.Subscriber.StreamReconnected">
+            <summary>
+            Sent when the subscriber's stream resumes (after temporarily being disconnected).
+            </summary>
+            <remarks>
+            The Subscriber sends this event after it sends the
+            <see cref="E:OpenTok.Subscriber.StreamDisconnected"/> event.
+            </remarks>
+        </member>
+        <member name="E:OpenTok.Subscriber.VideoDisabled">
+            <summary>
+            Called when the subscriber stops receiving video.
+            </summary>
+            <remarks>
+            Check the <c>reason</c> property of the event arguments for the reason why
+            the video stopped.
+            </remarks>
+        </member>
+        <member name="E:OpenTok.Subscriber.VideoEnabled">
+            <summary>
+            Called when the subscriber's video stream starts (when there
+            previously was no video) or resumes (after video was disabled).
+            </summary>
+            <remarks>
+            Check the <c>reason</c> property of the event arguments for the reason why
+            the video was enabled.
+            </remarks>
+        </member>
+        <member name="E:OpenTok.Subscriber.Error">
+            <summary>
+            Invoked when a subscriber has failed to connect to the OpenTok server.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Subscriber.VideoDisableWarning">
+            <summary>
+            Called when the OpenTok Media Router determines that the stream quality has degraded
+            and the video will be disabled if the quality degrades further.
+            </summary>
+            <remarks>
+            If the quality degrades further, the subscriber disables the video and the Subscriber
+            sends the VideoDisabled message. If the stream quality improves, the Subscriber sends
+            the VideoDisableWarningLifted event.
+            <para>
+            This feature is only available in sessions that use the OpenTok Media Router
+            (sessions with the media mode set to routed), not in sessions with the media mode
+            set to relayed. (See
+            <a href="https://tokbox.com/developer/guides/create-session/#media-mode">The OpenTok
+            Media Router and media modes</a>).
+            </para>
+            <para>
+            This method is mainly called when connection quality degrades.
+            </para>
+            </remarks>
+        </member>
+        <member name="E:OpenTok.Subscriber.VideoDisableWarningLifted">
+            <summary>
+            Called when the OpenTok Media Router determines that the stream quality has improved to
+            the point at which the video being disabled is not an immediate risk.
+            </summary>
+            <remarks>
+            This feature is only available in sessions that use the OpenTok Media Router
+            (sessions with the media mode set to routed), not in sessions with the media mode
+            set to relayed. (See
+            <a href="https://tokbox.com/developer/guides/create-session/#media-mode">The OpenTok
+            Media Router and media modes</a>).
+            <para>
+            This method is mainly called when connection quality improves.
+            </para>
+            </remarks>
+        </member>
+        <member name="E:OpenTok.Subscriber.AudioStatsUpdated">
+            <summary>
+            Invoked when the subscriber has audio stats to share.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Subscriber.VideoStatsUpdated">
+            <summary>
+            Invoked when the subscriber has video stats to share.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Subscriber.AudioLevel">
+            <summary>
+            Sent periodically to report the audio level of the subscriber.
+            </summary>
+        </member>
+        <member name="T:OpenTok.Subscriber.Builder">
+            <summary>
+            Used to create a Subscriber instance.
+            </summary>
+            <remarks>
+            Instantiate a Builder instance by calling the Builder() constructor.
+            Then (optionally), set properties of the Builder object. Then call
+            the Build() method to create a Subscriber object.
+            </remarks>
+        </member>
+        <member name="P:OpenTok.Subscriber.Builder.Renderer">
+            <summary>
+            The video renderer for the subscriber. If you
+            do not specify a renderer, the video isn't rendered (and only audio is
+            played back).
+            </summary>
+        </member>
+        <member name="P:OpenTok.Subscriber.Builder.Context">
+            <summary>
+            The Content object used to manage resources for
+            the Subscriber.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Subscriber.Builder.Stream">
+            <summary>
+            The Stream object corresponding to the stream you will
+            subscribe to.
+            </summary>
+        </member>
+        <member name="M:OpenTok.Subscriber.Builder.#ctor(OpenTok.Context,OpenTok.Stream)">
+            <summary>
+            Creates a new Builder instance.
+            </summary>
+            <param name="context">The Context to use for the Subscriber object.</param>
+            <param name="stream">The Stream object corresponding to the stream you will
+            subscribe to.</param>
+        </member>
+        <member name="M:OpenTok.Subscriber.Builder.Build">
+            <summary>
+            Use parameters in the builder instance to create a Subscriber object
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenTok.Subscriber.#ctor(OpenTok.Context,OpenTok.Stream,OpenTok.IVideoRenderer)">
+             <summary>
+             Creates a new subscriber for a given stream.
+             </summary>
+            
+             <param name="context">The Content object used to manage resources for
+             the Subscriber.</param>
+             <param name="stream">The Stream object corresponding to the stream you will
+             subscribe to.</param>
+             <param name="renderer">The video renderer for the subscriber. If you
+             do not specify a renderer, the video isn't rendered (and only audio is
+             played back).</param>
+        </member>
+        <member name="M:OpenTok.Subscriber.Dispose">
+            <summary>
+            Disposes of the Subscriber object's resources.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Subscriber.SubscribeToAudio">
+            <summary>
+            Whether the Subscriber is subscribing to audio  (<c>true</c>) or not (<c>false</c>).
+            </summary>
+        </member>
+        <member name="P:OpenTok.Subscriber.SubscribeToVideo">
+            <summary>
+            Whether the Subscriber is subscribing to video (<c>true</c>) or not (<c>false</c>).
+            </summary>
+        </member>
+        <member name="P:OpenTok.Subscriber.VideoRenderer">
+            <summary>
+            The video renderer used by this subscriber.
+            </summary>
+            <remarks>
+            Set the video renderer by passing in the <c>VideoRenderer</c> when calling the
+            <see cref="M:OpenTok.Subscriber.#ctor(OpenTok.Context,OpenTok.Stream,OpenTok.IVideoRenderer)"/> constructor.
+            </remarks>
+        </member>
+        <member name="P:OpenTok.Subscriber.Id">
+            <summary>
+            The unique identifier for the Subscriber.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Subscriber.PreferredResolution">
+            <summary>
+            The preferred resolution for the subscriber’s stream.
+            </summary>
+            <remarks>
+            The preferred resolution for the subscriber's stream.
+            <para>
+            Limiting the video resolution and frame rate (<see cref="P:OpenTok.Subscriber.PreferredFramerate"/>) reduces
+            the network and CPU usage on the subscribing client. You may want to use lower
+            resolution based on the dimensions of subscriber's video in the app. You may want to
+            use a lower frame rate or resolution for subscribers to a stream that is less important
+            (and smaller) than other streams.
+            </para>
+            <para>
+            This property only applies when subscribing to a stream that uses the
+            <a href="https://tokbox.com/developer/guides/scalable-video">scalable video feature</a>.
+            Scalable video is available:
+            <list type="bullet">
+              <item>
+                Only in sessions that use the OpenTok Media Router (sessions with the
+                <a href="https://tokbox.com/developer/guides/create-session/#media-mode">media
+                mode</a> set to routed).
+              </item>
+              <item>
+                Only for streams published by clients that support scalable video
+                (see the documentation for the
+                <a href="https://tokbox.com/developer/guides/scalable-video">scalable video feature</a>).
+              </item>
+            </list>
+            </para>
+            <para>
+            In streams that do not use scalable video, setting this property has no effect.
+            </para>
+            <para>
+            <b>Note:</b> The resolution for scalable video streams automatically adjusts for each
+            subscriber, based on network conditions and CPU usage, even if you do not set this
+            property. Set this property if you want to set a maximum resolution for this subscriber.
+            </para>
+            <para>
+            Not every resolution is available to a subscriber. When you set the preferred
+            resolution, the OpenTok Windows SDK picks the best resolution available that
+            matches your constraints. The resolutions available depend on the maximum
+            width and height the Publisher sets for the stream, which are returned by the
+            Stream.Width and Stream.Height properties of the Stream object. Each of the
+            resolutions available for a stream will use the same aspect ratio.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:OpenTok.Subscriber.PreferredFramerate">
+            <summary>
+            The preferred framerate for the subscriber’s stream.
+            </summary>
+            <remarks>
+            Limiting the frame rate and  video resolution (<see cref="P:OpenTok.Subscriber.PreferredResolution"/>)
+            reduces the network and CPU usage on the subscribing client. You may want to use lower
+            resolution based on the dimensions of subscriber's video in the app. You may want to
+            use a lower frame rate or resolution for subscribers to a stream that is less important
+            (and smaller) than other streams.
+            <para>
+            This property only applies when subscribing to a stream that uses the
+            <a href="https://tokbox.com/developer/guides/scalable-video">scalable video feature</a>.
+            Scalable video is available:
+            <list type="bullet">
+              <item>
+                Only in sessions that use the OpenTok Media Router (sessions with the
+                <a href="https://tokbox.com/developer/guides/create-session/#media-mode">media
+                mode</a> set to routed).
+              </item>
+              <item>
+                Only for streams published by clients that support scalable video
+                (see the documentation for the
+                <a href="https://tokbox.com/developer/guides/scalable-video">scalable video feature</a>).
+              </item>
+            </list>
+            </para>
+            <para>
+            In streams that do not use scalable video, setting this property has no effect.
+            </para>
+            <para>
+            <b>Note:</b> The frame rate for scalable video streams automatically adjusts for each
+            subscriber, based on network conditions and CPU usage, even if you do not set this
+            property. Set this property if you want to set a maximum frame rate for this subscriber.
+            </para>
+            <para>
+            The frame rates available are based on the value of the maximum frame rate
+            available for the stream. When you set the preferred frame rate for the
+            subscriber, the OpenTok Windows SDK picks the best frame rate available that is
+            closest to the preferred frame rate, based on the client's bandwidth and CPU
+            constraints.
+            </para>
+            <para>
+            The actual frame rates available depend, dynamically, on network and CPU
+            resources available to the publisher.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:OpenTok.PixelFormat">
+            <summary>
+            The format of a video frame.
+            </summary>
+        </member>
+        <member name="F:OpenTok.PixelFormat.Unknown">
+            Unknown format
+        </member>
+        <member name="F:OpenTok.PixelFormat.FormatYuv420p">
+            YUV420p
+        </member>
+        <member name="F:OpenTok.PixelFormat.FormatNv12">
+            NV12
+        </member>
+        <member name="F:OpenTok.PixelFormat.FormatNv21">
+            NV21
+        </member>
+        <member name="F:OpenTok.PixelFormat.FormatYuy2">
+            YUY2
+        </member>
+        <member name="F:OpenTok.PixelFormat.FormatUyvy">
+            UYVY
+        </member>
+        <member name="F:OpenTok.PixelFormat.FormatArgb32">
+            32-bit ARGB
+        </member>
+        <member name="F:OpenTok.PixelFormat.FormatBgra32">
+            32-bit BGRA
+        </member>
+        <member name="F:OpenTok.PixelFormat.FormatRgb24">
+            24-bit RGB
+        </member>
+        <member name="F:OpenTok.PixelFormat.FormatAbgr32">
+            32-bit ABGR
+        </member>
+        <member name="F:OpenTok.PixelFormat.FormatMjpeg">
+            M-JPEG
+        </member>
+        <member name="T:OpenTok.VideoFrame">
+            <summary>
+            Defines a video frame for the <see cref="M:OpenTok.IVideoRenderer.RenderFrame(OpenTok.VideoFrame)"/> and
+            <see cref="M:OpenTok.IVideoFrameConsumer.Consume(OpenTok.VideoFrame)"/> methods.
+            </summary>
+        </member>
+        <member name="M:OpenTok.VideoFrame.Dispose">
+            <summary>
+            Disposes of the VideoFrame object's resources.
+            </summary>
+        </member>
+        <member name="P:OpenTok.VideoFrame.Width">
+            <summary>
+            The width of the video frame, in pixels.
+            </summary>
+        </member>
+        <member name="P:OpenTok.VideoFrame.Height">
+            <summary>
+            The height of the video frame, in pixels.
+            </summary>
+        </member>
+        <member name="P:OpenTok.VideoFrame.PixelFormat">
+            <summary>
+            The pixel format of the video frame.
+            </summary>
+        </member>
+        <member name="P:OpenTok.VideoFrame.NumberOfPlanes">
+            <summary>
+            The number of planes in this video frame.
+            </summary>
+        </member>
+        <member name="P:OpenTok.VideoFrame.Metadata">
+            <summary>
+            The metadata associated with this frame, if any.
+            The maximum size allowed for the metadata is 32 bytes.
+            An ArgumentOutOfRangeException exception is thrown if
+            you set this to a byte array larger than 32 bytes.
+            </summary>
+        </member>
+        <member name="M:OpenTok.VideoFrame.GetPlane(System.Int32)">
+            <summary>
+            Gets a pointer to a specified video plane for the frame.
+            </summary>
+            <param name="index">The index of the frame. The NumberOfPlanes property
+            of the VideoFrame object is the number of planes available.</param>
+        </member>
+        <member name="M:OpenTok.VideoFrame.GetPlaneStride(System.Int32)">
+            <summary>
+            Gets the stride for a specified video plane for the frame.
+            </summary>
+            <param name="index">The index of the frame. The NumberOfPlanes property
+            of the VideoFrame object is the number of planes available.</param>
+        </member>
+        <member name="M:OpenTok.VideoFrame.GetPlaneSize(System.Int32)">
+            <summary>
+            Gets the size of a specified video plane for the frame.
+            </summary>
+            <param name="index">The index of the frame. The NumberOfPlanes property
+            of the VideoFrame object is the number of planes available.</param>
+        </member>
+        <member name="M:OpenTok.VideoFrame.GetPlaneWidth(System.Int32)">
+            <summary>
+            Gets the width (in pixels) for a specified video plane for the frame.
+            </summary>
+            <param name="index">The index of the frame. The NumberOfPlanes property
+            of the VideoFrame object is the number of planes available.</param>
+        </member>
+        <member name="M:OpenTok.VideoFrame.GetPlaneHeight(System.Int32)">
+            <summary>
+            Gets the height (in pixels) for a specified video plane for the frame.
+            </summary>
+            <param name="index">The index of the frame. The NumberOfPlanes property
+            of the VideoFrame object is the number of planes available.</param>
+        </member>
+        <member name="M:OpenTok.VideoFrame.ConvertInPlace(OpenTok.PixelFormat,System.IntPtr[],System.Int32[])">
+            <summary>
+            Copies the video frame to a buffer, passed in as the <paramref name="planes"/>
+            parameter.
+            </summary>
+            <param name="destinationFormat">The video format. Please note that currently this only works with PixelFormat.FormatYuv420p.</param>
+            <param name="planes">A pointer to the video data destination buffer planes.</param>
+            <param name="strides">The number of bytes in a single row of pixel data.</param>
+        </member>
+        <member name="M:OpenTok.VideoFrame.CreateYuv420pFrameFromBuffer(OpenTok.PixelFormat,System.Int32,System.Int32,System.IntPtr[],System.Int32[])">
+             <summary>
+             Creates a I420 video frame from an array of planes.
+             </summary>
+            
+             <param name="sourceFormat">The format of the source frames.</param>
+             <param name="width">The width, in pixels.</param>
+             <param name="height">The height, in pixels.</param>
+             <param name="planes">An array containing the source planes.</param>
+             <param name="strides">An array containing the source strides.</param>
+        </member>
+        <member name="M:OpenTok.VideoFrame.CreateFrameFromBuffer(OpenTok.PixelFormat,System.Int32,System.Int32,System.IntPtr[],System.Int32[])">
+             <summary>
+             Creates a video frame from a set of planes.
+             </summary>
+            
+             <param name="format">The format of the source frames.</param>
+             <param name="width">The width, in pixels.</param>
+             <param name="height">The height, in pixels.</param>
+             <param name="planes">An array containing the source planes.</param>
+             <param name="strides">An array containing the source strides.</param>
+        </member>
+        <member name="M:OpenTok.VideoFrame.CreateFrameFromBuffer(OpenTok.PixelFormat,System.Int32,System.Int32,System.IntPtr)">
+             <summary>
+             Creates a video frame from a buffer.
+             </summary>
+            
+             <param name="format">The format of the source frames.</param>
+             <param name="width">The width, in pixels.</param>
+             <param name="height">The height, in pixels.</param>
+             <param name="buffer">A pointer to the source buffer.</param>
+        </member>
+        <member name="M:OpenTok.VideoFrame.CreateYuv420pFrameFromBitmap(System.Drawing.Bitmap)">
+             <summary>
+             Creates a YUV420p video frame from a bitmap.
+             </summary>
+            
+             <param name="bitmap">The source bitmap for the frame.</param>
+        </member>
+        <member name="T:OpenTok.VideoSourceType">
+            <summary>
+            Defines options for the Publisher.VideoSourceType property.
+            </summary>
+        </member>
+        <member name="F:OpenTok.VideoSourceType.Camera">
+            A camera video source.
+        </member>
+        <member name="F:OpenTok.VideoSourceType.Screen">
+            A screen-sharing video source.
+        </member>
+        <member name="T:OpenTok.Publisher">
+            <summary>
+            A publisher captures an audio-video stream from the sources you specify.
+            </summary>
+            <remarks>
+            Use the Publisher.Builder class to create a Publisher instance. You can
+            then publish the audio-video stream to an OpenTok session by calling the
+            <see cref="M:OpenTok.Session.Publish(OpenTok.Publisher)"/> method.
+            <para>
+            The Publisher class implements the System.IDisposable interface. Be sure to
+            call the <see cref="M:OpenTok.Publisher.Dispose" /> method of the Publisher object to release its resources
+            when you no longer need the object (for example, when the Publisher is removed or when
+            the app or window is closing).
+            </para>
+            </remarks>
+        </member>
+        <member name="T:OpenTok.Publisher.Builder">
+            <summary>
+            Used to create a Publisher instance.
+            </summary>
+            <remarks>
+            Instantiate a Builder instance by calling the Builder() constructor.
+            Then (optionally), set properties of the Builder object. Then call
+            the Build() method to create a Publisher object.
+            </remarks>
+        </member>
+        <member name="P:OpenTok.Publisher.Builder.Capturer">
+            <summary>
+            The video capturer to use for this publisher. If you do
+            not specify a capturer, the Publisher uses the default video capturer, defined
+            by the VideoCapturer class. This video capturer uses the first video device in
+            the list of devices available on the system.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Publisher.Builder.Name">
+            <summary>
+            The name of the publisher video. The <see cref="P:OpenTok.Stream.Name"/>
+            property for a stream published by this publisher will be set to this value
+            (on all clients).
+            </summary>
+        </member>
+        <member name="P:OpenTok.Publisher.Builder.Renderer">
+            <summary>
+            The video renderer to use for this publisher. If you
+            do not specify a renderer, the video isn't rendered locally.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Publisher.Builder.HasAudioTrack">
+            <summary>
+            Whether to include an audio track in the
+            published stream.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Publisher.Builder.HasVideoTrack">
+            <summary>
+            Whether to include an video track in the
+            published stream.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Publisher.Builder.Stereo">
+            <summary>
+            Whether to enable stereo audio in the published stream.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Publisher.Builder.Context">
+            <summary>
+            The Context to use for this Publisher object.
+            </summary>
+        </member>
+        <member name="M:OpenTok.Publisher.Builder.#ctor(OpenTok.Context)">
+            <summary>
+            Creates a new Builder instance.
+            </summary>
+            <param name="context">The Context to use for the Publisher object.</param>
+        </member>
+        <member name="M:OpenTok.Publisher.Builder.Build">
+            <summary>
+            Creates a Publisher instance based on the Publisher.Builder settings.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:OpenTok.Publisher.StreamEventArgs">
+            <summary>
+            Defines arguments for the <see cref="E:OpenTok.Publisher.StreamCreated"/> and <see cref="E:OpenTok.Publisher.StreamDestroyed"/> events.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Publisher.StreamEventArgs.Stream">
+            <summary>
+            The stream that that is created or destroyed.
+            </summary>
+        </member>
+        <member name="T:OpenTok.Publisher.ErrorEventArgs">
+            <summary>
+            Defines arguments for the <see cref="E:OpenTok.Publisher.Error"/> event.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Publisher.ErrorEventArgs.ErrorDescription">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:OpenTok.Publisher.ErrorEventArgs.ErrorCode">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:OpenTok.Publisher.AudioLevelArgs">
+            <summary>
+            Defines arguments for <see cref="P:OpenTok.Publisher.AudioLevelArgs.AudioLevel"/> events.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Publisher.AudioLevelArgs.AudioLevel">
+            <summary>
+            The audio level, from 0 to 1.0. Adjust this value logarithmically for use
+            in a user interface visualization (such as a volume meter).
+            </summary>
+        </member>
+        <member name="T:OpenTok.Publisher.AudioNetworkStats">
+            <summary>
+            Defines an audio statistics object for the Stats property of a
+            <see cref="T:OpenTok.Publisher.AudioNetworkStatsEventArgs"/> object.
+            </summary>
+        </member>
+        <member name="F:OpenTok.Publisher.AudioNetworkStats.ConnectionId">
+            <summary>
+            The connection ID of the subscribing client (in a routed session).
+            </summary>
+        </member>
+        <member name="F:OpenTok.Publisher.AudioNetworkStats.SubscriberId">
+            <summary>
+            The ID of the subscribing client's subscriber to the stream (in a relayed session).
+            </summary>
+            <remarks>
+            In a routed session, this is an empty string.
+            </remarks>
+        </member>
+        <member name="P:OpenTok.Publisher.AudioNetworkStats.PacketsLost">
+            The total number of audio packets lost by the publisher.
+        </member>
+        <member name="P:OpenTok.Publisher.AudioNetworkStats.PacketsSent">
+            The total number of audio packets sent by the publisher.
+        </member>
+        <member name="P:OpenTok.Publisher.AudioNetworkStats.BytesSent">
+            The total number of audio bytes sent by the publisher.
+        </member>
+        <member name="P:OpenTok.Publisher.AudioNetworkStats.Timestamp">
+            The timestamp for when these stats were gathered.
+        </member>
+        <member name="P:OpenTok.Publisher.AudioNetworkStats.StartTime">
+            The timestamp from which the cumulative totals started accumulating.
+        </member>
+        <member name="T:OpenTok.Publisher.AudioNetworkStatsEventArgs">
+            <summary>
+            Defines arguments for <see cref="E:OpenTok.Publisher.AudioStatsUpdated"/> events.
+            </summary>
+        </member>
+        <member name="F:OpenTok.Publisher.AudioNetworkStatsEventArgs.Stats">
+            <summary>
+             An array of objects defining the current audio statistics for the publisher.
+            For a publisher in a routed session (one that uses the
+            <a href="https://tokbox.com/developer/guides/create-session/#media-mode">OpenTok
+            Media Router</a>), this array includes one object, defining the statistics for the
+            single audio-media stream that is sent to the OpenTok Media Router. In a relayed
+            session, the array includes an object for each subscriber to the published stream.
+            </summary>
+        </member>
+        <member name="T:OpenTok.Publisher.VideoNetworkStats">
+            <summary>
+            Defines a video statistics object for the Stats property of a
+            <see cref="T:OpenTok.Publisher.VideoNetworkStatsEventArgs"/> object.
+            </summary>
+        </member>
+        <member name="F:OpenTok.Publisher.VideoNetworkStats.ConnectionId">
+            <summary>
+            The connection ID of the subscribing client (in a routed session).
+            </summary>
+        </member>
+        <member name="F:OpenTok.Publisher.VideoNetworkStats.SubscriberId">
+            <summary>
+            The ID of the subscribing client's subscriber to the stream (in a relayed session).
+            </summary>
+            <remarks>
+            In a routed session, this is an empty string.
+            </remarks>
+        </member>
+        <member name="P:OpenTok.Publisher.VideoNetworkStats.PacketsLost">
+            The total number of video packets lost by the publisher.
+        </member>
+        <member name="P:OpenTok.Publisher.VideoNetworkStats.PacketsSent">
+            The total number of video packets sent by the publisher.
+        </member>
+        <member name="P:OpenTok.Publisher.VideoNetworkStats.BytesSent">
+            The total number of video bytes sent by the publisher.
+        </member>
+        <member name="P:OpenTok.Publisher.VideoNetworkStats.Timestamp">
+            The timestamp for when these stats were gathered.
+        </member>
+        <member name="P:OpenTok.Publisher.VideoNetworkStats.StartTime">
+            The timestamp from which the cumulative totals started accumulating.
+        </member>
+        <member name="T:OpenTok.Publisher.VideoNetworkStatsEventArgs">
+            <summary>
+            Defines arguments for <see cref="E:OpenTok.Publisher.VideoStatsUpdated"/> events.
+            </summary>
+        </member>
+        <member name="F:OpenTok.Publisher.VideoNetworkStatsEventArgs.Stats">
+            <summary>
+            An array of objects defining the current video statistics for the publisher.
+            For a publisher in a routed session (one that uses the
+            <a href="https://tokbox.com/developer/guides/create-session/#media-mode">OpenTok
+            Media Router</a>), this array includes one object, defining the statistics for the
+            single audio-media stream that is sent to the OpenTok Media Router. In a relayed
+            session, the array includes an object for each subscriber to the published stream.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Publisher.StreamCreated">
+            <summary>
+            Sent when the publisher's stream is created.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Publisher.StreamDestroyed">
+            <summary>
+            Sent when the publisher's stream is destroyed.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Publisher.Error">
+            <summary>
+            Sent when the publisher fails.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Publisher.AudioStatsUpdated">
+            <summary>
+            Invoked when the publisher has audio stats to share. This is a beta feature.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Publisher.VideoStatsUpdated">
+            <summary>
+            Invoked when the publisher has video stats to share. This is a beta feature.
+            </summary>
+        </member>
+        <member name="E:OpenTok.Publisher.AudioLevel">
+            <summary>
+            Sent periodically to report the audio level of the publisher.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Publisher.VideoRenderer">
+            <summary>
+            The video renderer for the publisher.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Publisher.VideoCapturer">
+            <summary>
+            The video capturer for the publisher.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Publisher.Stream">
+            <summary>
+            The stream object corresponding the the Publisher's stream.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Publisher.PublishAudio">
+            <summary>
+            Whether the publisher is publishing audio.
+            </summary>
+        </member>
+        <member name="P:OpenTok.Publisher.PublishVideo">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:OpenTok.Publisher.VideoSourceType">
+            <summary>
+            The type of the stream (either camera or screen sharing), as defined by
+            the OpenTok.VideoSourceType enum.
+            </summary>
+        </member>
+        <member name="M:OpenTok.Publisher.#ctor(OpenTok.Context,OpenTok.IVideoCapturer,System.String,OpenTok.IVideoRenderer,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Creates a new Publisher instance.
+            </summary>
+            <remarks>
+            Use the <see cref="M:OpenTok.Session.Publish(OpenTok.Publisher)"/> method to start streaming
+            from this publisher into a session.
+            </remarks>
+            <param name="context">The Context to use for this Publisher object.</param>
+            <param name="capturer">The video capturer to use for this publisher. If you do
+            not specify a capturer, the Publisher uses the default video capturer, defined
+            by the VideoCapturer class. This video capturer uses the first video device in
+            the list of devices available on the system.</param>
+            <param name="name">The name of the publisher video. The <see cref="P:OpenTok.Stream.Name"/>
+            property for a stream published by this publisher will be set to this value
+            (on all clients).</param>
+            <param name="renderer">The video renderer to use for this publisher. If you
+            do not specify a renderer, the video isn't rendered locally.</param>
+            <param name="hasAudioTrack">Whether to include an audio track in the
+            published stream.</param>
+            <param name="hasVideoTrack">Whether to include an video track in the
+            published stream.</param>
+            <param name="stereo">Whether to enable stereo audio in the published stream.
+            </param>
+        </member>
+        <member name="M:OpenTok.Publisher.Dispose">
+            <summary>
+            Disposes of the Publisher object's resources.
+            </summary>
+            <remarks>
+            Note that the Publisher's resources are <em>not</em> disposed of when you call
+            the <see cref="M:OpenTok.Session.Publish(OpenTok.Publisher)"/> method. When you call
+            <see cref="M:OpenTok.Session.Publish(OpenTok.Publisher)"/>, the resources of the Publisher
+            object are retained so that you can reuse it (to Publish again to the session).
+            </remarks>
+        </member>
+    </members>
+</doc>
