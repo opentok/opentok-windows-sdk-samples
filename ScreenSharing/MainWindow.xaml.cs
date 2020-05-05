@@ -29,8 +29,12 @@ namespace ScreenSharing
 
             // We create the publisher here to show the preview when application starts
             // Please note that the PublisherVideo component is added in the xaml file
-            Publisher = new Publisher(Context.Instance, renderer: PublisherVideo, 
-                                      capturer: Capturer, hasAudioTrack: false);
+            Publisher = new Publisher.Builder(Context.Instance)
+            {
+                Renderer = PublisherVideo,
+                Capturer = Capturer,
+                HasAudioTrack = false
+            }.Build();
             
             // We set the video source type to screen to disable the downscaling of the video
             // in low bandwidth situations, instead the frames per second will drop.
@@ -44,7 +48,7 @@ namespace ScreenSharing
             }
             else
             {
-                Session = new Session(Context.Instance, API_KEY, SESSION_ID);
+                Session = new Session.Builder(Context.Instance, API_KEY, SESSION_ID).Build();
 
                 Session.Connected += Session_Connected;
                 Session.Disconnected += Session_Disconnected;
@@ -104,7 +108,10 @@ namespace ScreenSharing
             VideoRenderer renderer = new VideoRenderer();
             SubscriberGrid.Children.Add(renderer);
             UpdateGridSize(SubscriberGrid.Children.Count);
-            Subscriber subscriber = new Subscriber(Context.Instance, e.Stream, renderer);
+            Subscriber subscriber = new Subscriber.Builder(Context.Instance, e.Stream)
+            {
+                Renderer = renderer
+            }.Build();
             SubscriberByStream.Add(e.Stream, subscriber);
 
             try

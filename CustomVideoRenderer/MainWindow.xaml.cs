@@ -42,7 +42,11 @@ namespace CustomVideoRenderer
 
             // We create the publisher here to show the preview when application starts
             // Please note that the PublisherVideo component is added in the xaml file
-            Publisher = new Publisher(Context.Instance, renderer: PublisherVideo, capturer: Capturer);
+            Publisher = new Publisher.Builder(Context.Instance)
+            {
+                Renderer = PublisherVideo,
+                Capturer = Capturer
+            }.Build();
 
             if (API_KEY == "" || SESSION_ID == "" || TOKEN == "")
             {
@@ -52,7 +56,7 @@ namespace CustomVideoRenderer
             }
             else
             {
-                Session = new Session(Context.Instance, API_KEY, SESSION_ID);
+                Session = new Session.Builder(Context.Instance, API_KEY, SESSION_ID).Build();
 
                 Session.Connected += Session_Connected;
                 Session.Disconnected += Session_Disconnected;
@@ -116,7 +120,10 @@ namespace CustomVideoRenderer
 
             SubscriberGrid.Children.Add(renderer);
             UpdateGridSize(SubscriberGrid.Children.Count);
-            Subscriber subscriber = new Subscriber(Context.Instance, e.Stream, renderer);
+            Subscriber subscriber = new Subscriber.Builder(Context.Instance, e.Stream)
+            {
+                Renderer = renderer
+            }.Build();
             SubscriberByStream.Add(e.Stream, subscriber);
 
             try

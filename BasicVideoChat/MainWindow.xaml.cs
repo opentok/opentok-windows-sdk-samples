@@ -14,8 +14,6 @@ namespace BasicVideoChat
         Session Session;
         Publisher Publisher;
 
-        
-
         public MainWindow()
         {
             InitializeComponent();
@@ -23,9 +21,12 @@ namespace BasicVideoChat
             // Uncomment following line to get debug logging
             // LogUtil.Instance.EnableLogging();
 
-            Publisher = new Publisher(Context.Instance, renderer: PublisherVideo);
+            Publisher = new Publisher.Builder(Context.Instance)
+            {
+                Renderer = PublisherVideo
+            }.Build();
 
-            Session = new Session(Context.Instance, API_KEY, SESSION_ID);
+            Session = new Session.Builder(Context.Instance, API_KEY, SESSION_ID).Build();
             Session.Connected += Session_Connected;
             Session.Disconnected += Session_Disconnected;
             Session.Error += Session_Error;
@@ -50,7 +51,10 @@ namespace BasicVideoChat
 
         private void Session_StreamReceived(object sender, Session.StreamEventArgs e)
         {
-            Subscriber subscriber = new Subscriber(Context.Instance, e.Stream, SubscriberVideo);
+            Subscriber subscriber = new Subscriber.Builder(Context.Instance, e.Stream)
+            {
+                Renderer = SubscriberVideo
+            }.Build();
             Session.Subscribe(subscriber);
         }
     }
