@@ -29,7 +29,11 @@ namespace FrameMetadata
             // Note that the PublisherVideo component is added in the xaml file.
             Capturer = new SampleVideoCapturer();
             PublisherVideo.StreamSourceType = "Publisher";
-            Publisher = new Publisher(Context.Instance, renderer: PublisherVideo, capturer: Capturer);
+            Publisher = new Publisher.Builder(Context.Instance)
+            {
+                Renderer = PublisherVideo,
+                Capturer = Capturer
+            }.Build();
 
             if (API_KEY == "" || SESSION_ID == "" || TOKEN == "")
             {
@@ -39,7 +43,7 @@ namespace FrameMetadata
             }
             else
             {
-                Session = new Session(Context.Instance, API_KEY, SESSION_ID);
+                Session = new Session.Builder(Context.Instance, API_KEY, SESSION_ID).Build();
 
                 Session.Connected += Session_Connected;
                 Session.Disconnected += Session_Disconnected;
@@ -103,7 +107,10 @@ namespace FrameMetadata
 
             SubscriberGrid.Children.Add(renderer);
             UpdateGridSize(SubscriberGrid.Children.Count);
-            Subscriber subscriber = new Subscriber(Context.Instance, e.Stream, renderer);
+            Subscriber subscriber = new Subscriber.Builder(Context.Instance, e.Stream)
+            {
+                Renderer = renderer
+            }.Build();
             SubscriberByStream.Add(e.Stream, subscriber);
 
             try
