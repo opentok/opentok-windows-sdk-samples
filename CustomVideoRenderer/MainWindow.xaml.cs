@@ -117,6 +117,7 @@ namespace CustomVideoRenderer
 
             SampleVideoRenderer renderer = new SampleVideoRenderer();
             renderer.EnableBlueFilter = PublisherVideo.EnableBlueFilter;
+            renderer.EnableWatermark = PublisherVideo.EnableWatermark;
 
             SubscriberGrid.Children.Add(renderer);
             UpdateGridSize(SubscriberGrid.Children.Count);
@@ -194,6 +195,15 @@ namespace CustomVideoRenderer
             foreach (var subscriber in SubscriberByStream.Values)
             {
                 ((SampleVideoRenderer)subscriber.VideoRenderer).EnableBlueFilter = PublisherVideo.EnableBlueFilter;
+            }
+        }
+
+        private void WatermarkButton_Click(object sender, RoutedEventArgs e)
+        {
+            PublisherVideo.EnableWatermark = !PublisherVideo.EnableWatermark;
+            foreach (var subscriber in SubscriberByStream.Values)
+            {
+                ((SampleVideoRenderer)subscriber.VideoRenderer).EnableWatermark = PublisherVideo.EnableWatermark;
             }
         }
     }

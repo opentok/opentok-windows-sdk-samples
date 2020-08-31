@@ -5,22 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomVideoRenderer" x:Class="CustomVideoRenderer.MainWindow"
         mc:Ignorable="d"
-        Title="Screen Sharing Example" Height="350" Width="525" MinWidth="320" MinHeight="240">
-  <Grid>
-    <UniformGrid x:Name="SubscriberGrid" Rows="1" Columns="0">
-    </UniformGrid>
-    <local:SampleVideoRenderer x:Name="PublisherVideo" HorizontalAlignment="Right" Height="114" VerticalAlignment="Bottom" Width="184" Margin="0,0,10.429,10.143" BorderBrush="#FF5B1919" BorderThickness="1" >
-      <local:SampleVideoRenderer.Effect>
-        <DropShadowEffect Opacity="0.6"/>
-      </local:SampleVideoRenderer.Effect>
-      <local:SampleVideoRenderer.Background>
-        <ImageBrush Stretch="UniformToFill">
-        </ImageBrush>
-      </local:SampleVideoRenderer.Background>
-    </local:SampleVideoRenderer>
-    <Grid HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="100">
-      <Button x:Name="ConnectDisconnectButton" Content="Connect" HorizontalAlignment="Left" Margin="10,10,0,160" Width="80" Click="Connect_Click"/>
-      <Button x:Name="FilterButton" Content="Toggle filter" HorizontalAlignment="Left" Margin="10,50,0,120" Width="80" Click="FilterButton_Click"/>
+        Title="Screen Sharing Example" Height="720" Width="1280
+    " MinWidth="320" MinHeight="240">
+    <Grid>
+        <UniformGrid x:Name="SubscriberGrid" Rows="1" Columns="0">
+        </UniformGrid>
+        <local:SampleVideoRenderer x:Name="PublisherVideo" HorizontalAlignment="Right" Height="360" VerticalAlignment="Bottom" Width="640" Margin="0,0,10,10" BorderBrush="#FF5B1919" BorderThickness="1" >
+            <local:SampleVideoRenderer.Effect>
+                <DropShadowEffect Opacity="0.6"/>
+            </local:SampleVideoRenderer.Effect>
+            <local:SampleVideoRenderer.Background>
+                <ImageBrush Stretch="UniformToFill">
+                </ImageBrush>
+            </local:SampleVideoRenderer.Background>
+        </local:SampleVideoRenderer>
+        <Grid HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="100">
+            <Button x:Name="ConnectDisconnectButton" Content="Connect" HorizontalAlignment="Left" Margin="10,10,-15,160" Width="105" Click="Connect_Click"/>
+            <Button x:Name="FilterButton" Content="Toggle filter" HorizontalAlignment="Left" Margin="10,45,-15,125" Width="105" Click="FilterButton_Click"/>
+            <Button x:Name="WatermarkButton" Content="Toggle watermark" HorizontalAlignment="Left" Margin="10,80,-15,90" Width="105" Click="WatermarkButton_Click"/>
+        </Grid>
     </Grid>
-  </Grid>
 </Window>
