@@ -18,12 +18,12 @@ namespace BasicVideoChat
                 Console.WriteLine(message);
             };
             otc_log_enable(0x7FFFFFFF);
-            otc_log_set_logger_func(X);
+            otc_log_set_logger_callback(X);
         }
 
         // Static interfaces
-        [DllImport("opentok", EntryPoint = "otc_log_set_logger_func", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void otc_log_set_logger_func(otc_logger_func logger);
+        [DllImport("opentok", EntryPoint = "otc_log_set_logger_callback", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void otc_log_set_logger_callback(otc_logger_func logger);
 
         [DllImport("opentok", EntryPoint = "otc_log_enable", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void otc_log_enable(int level);
