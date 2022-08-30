@@ -49,6 +49,21 @@ namespace FrameMetadata
             frame.Dispose();
         }
 
+        public void SetVideoContentHint(VideoContentHint contentHint)
+        {
+            if (frameConsumer == null)
+                throw new InvalidOperationException("Content hint can only be set after constructing the " +
+                    "Publisher and Capturer.");
+            frameConsumer.SetVideoContentHint(contentHint);
+        }
+
+        public VideoContentHint GetVideoContentHint()
+        {
+            if (frameConsumer != null)
+                return frameConsumer.GetVideoContentHint();
+            return VideoContentHint.NONE;
+        }
+
         public void Stop()
         {
             timer.Stop();
