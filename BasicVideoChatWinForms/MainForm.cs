@@ -1,29 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Windows;
+using System.Windows.Forms;
 using OpenTok;
 
-namespace BasicVideoChat
+using System.Threading.Tasks;
+
+namespace BasicVideoChatWinForms
 {
-    public partial class MainWindow : Window
+    public partial class MainForm : Form
     {
-        private const string API_KEY = "47446341";
-        private const string SESSION_ID = "1_MX40NzQ0NjM0MX5-MTY2NTM5NjI0MTg2Mn5LUUg3VFRYMkNYQW5sbk84cFhPM21UMlB-fg";
-        private const string TOKEN = "T1==cGFydG5lcl9pZD00NzQ0NjM0MSZzaWc9MzcyYTQ2ZWFkZjdiNDJlOGI2NjU3OGNkZTViZjcxOWViMDM5YzFmMzpzZXNzaW9uX2lkPTFfTVg0ME56UTBOak0wTVg1LU1UWTJOVE01TmpJME1UZzJNbjVMVVVnM1ZGUllNa05ZUVc1c2JrODRjRmhQTTIxVU1sQi1mZyZjcmVhdGVfdGltZT0xNjY1Mzk2MjYzJm5vbmNlPTAuODU5OTA5Nzk0MDUwODg4MiZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNjY3OTkxODYyJmluaXRpYWxfbGF5b3V0X2NsYXNzX2xpc3Q9";
+        private const string API_KEY = "";
+        private const string SESSION_ID = "";
+        private const string TOKEN = "";
 
-        private Context context;
-        private Session Session;
-        private Publisher Publisher;
-
-        public MainWindow()
+        public MainForm()
         {
             InitializeComponent();
 
-            context = new Context(new WPFDispatcher());
-
-            // Uncomment following line to get debug logging
-            // LogUtil.Instance.EnableLogging();
+            context = new Context(new WinFormsDispatcher(this));
 
             IList<AudioDevice.InputAudioDevice> availableMics = AudioDevice.EnumerateInputAudioDevices();
             if (availableMics == null || availableMics.Count == 0)
@@ -45,14 +40,22 @@ namespace BasicVideoChat
             Session.Disconnected += Session_Disconnected;
             Session.Error += Session_Error;
             Session.StreamReceived += Session_StreamReceived;
-            Session.Connect(TOKEN);
+
+            Session.Connect(TOKEN);         
         }
+
+        #region Private
+
+        private Context context;
+        private Session Session;
+        private Publisher Publisher;
 
         private void Session_Connected(object sender, System.EventArgs e)
         {
+            Trace.WriteLine("Session connected.");
             Session.Publish(Publisher);
         }
- 
+
         private void Session_Disconnected(object sender, System.EventArgs e)
         {
             Trace.WriteLine("Session disconnected.");
@@ -71,5 +74,7 @@ namespace BasicVideoChat
             }.Build();
             Session.Subscribe(subscriber);
         }
+
+        #endregion
     }
 }
