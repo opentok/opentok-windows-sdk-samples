@@ -42,6 +42,10 @@ AnyCPU running on a 64-bit OS.
 
 This app shows how to implement a simple video call.
 
+### BasicVideoChatWinForms
+
+Similar to BasicVideoChat but using WinForms as the presentation framework.
+
 ### SimpleMultiparty
 
 This app shows how to implement a video call application with several clients.
