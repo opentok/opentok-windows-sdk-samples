@@ -46,6 +46,13 @@ This app shows how to implement a simple video call.
 
 Similar to BasicVideoChat but using WinForms as the presentation framework.
 
+### BasicVideoChatUWP
+
+Similar to BasicVideoChat but using UWP as the presentation framework.
+Keep in mind that this sample only works for a windows desktop UWP app.
+For a general UWP app that works on any UWP enabled platform (windows phone, hololens, XBOX, etc.),
+UWP SDK must be used instead (check nuget package Vonage.Client.Video.UWP).
+
 ### SimpleMultiparty
 
 This app shows how to implement a video call application with several clients.
@@ -67,6 +74,12 @@ capturer to capturer to capture the screen as the video source for an OpenTok pu
 This app shows how to add metadata to video frames in a published stream and how to read
 the metadata in a subscriber to the stream. It also shows to to use a very simple custom
 video capturer and custom video renderer.
+
+### AudioDeviceNotifications
+
+This app shows more advanced management of audio devices with notifications capabilities 
+that allow detecting when new devices are added, removed or the default selection is changed at
+windows OS level.
 
 ## Development and Contributing
 
