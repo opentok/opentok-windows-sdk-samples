@@ -5,7 +5,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BB82BB46-807A-4C81-8FE4-5ED3D5921707}</ProjectGuid>
+    <ProjectGuid>{E1C83E98-171C-4275-B362-5A34928FA5AD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AudioDeviceNotifications</RootNamespace>
@@ -53,7 +53,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-  </ItemGroup>  
+  </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
