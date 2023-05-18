@@ -11,9 +11,9 @@ namespace ScreenSharing
     /// </summary>
     public partial class MainWindow : Window
     {
-        public const string API_KEY = "";
-        public const string SESSION_ID = "";
-        public const string TOKEN = "";
+        private const string API_KEY = "";
+        private const string SESSION_ID = "";
+        private const string TOKEN = "";
 
         ScreenSharingCapturer Capturer;
         Session Session;
