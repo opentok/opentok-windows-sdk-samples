@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenTok.Client" Version="2.24.0" />
+    <PackageReference Include="OpenTok.Client" Version="2.25.1" />
   </ItemGroup>
 
 </Project>

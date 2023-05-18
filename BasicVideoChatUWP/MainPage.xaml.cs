@@ -18,9 +18,9 @@ namespace BasicVideoChatUWP
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private static string API_KEY = "47446341";
-        private static string SESSION_ID = "2_MX40NzQ0NjM0MX5-MTY3MzI1MzQ1NzkxMX41RWg0RVNoWXU0S3ZIOWVJV0NxVnBWcHN-fn4";
-        private static string TOKEN = "T1==cGFydG5lcl9pZD00NzQ0NjM0MSZzaWc9MzJmMjdhMGRmNDk2MjliZWJlM2FmNDU5YTcwNzQyNzc0ZGVkNDI5MjpzZXNzaW9uX2lkPTJfTVg0ME56UTBOak0wTVg1LU1UWTNNekkxTXpRMU56a3hNWDQxUldnMFJWTm9XWFUwUzNaSU9XVkpWME54Vm5CV2NITi1mbjQmY3JlYXRlX3RpbWU9MTY3MzI1MzQ5NSZub25jZT0wLjU3NTg1NzIyMzAxMTgwODImcm9sZT1wdWJsaXNoZXImZXhwaXJlX3RpbWU9MTY3NTg0NTQ5NCZpbml0aWFsX2xheW91dF9jbGFzc19saXN0PQ==";
+        private const string API_KEY = "47446341";
+        private const string SESSION_ID = "2_MX40NzQ0NjM0MX5-MTY4MjQ5MTc1ODg2Mn54MXFJaUdmcVZwK0RtakdRRERxN25ydHZ-fn4";
+        private const string TOKEN = "T1==cGFydG5lcl9pZD00NzQ0NjM0MSZzaWc9ZWE5NDAyMzVjMzU2ODdiMGU0NGRhN2MyY2JhMDlmYWVjNzM0Mjc3YzpzZXNzaW9uX2lkPTJfTVg0ME56UTBOak0wTVg1LU1UWTRNalE1TVRjMU9EZzJNbjU0TVhGSmFVZG1jVlp3SzBSdGFrZFJSRVJ4TjI1eWRIWi1mbjQmY3JlYXRlX3RpbWU9MTY4MjQ5MTc5MiZub25jZT0wLjAxNDE3NTk2NzM1MTIzNjk0JnJvbGU9cHVibGlzaGVyJmV4cGlyZV90aW1lPTE2ODUwODM3OTImaW5pdGlhbF9sYXlvdXRfY2xhc3NfbGlzdD0=";
 
         private const VideoCapturer.Resolution DEFAULT_RESOLUTION = VideoCapturer.Resolution.High;
         private const VideoCapturer.FrameRate DEFAULT_FRAME_RATE = VideoCapturer.FrameRate.Fps30;
