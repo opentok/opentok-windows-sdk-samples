@@ -26,6 +26,16 @@ namespace BasicVideoChat
             // Uncomment following line to get debug logging
             // LogUtil.Instance.EnableLogging();
 
+            IList<VideoCapturer.VideoDevice> capturerDevices = VideoCapturer.EnumerateDevices();
+            if (capturerDevices == null || capturerDevices.Count == 0)
+                throw new Exception("No video capture devices detected");
+
+            publisher = new Publisher.Builder(context)
+            {
+                Capturer = capturerDevices[0].CreateVideoCapturer(VideoCapturer.Resolution.High, VideoCapturer.FrameRate.Fps30),
+                Renderer = PublisherVideo
+            }.Build();
+
             ReloadAudioInputComboBox();
             ReloadAudioOutputComboBox();
 
@@ -37,16 +47,6 @@ namespace BasicVideoChat
             audioDeviceNotifications.OutputDeviceRemoved += AudioOutputDeviceRemoved;
             audioDeviceNotifications.DefaultInputDeviceChanged += AudioDefaultInputDeviceChanged;
             audioDeviceNotifications.DefaultOutputDeviceChanged += AudioDefaultOutputDeviceChanged;
-
-            IList<VideoCapturer.VideoDevice> capturerDevices = VideoCapturer.EnumerateDevices();
-            if (capturerDevices == null || capturerDevices.Count == 0)
-                throw new Exception("No video capture devices detected");
-
-            publisher = new Publisher.Builder(context)
-            {
-                Capturer = capturerDevices[0].CreateVideoCapturer(VideoCapturer.Resolution.High, VideoCapturer.FrameRate.Fps30),
-                Renderer = PublisherVideo
-            }.Build();
 
             session = new Session.Builder(context, API_KEY, SESSION_ID).Build();
             session.Connected += Session_Connected;

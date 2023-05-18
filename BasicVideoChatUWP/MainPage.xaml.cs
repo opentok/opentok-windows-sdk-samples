@@ -18,9 +18,9 @@ namespace BasicVideoChatUWP
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private static string API_KEY = "47446341";
-        private static string SESSION_ID = "2_MX40NzQ0NjM0MX5-MTY3MzI1MzQ1NzkxMX41RWg0RVNoWXU0S3ZIOWVJV0NxVnBWcHN-fn4";
-        private static string TOKEN = "T1==cGFydG5lcl9pZD00NzQ0NjM0MSZzaWc9MzJmMjdhMGRmNDk2MjliZWJlM2FmNDU5YTcwNzQyNzc0ZGVkNDI5MjpzZXNzaW9uX2lkPTJfTVg0ME56UTBOak0wTVg1LU1UWTNNekkxTXpRMU56a3hNWDQxUldnMFJWTm9XWFUwUzNaSU9XVkpWME54Vm5CV2NITi1mbjQmY3JlYXRlX3RpbWU9MTY3MzI1MzQ5NSZub25jZT0wLjU3NTg1NzIyMzAxMTgwODImcm9sZT1wdWJsaXNoZXImZXhwaXJlX3RpbWU9MTY3NTg0NTQ5NCZpbml0aWFsX2xheW91dF9jbGFzc19saXN0PQ==";
+        private const string API_KEY = "";
+        private const string SESSION_ID = "";
+        private const string TOKEN = "";
 
         private const VideoCapturer.Resolution DEFAULT_RESOLUTION = VideoCapturer.Resolution.High;
         private const VideoCapturer.FrameRate DEFAULT_FRAME_RATE = VideoCapturer.FrameRate.Fps30;

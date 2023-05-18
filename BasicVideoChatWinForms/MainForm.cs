@@ -18,12 +18,7 @@ namespace BasicVideoChatWinForms
         {
             InitializeComponent();
 
-            context = new Context(new WinFormsDispatcher(this));
-
-            IList<AudioDevice.InputAudioDevice> availableMics = AudioDevice.EnumerateInputAudioDevices();
-            if (availableMics == null || availableMics.Count == 0)
-                throw new Exception("No audio capture devices detected");
-            AudioDevice.SetInputAudioDevice(availableMics[0]);
+            context = new Context(new WinFormsDispatcher(this));            
 
             IList<VideoCapturer.VideoDevice> capturerDevices = VideoCapturer.EnumerateDevices();
             if (capturerDevices == null || capturerDevices.Count == 0)
@@ -34,6 +29,11 @@ namespace BasicVideoChatWinForms
                 Capturer = capturerDevices[0].CreateVideoCapturer(VideoCapturer.Resolution.High, VideoCapturer.FrameRate.Fps30),
                 Renderer = PublisherVideo
             }.Build();
+
+            IList<AudioDevice.InputAudioDevice> availableMics = AudioDevice.EnumerateInputAudioDevices();
+            if (availableMics == null || availableMics.Count == 0)
+                throw new Exception("No audio capture devices detected");
+            AudioDevice.SetInputAudioDevice(availableMics[0]);
 
             Session = new Session.Builder(context, API_KEY, SESSION_ID).Build();
             Session.Connected += Session_Connected;
