@@ -11,9 +11,10 @@ namespace CustomVideoRenderer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const string API_KEY = "";
-        private const string SESSION_ID = "";
-        private const string TOKEN = "";
+        private const string API_KEY = "47446341";
+        private const string SESSION_ID = "2_MX40NzQ0NjM0MX5-MTY4MjQ5MTc1ODg2Mn54MXFJaUdmcVZwK0RtakdRRERxN25ydHZ-fn4";
+        private const string TOKEN = "T1==cGFydG5lcl9pZD00NzQ0NjM0MSZzaWc9ZWE5NDAyMzVjMzU2ODdiMGU0NGRhN2MyY2JhMDlmYWVjNzM0Mjc3YzpzZXNzaW9uX2lkPTJfTVg0ME56UTBOak0wTVg1LU1UWTRNalE1TVRjMU9EZzJNbjU0TVhGSmFVZG1jVlp3SzBSdGFrZFJSRVJ4TjI1eWRIWi1mbjQmY3JlYXRlX3RpbWU9MTY4MjQ5MTc5MiZub25jZT0wLjAxNDE3NTk2NzM1MTIzNjk0JnJvbGU9cHVibGlzaGVyJmV4cGlyZV90aW1lPTE2ODUwODM3OTImaW5pdGlhbF9sYXlvdXRfY2xhc3NfbGlzdD0=";
+
 
         VideoCapturer Capturer;
         Session Session;
@@ -117,6 +118,7 @@ namespace CustomVideoRenderer
 
             SampleVideoRenderer renderer = new SampleVideoRenderer();
             renderer.EnableBlueFilter = PublisherVideo.EnableBlueFilter;
+            renderer.EnableWatermark = PublisherVideo.EnableWatermark;
 
             SubscriberGrid.Children.Add(renderer);
             UpdateGridSize(SubscriberGrid.Children.Count);
@@ -194,6 +196,15 @@ namespace CustomVideoRenderer
             foreach (var subscriber in SubscriberByStream.Values)
             {
                 ((SampleVideoRenderer)subscriber.VideoRenderer).EnableBlueFilter = PublisherVideo.EnableBlueFilter;
+            }
+        }
+
+        private void WatermarkButton_Click(object sender, RoutedEventArgs e)
+        {
+            PublisherVideo.EnableWatermark = !PublisherVideo.EnableWatermark;
+            foreach (var subscriber in SubscriberByStream.Values)
+            {
+                ((SampleVideoRenderer)subscriber.VideoRenderer).EnableWatermark = PublisherVideo.EnableWatermark;
             }
         }
     }
