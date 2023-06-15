@@ -1,7 +1,7 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <PackageReference Include="OpenTok.Client">
-      <Version>2.25.1</Version>
+      <Version>2.25.2</Version>
     </PackageReference>
   </ItemGroup>
 </Project>
