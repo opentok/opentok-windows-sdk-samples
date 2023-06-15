@@ -12,142 +12,11 @@ using System.Windows.Forms;
 
 namespace VideoTransformers
 {
-    /*
-    public class ScreenCapturer : IVideoCapturer
-    {
-        private readonly int width;
-        private readonly int height;
-        private readonly int fps;
-        private System.Threading.Timer timer;
-        private IVideoFrameConsumer frameConsumer;
-
-        public ScreenCapturer(VideoCapturer.Resolution resolution, VideoCapturer.FrameRate frameRate)
-        {
-            if (resolution == VideoCapturer.Resolution.Low)
-            {
-                width = 320;
-                height = 240;
-            }
-            else if (resolution == VideoCapturer.Resolution.Medium)
-            {
-                width = 640;
-                height = 460;
-            }
-            else if (resolution == VideoCapturer.Resolution.High)
-            {
-                width = 1280;
-                height = 720;
-            }
-            else if (resolution == VideoCapturer.Resolution.High1080p)
-            {
-                width = 1920;
-                height = 1080;
-            }
-            else
-            {
-                throw new ArgumentException(nameof(resolution));
-            }
-
-            if (frameRate == VideoCapturer.FrameRate.Fps30)
-            {
-                fps = 30;
-            }
-            else if (frameRate == VideoCapturer.FrameRate.Fps15)
-            {
-                fps = 15;
-            }
-            else if (frameRate == VideoCapturer.FrameRate.Fps7)
-            {
-                fps = 7;
-            }
-            else if (frameRate == VideoCapturer.FrameRate.Fps1)
-            {
-                fps = 1;
-            }
-            else
-            {
-                throw new ArgumentException(nameof(frameRate));
-            }
-        }
-
-        public void Destroy()
-        {
-        }
-
-        public void Init(IVideoFrameConsumer frameConsumer)
-        {
-            this.frameConsumer = frameConsumer;
-        }
-
-        public void SetVideoContentHint(VideoContentHint contentHint)
-        {
-            frameConsumer.SetVideoContentHint(contentHint);
-        }
-
-        public VideoContentHint GetVideoContentHint()
-        {
-            return frameConsumer.GetVideoContentHint();
-        }
-
-        public void Start()
-        {
-            Rectangle screenBounds = Screen.GetBounds(System.Drawing.Point.Empty);
-            timer = new System.Threading.Timer((object stateInfo) =>
-            {
-                using (Bitmap bitmap = new Bitmap(screenBounds.Width, screenBounds.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
-                {
-                    bitmap.SetResolution(width, height);
-                    using (Graphics graphics = Graphics.FromImage(bitmap))
-                    {
-                        graphics.CompositingMode = CompositingMode.SourceCopy;
-                        graphics.CompositingQuality = CompositingQuality.HighQuality;
-                        graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                        graphics.SmoothingMode = SmoothingMode.HighQuality;
-                        graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                        graphics.CopyFromScreen(0, 0, 0, 0, screenBounds.Size, CopyPixelOperation.SourceCopy);
-                    }
-                    using (VideoFrame frame = VideoFrame.CreateYuv420pFrameFromBitmap(bitmap))
-                    {
-                        frameConsumer.Consume(frame);
-                    }
-                }
-
-            }, null, 0, 1000 / fps);
-        }
-
-        public void Stop()
-        {
-            if (timer != null)
-            {
-                using (ManualResetEvent timerDisposed = new ManualResetEvent(false))
-                {
-                    _ = timer.Dispose(timerDisposed);
-                    _ = timerDisposed.WaitOne();
-                }
-            }
-            timer = null;
-        }
-
-        public VideoCaptureSettings GetCaptureSettings()
-        {
-            VideoCaptureSettings settings = new VideoCaptureSettings
-            {
-                Width = width,
-                Height = height,
-                Fps = fps,
-                MirrorOnLocalRender = false,
-                PixelFormat = OpenTok.PixelFormat.FormatYuv420p
-            };
-
-            return settings;
-        }
-    }
-    */
     public partial class MainWindow : Window
     {
-        private const string API_KEY = "47521351";
-        private const string SESSION_ID = "1_MX40NzUyMTM1MX5-MTY4NjY3NDE0ODk1NH5sUFdKVkczcFNsblkzY25XRVpQUXVkbzd-fn4";
-        private const string TOKEN = "T1==cGFydG5lcl9pZD00NzUyMTM1MSZzaWc9YTExMzZlNzQ1ZGVmMGNiZmYwMmI2NDQ3YzQxNzAwZjk4MDVkMDcxYjpzZXNzaW9uX2lkPTFfTVg0ME56VXlNVE0xTVg1LU1UWTROalkzTkRFME9EazFOSDVzVUZkS1ZrY3pjRk5zYmxrelkyNVhSVnBRVVhWa2J6ZC1mbjQmY3JlYXRlX3RpbWU9MTY4NjY3NDE1NSZub25jZT0wLjk4ODI2MTkxMzE0MTQ0OTImcm9sZT1wdWJsaXNoZXImZXhwaXJlX3RpbWU9MTY4OTI2NjE1NCZpbml0aWFsX2xheW91dF9jbGFzc19saXN0PQ==";
+        private const string API_KEY = "";
+        private const string SESSION_ID = "";
+        private const string TOKEN = "";
 
         private Context context;
         private Session Session;
@@ -165,17 +34,6 @@ namespace VideoTransformers
             IList<VideoCapturer.VideoDevice> capturerDevices = VideoCapturer.EnumerateDevices();
             if (capturerDevices == null || capturerDevices.Count == 0)
                 throw new Exception("No video capture devices detected");
-            //VideoCapturer.Resolution resolution = VideoCapturer.Resolution.High;
-            //VideoCapturer.FrameRate frameRate = VideoCapturer.FrameRate.Fps30;
-
-            //IVideoCapturer videoCapturer = videoCapturer = new ScreenCapturer(resolution, frameRate);
-
-            //Publisher = new Publisher.Builder(Context.Instance)
-            //{
-            //    Renderer = PublisherVideo,
-            //    Capturer = videoCapturer
-            //}.Build();
-
 
             Publisher = new Publisher.Builder(context)
             {
@@ -200,23 +58,18 @@ namespace VideoTransformers
         {
             Session.Publish(Publisher);
 
-            //VideoTransformer backgroundBlur = new VideoTransformer("BackgroundBlur", "{\"radius\":\"High\"}");
-            ICustomVideoTransformer customBorder = new borderTransformer();
+            VideoTransformer backgroundBlur = new VideoTransformer("BackgroundBlur", "{\"radius\":\"High\"}");
+            ICustomVideoTransformer customBorder = new BorderTransformer();
             VideoTransformer border = new VideoTransformer("border", customBorder);
 
             List<VideoTransformer> transformers = new List<VideoTransformer>
             {
-                //backgroundBlur,
+                backgroundBlur,
                 border
             };
 
             // List of video transformers
             Publisher.VideoTransformers = transformers;
-
-            // Clear Video Transformers
-            // publisher.VideoTransformers.Clear();
-            // List<VideoTransformer> transformers = new List<VideoTransformer> { };
-            // Publisher.VideoTransformers = transformers;
 
         }
  
@@ -239,131 +92,77 @@ namespace VideoTransformers
             Session.Subscribe(subscriber);
         }
 
-        public class borderTransformer : ICustomVideoTransformer
+        public class BorderTransformer : ICustomVideoTransformer
         {
-            private Bitmap CreateBitmapFromYuv420pFrame(VideoFrame frame)
-            {
-                // Get the Y, U, and V planes from the YUV420p frame
-                IntPtr[] planes = new IntPtr[3];
-                planes[0] = frame.GetPlane(0); // Y plane
-                planes[1] = frame.GetPlane(1); // U plane
-                planes[2] = frame.GetPlane(2); // V plane
-
-                // Get the strides for the Y, U, and V planes
-                int[] strides = new int[3];
-                strides[0] = frame.GetPlaneStride(0); // Y plane stride
-                strides[1] = frame.GetPlaneStride(1); // U plane stride
-                strides[2] = frame.GetPlaneStride(2); // V plane stride
-
-                // Create a new Bitmap with the same width and height as the video frame
-                Bitmap bitmap = new Bitmap(frame.Width, frame.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-
-                // Lock the bitmap's data
-                BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, frame.Width, frame.Height), ImageLockMode.WriteOnly, bitmap.PixelFormat);
-
-                // Copy the YUV420p data to the bitmap's data
-                for (int i = 0; i < 3; i++)
-                {
-                    IntPtr plane = planes[i];
-                    int stride = strides[i];
-                    int planeHeight = frame.GetPlaneHeight(i);
-                    int planeSize = frame.GetPlaneSize(i);
-
-                    unsafe
-                    {
-                        byte* planePtr = (byte*)plane.ToPointer();
-                        byte* destinationPtr = (byte*)bitmapData.Scan0 + i * bitmapData.Stride;
-
-                        for (int y = 0; y < planeHeight; y++)
-                        {
-                            // Copy a row of data from the plane to the bitmap
-                            for (int x = 0; x < stride; x++)
-                            {
-                                byte* planePixel = planePtr + y * stride + x;
-                                byte* destinationPixel = destinationPtr + y * bitmapData.Stride + x;
-
-                                *destinationPixel = *planePixel;
-                            }
-                        }
-                    }
-                }
-
-                // Unlock the bitmap's data
-                bitmap.UnlockBits(bitmapData);
-
-                return bitmap;
-            }
-
             public Bitmap ResizeImage(Bitmap image, int width, int height)
             {
-                float scaleX = width / (float)image.Width;
-                float scaleY = height / (float)image.Height;
-
-                // Create a new Bitmap with the desired width and height
                 Bitmap resizedImage = new Bitmap(width, height);
 
-                // Create a Graphics object from the resized image
                 using (Graphics graphics = Graphics.FromImage(resizedImage))
                 {
-                    // Set the interpolation mode to high quality
                     graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-                    // Apply the scaling transformation to the Graphics object
-                    graphics.ScaleTransform(scaleX, scaleY);
-
-                    // Draw the original image onto the resized image
-                    graphics.DrawImage(image, 0, 0);
+                    graphics.DrawImage(image, 0, 0, width, height);
                 }
 
                 return resizedImage;
             }
 
-
             public void Transform(VideoFrame frame)
             {
-                // Get the Y, U, and V planes from the YUV420p frame
-                IntPtr[] planes = new IntPtr[3];
-                planes[0] = frame.GetPlane(0); // Y plane
-                planes[1] = frame.GetPlane(1); // U plane
-                planes[2] = frame.GetPlane(2); // V plane
+                // Obtain the Y plane of the video frame
+                IntPtr yPlane = frame.GetPlane(0);
 
-                // Get the strides for the Y, U, and V planes
-                int[] strides = new int[3];
-                strides[0] = frame.GetPlaneStride(0); // Y plane stride
-                strides[1] = frame.GetPlaneStride(1); // U plane stride
-                strides[2] = frame.GetPlaneStride(2); // V plane stride
+                // Get the dimensions of the video frame
+                int videoWidth = frame.Width;
+                int videoHeight = frame.Height;
 
-                // Convert the VideoFrame to a YUV420p frame
-                VideoFrame yuvFrame = VideoFrame.CreateYuv420pFrameFromBuffer(frame.PixelFormat, frame.Width, frame.Height, planes, strides);
-
-                // Create a new Bitmap from the YUV420p frame
-                Bitmap videoFrameBitmap = CreateBitmapFromYuv420pFrame(yuvFrame);
-
-                // Load the image
+                // Get the dimensions of the logo
                 Bitmap image = new Bitmap("Resources/Vonage_Logo.png");
 
                 // Calculate the desired size of the image
-                int desiredWidth = frame.Width / 8; // Adjust this value as needed
+                int desiredWidth = videoWidth / 10; // Adjust this value as needed
                 int desiredHeight = (int)(image.Height * ((float)desiredWidth / image.Width));
 
                 // Resize the image to the desired size
-                image = ResizeImage(image, desiredWidth, desiredHeight);
+                Bitmap newimage = ResizeImage(image, desiredWidth, desiredHeight);
 
-                // Calculate the position of the image
-                int imageX = frame.Width * 1 / 5; // X-coordinate of the image
-                int imageY = frame.Height * 1/5; // Y-coordinate of the image
+                int logoWidth = newimage.Width;
+                int logoHeight = newimage.Height;
 
-                // Create a Graphics object from the video frame bitmap
-                Graphics graphics = Graphics.FromImage(videoFrameBitmap);
+                // Location of the image (top right corner of video)
+                int logoPositionX = videoWidth * 5/6 - logoWidth; // Adjust this as needed for the desired position
+                int logoPositionY = videoHeight * 1/7 - logoHeight; // Adjust this as needed for the desired position
 
-                // Draw the image onto the video frame bitmap
-                graphics.DrawImage(image, imageX, imageY);
+                // Overlay the logo on the video frame
+                for (int y = 0; y < logoHeight; y++)
+                {
+                    for (int x = 0; x < logoWidth; x++)
+                    {
+                        int frameX = logoPositionX + x;
+                        int frameY = logoPositionY + y;
 
-                // Dispose of the Graphics object and the image
-                graphics.Dispose();
-                image.Dispose();
+                        if (frameX >= 0 && frameX < videoWidth && frameY >= 0 && frameY < videoHeight)
+                        {
+                            int frameOffset = frameY * videoWidth + frameX;
 
-                // Perform further operations with the transformed video frame...
+                            // Get the logo pixel color
+                            Color logoColor = newimage.GetPixel(x, y);
+
+                            // Extract the color channels (ARGB)
+                            int logoAlpha = logoColor.A;
+                            int logoRed = logoColor.R;
+
+                            // Overlay the logo pixel on the video frame
+                            int framePixel = Marshal.ReadByte(yPlane, frameOffset) & 0xFF;
+
+                            // Calculate the blended pixel value
+                            int blendedPixel = ((logoAlpha * logoRed + (255 - logoAlpha) * framePixel) / 255) & 0xFF;
+
+                            // Set the blended pixel value in the video frame
+                            Marshal.WriteByte(yPlane, frameOffset, (byte)blendedPixel);
+                        }
+                    }
+                }
             }
         }
     }
