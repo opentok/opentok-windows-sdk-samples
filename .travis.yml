@@ -7,21 +7,24 @@ before_script:
     - export PATH=$PATH:"/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/MSBuild/15.0/Bin"
 script:
     - cd BasicVideoChat
-    - nuget restore BasicVideoChat.sln
+    - nuget restore ../Samples.sln
     - MSBuild.exe
     - cd ..
     - cd CustomVideoRenderer
-    - nuget restore CustomVideoRenderer.sln
+    - nuget restore ../CustomVideoRenderer.sln
     - MSBuild.exe
     - cd ..
     - cd FrameMetaData
-    - nuget restore FrameMetaData.sln
+    - nuget restore ../FrameMetaData.sln
     - MSBuild.exe
     - cd ..
     - cd ScreenSharing
-    - nuget restore ScreenSharing.sln
+    - nuget restore ../ScreenSharing.sln
     - MSBuild.exe
     - cd ..
     - cd SimpleMultiParty
-    - nuget restore SimpleMultiParty.sln
+    - nuget restore ../SimpleMultiParty.sln
+    - MSBuild.exe
+    - cd VideoTransformers
+    - nuget restore ../VideoTransformers.sln
     - MSBuild.exe
