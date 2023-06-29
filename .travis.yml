@@ -6,5 +6,5 @@ install:
 before_script:
     - export PATH=$PATH:"/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/MSBuild/15.0/Bin"
 script:
-    - nuget restore ./Samples.sln
+    - nuget restore .\Samples.sln
     - MSBuild.exe
