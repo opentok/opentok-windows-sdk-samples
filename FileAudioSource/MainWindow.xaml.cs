@@ -9,9 +9,9 @@ namespace FileAudioSource
 {
     public partial class MainWindow : Window
     {
-        private const string API_KEY = "47446341";
-        private const string SESSION_ID = "2_MX40NzQ0NjM0MX5-MTY4NTM2NDk5MjU3MX5KV0xPR1ZRb1R2SG9hQzFCeElWSnBJUld-fn4";
-        private const string TOKEN = "T1==cGFydG5lcl9pZD00NzQ0NjM0MSZzaWc9YjY4YmQyNDJkYzIxM2ZhZmQwN2Y4NjYzNTM3OThmNjEzZjkyOTEzYzpzZXNzaW9uX2lkPTJfTVg0ME56UTBOak0wTVg1LU1UWTROVE0yTkRrNU1qVTNNWDVLVjB4UFIxWlJiMVIyU0c5aFF6RkNlRWxXU25CSlVsZC1mbjQmY3JlYXRlX3RpbWU9MTY4NTM2NTA1NyZub25jZT0wLjgwNDUwMzIzODMyNTUwNzcmcm9sZT1wdWJsaXNoZXImZXhwaXJlX3RpbWU9MTY4Nzk1NzA1NiZpbml0aWFsX2xheW91dF9jbGFzc19saXN0PQ==";
+        private const string API_KEY = "";
+        private const string SESSION_ID = "";
+        private const string TOKEN = "";
 
         private Context context;
         private Session session;

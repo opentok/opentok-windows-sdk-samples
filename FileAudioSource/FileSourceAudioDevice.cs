@@ -9,17 +9,6 @@ namespace OpenTok
 {
     public class FileSourceAudioDevice : IAudioDevice, IDisposable
     {
-        #region Constructors
-
-        /// <summary>
-        /// Creates the custom audio device.
-        /// </summary>
-        public FileSourceAudioDevice()
-        {
-        }
-
-        #endregion
-
         #region Public
 
         public void SelectSourceFile(string file)
@@ -96,7 +85,7 @@ namespace OpenTok
                     sourceFileStream.Close();
                     sourceFileStream.Dispose();
                     sourceFileStream = null;
-                }                
+                }
                 isAudioCapturerInitialized = false;
             }
         }
@@ -291,22 +280,6 @@ namespace OpenTok
         private FileStream sourceFileStream;
         private AudioDeviceSettings capturerSettings;
         private bool isDisposed;
-
-        private int WriteSamples(IntPtr buffer, uint numberOfFrames)
-        {
-            AudioDevice.AudioBus currentAudioBus = audioBus;
-            if (currentAudioBus == null)
-                return 0;
-            return currentAudioBus.WriteCaptureData(buffer, (int)numberOfFrames);
-        }
-
-        private int ReadSamples(IntPtr buffer, uint numberOfFrames)
-        {
-            AudioDevice.AudioBus currentAudioBus = audioBus;
-            if (currentAudioBus == null)
-                return 0;
-            return currentAudioBus.ReadRenderData(buffer, (int)numberOfFrames);
-        }
 
         #endregion
     }
