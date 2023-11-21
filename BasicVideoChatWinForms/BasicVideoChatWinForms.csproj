@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <Import Project="..\Shared.props" />
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -14,5 +13,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>bin\Release</OutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenTok.Client" Version="2.26.2.1" />
+  </ItemGroup>
 
 </Project>
