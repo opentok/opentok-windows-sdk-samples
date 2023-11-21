@@ -81,6 +81,11 @@ This app shows more advanced management of audio devices with notifications capa
 that allow detecting when new devices are added, removed or the default selection is changed at
 windows OS level.
 
+### FileAudioSource
+
+This app shows how to leverage IAudioDevice to provide a cusotm audio device that reads audio from
+a file and uses it as input for the audio stream.
+
 ## Development and Contributing
 
 Interested in contributing? We :heart: pull requests! See the
