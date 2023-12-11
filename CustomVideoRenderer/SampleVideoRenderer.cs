@@ -42,6 +42,17 @@ namespace CustomVideoRenderer
         private WriteableBitmap VideoBitmap;
 
         public bool EnableBlueFilter;
+        public bool EnableWatermark;
+        public bool AutoResize;
+
+        public WriteableBitmap Watermark
+        {
+            get; private set;
+        }
+        public float RelativeSize
+        {
+            get; set;
+        }
 
         static SampleVideoRenderer()
         {
@@ -53,6 +64,8 @@ namespace CustomVideoRenderer
             var brush = new ImageBrush();
             brush.Stretch = Stretch.UniformToFill;
             Background = brush;
+
+            Watermark = CreateFromResource("Data/vonage-logo-white-913x200.png");
         }
 
         public void RenderFrame(VideoFrame frame)
@@ -62,6 +75,9 @@ namespace CustomVideoRenderer
             {
                 try
                 {
+                    WriteableBitmap watermark = Watermark;
+                    Rect position = new Rect(10, 10, Watermark.PixelWidth, Watermark.PixelHeight);
+
                     if (frame.Width != FrameWidth || frame.Height != FrameHeight)
                     {
                         FrameWidth = frame.Width;
@@ -76,6 +92,27 @@ namespace CustomVideoRenderer
                         else
                         {
                             throw new Exception("Please use an ImageBrush as background in the SampleVideoRenderer control");
+                        }
+
+                        if (AutoResize)
+                        {
+                            int w = Watermark.PixelWidth;
+                            int h = Watermark.PixelHeight;
+
+                            float ratio = (float)w / h;
+                            if (ratio > 1)
+                            {
+                                w = (int)(FrameWidth * RelativeSize);
+                                h = (int)(w / ratio);
+                            }
+                            else
+                            {
+                                h = (int)(FrameHeight * RelativeSize);
+                                w = (int)(h * ratio);
+                            }
+
+                            watermark = ResizeWritableBitmap(Watermark, w, h);
+                            position = new Rect(10, 10, w, h);
                         }
                     }
 
@@ -100,6 +137,11 @@ namespace CustomVideoRenderer
                                     p += stride[0] - FrameWidth * 4;
                                 }
                             }
+
+                            if (EnableWatermark)
+                            {
+                                VideoBitmap.Blit(position, watermark, new Rect(0, 0, position.Width, position.Height));
+                            }
                         }
                         VideoBitmap.AddDirtyRect(new Int32Rect(0, 0, FrameWidth, FrameHeight));
                         VideoBitmap.Unlock();
@@ -110,6 +152,77 @@ namespace CustomVideoRenderer
                     frame.Dispose();
                 }
             }));
+        }
+
+        private WriteableBitmap CreateFromResource(string resource)
+        {
+            BitmapImage bi = new BitmapImage();
+            bi.BeginInit();
+            bi.UriSource = new Uri(resource, UriKind.RelativeOrAbsolute);
+            bi.EndInit();
+            return new WriteableBitmap(bi);
+        }
+
+        private static WriteableBitmap ResizeWritableBitmap(WriteableBitmap wBitmap, int reqWidth, int reqHeight)
+        {
+            int Stride = wBitmap.PixelWidth * ((wBitmap.Format.BitsPerPixel + 7) / 8);
+            int NumPixels = Stride * wBitmap.PixelHeight;
+            ushort[] ArrayOfPixels = new ushort[NumPixels];
+
+
+            wBitmap.CopyPixels(ArrayOfPixels, Stride, 0);
+
+            int OriWidth = (int)wBitmap.PixelWidth;
+            int OriHeight = (int)wBitmap.PixelHeight;
+
+            double nXFactor = (double)OriWidth / (double)reqWidth;
+            double nYFactor = (double)OriHeight / (double)reqHeight;
+
+            double fraction_x, fraction_y, one_minus_x, one_minus_y;
+            int ceil_x, ceil_y, floor_x, floor_y;
+
+            ushort pix1, pix2, pix3, pix4;
+            int nStride = reqWidth * ((wBitmap.Format.BitsPerPixel + 7) / 8);
+            int nNumPixels = reqWidth * reqHeight;
+            ushort[] newArrayOfPixels = new ushort[nNumPixels];
+
+            for (int y = 0; y < reqHeight; y++)
+            {
+                for (int x = 0; x < reqWidth; x++)
+                {
+                    // Setup
+                    floor_x = (int)Math.Floor(x * nXFactor);
+                    floor_y = (int)Math.Floor(y * nYFactor);
+
+                    ceil_x = floor_x + 1;
+                    if (ceil_x >= OriWidth) ceil_x = floor_x;
+
+                    ceil_y = floor_y + 1;
+                    if (ceil_y >= OriHeight) ceil_y = floor_y;
+
+                    fraction_x = x * nXFactor - floor_x;
+                    fraction_y = y * nYFactor - floor_y;
+
+                    one_minus_x = 1.0 - fraction_x;
+                    one_minus_y = 1.0 - fraction_y;
+
+                    pix1 = ArrayOfPixels[floor_x + floor_y * OriWidth];
+                    pix2 = ArrayOfPixels[ceil_x + floor_y * OriWidth];
+                    pix3 = ArrayOfPixels[floor_x + ceil_y * OriWidth];
+                    pix4 = ArrayOfPixels[ceil_x + ceil_y * OriWidth];
+
+                    ushort g1 = (ushort)(one_minus_x * pix1 + fraction_x * pix2);
+                    ushort g2 = (ushort)(one_minus_x * pix3 + fraction_x * pix4);
+                    ushort g = (ushort)(one_minus_y * (double)(g1) + fraction_y * (double)(g2));
+                    newArrayOfPixels[y * reqWidth + x] = g;
+                }
+            }
+
+            WriteableBitmap newWBitmap = new WriteableBitmap(reqWidth, reqHeight, 96, 96, PixelFormats.Gray16, null);
+            Int32Rect Imagerect = new Int32Rect(0, 0, reqWidth, reqHeight);
+            int newStride = reqWidth * ((PixelFormats.Gray16.BitsPerPixel + 7) / 8);
+            newWBitmap.WritePixels(Imagerect, newArrayOfPixels, newStride, 0);
+            return newWBitmap;
         }
     }
 }
