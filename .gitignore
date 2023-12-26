@@ -189,3 +189,7 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+
+## Added by Vonage Video Client Team
+packages
+*/resources/selfie_segmentation.tflite
