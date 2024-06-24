@@ -28,7 +28,7 @@ namespace FileAudioSource
             fileSourceAudioDevice.AudioPropertiesChanged += FileSourceAudioDevice_AudioPropertiesChanged;
 
             // Uncomment following line to get debug logging
-            // LogUtil.Instance.EnableLogging();
+            // Logger.Enable();
 
             publisher = new Publisher.Builder(context)
             {
