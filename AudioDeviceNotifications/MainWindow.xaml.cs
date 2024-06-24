@@ -23,7 +23,7 @@ namespace BasicVideoChat
             InitializeComponent();
 
             // Uncomment following line to get debug logging
-            Logger.Enable(Logger.Level.Debug);
+            // Logger.Enable();
 
             context = new Context(dispatcher);
 

@@ -23,7 +23,7 @@ namespace BasicVideoChat
             context = new Context(new WPFDispatcher());
 
             // Uncomment following line to get debug logging
-            // LogUtil.Instance.EnableLogging();
+            // Logger.Enable();
 
             IList<VideoCapturer.VideoDevice> capturerDevices = VideoCapturer.EnumerateDevices();
             if (capturerDevices == null || capturerDevices.Count == 0)

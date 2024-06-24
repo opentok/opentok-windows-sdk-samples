@@ -103,7 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="OpenTok.Client">
-      <Version>2.27.1</Version>
+      <Version>2.27.2</Version>
     </PackageReference>
     <PackageReference Include="SharpDX">
       <Version>4.2.0</Version>
