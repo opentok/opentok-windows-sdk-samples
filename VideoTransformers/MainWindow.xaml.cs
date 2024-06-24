@@ -58,19 +58,32 @@ namespace VideoTransformers
         {
             Session.Publish(Publisher);
 
+            /* Vonage video background blur transformer */
             VideoTransformer backgroundBlur = new VideoTransformer("BackgroundBlur", "{\"radius\":\"High\"}");
-            ICustomVideoTransformer customBorder = new BorderTransformer();
-            VideoTransformer border = new VideoTransformer("border", customBorder);
 
-            List<VideoTransformer> transformers = new List<VideoTransformer>
+            /* Custom video transformer */
+            ICustomVideoTransformer customLogo = new LogoTransformer();
+            VideoTransformer logo = new VideoTransformer("logo", customLogo);
+
+            List<VideoTransformer> videoTransformers = new List<VideoTransformer>
             {
                 backgroundBlur,
-                border
+                logo
             };
 
             // List of video transformers
-            Publisher.VideoTransformers = transformers;
+            Publisher.VideoTransformers = videoTransformers;
 
+            /* Vonage audio noise suppression transformer */
+            AudioTransformer audioTransformer = new AudioTransformer("NoiseSuppression", "");
+
+            List<AudioTransformer> audioTransformers = new List<AudioTransformer>
+            {
+                audioTransformer
+            };
+
+            // List of audio transformers
+            Publisher.AudioTransformers = audioTransformers;
         }
  
         private void Session_Disconnected(object sender, System.EventArgs e)
@@ -92,7 +105,7 @@ namespace VideoTransformers
             Session.Subscribe(subscriber);
         }
 
-        public class BorderTransformer : ICustomVideoTransformer
+        public class LogoTransformer : ICustomVideoTransformer
         {
             public Bitmap ResizeImage(Bitmap image, int width, int height)
             {
