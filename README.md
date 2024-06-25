@@ -86,6 +86,12 @@ windows OS level.
 This app shows how to leverage IAudioDevice to provide a cusotm audio device that reads audio from
 a file and uses it as input for the audio stream.
 
+### Transformers
+
+This sample shows how to leverage the media processing API to apply transformations to the video and audio streams.
+The sample uses both custom transformers and standard transformers like blur and noise suppression provided by Vonage.
+For the latter, and additional package "Vonage.Client.Video.Transformers" is required.
+
 ## Development and Contributing
 
 Interested in contributing? We :heart: pull requests! See the

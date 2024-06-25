@@ -1,15 +1,15 @@
-VideoTransformers
+Transformers
 ==============
 
-VideoTransformers is a simple application meant to get a new developer started using the
-OpenTok Windows SDK. For a full description, see the [Basic tutorial at the OpenTok developer
+Transformers is a simple application meant to get a new developer started using the
+OpenTok Windows SDK Transformers API. For a full description, see the [Basic tutorial at the OpenTok developer
 center](https://tokbox.com/developer/tutorials/windows/basic-video-chat/).
 
 *Important:* To use this application, follow the instructions in the
 [Quick Start](../README.md#quick-start) section of the main README file for this repository.
 
 <p class="topic-summary">
-You can use pre-built transformers in the Vonage Media Processor library or create your own custom video transformer to apply to published video.
+You can use pre-built transformers in the Vonage Media Processor library or create your own custom video transformer to apply to published video/audio.
 </p>
 
 You can use the
