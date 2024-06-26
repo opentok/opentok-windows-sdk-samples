@@ -5,10 +5,10 @@ All notable changes to this project will be documented in this file.
 ## 2.27.2
 
 ### Changed
-Name of the prject changed from VideoTransformers to Transformers.
+Name of the project changed from VideoTransformers to Transformers.
 
 ### Added
-Noise suppresion audio transformer added to sample.
+Noise suppression audio transformer added to sample.
 
 ## 2.25.2
 
