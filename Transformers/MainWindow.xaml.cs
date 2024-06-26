@@ -21,6 +21,8 @@ namespace VideoTransformers
         private Context context;
         private Session Session;
         private Publisher Publisher;
+        private List<VideoTransformer> videoTransformers;
+        private List<AudioTransformer> audioTransformers;
 
         public MainWindow()
         {
@@ -58,36 +60,45 @@ namespace VideoTransformers
         {
             Session.Publish(Publisher);
 
-            /* Vonage video background blur transformer */
+            /* Vonage background blur video transformer */
             VideoTransformer backgroundBlur = new VideoTransformer("BackgroundBlur", "{\"radius\":\"High\"}");
 
             /* Custom video transformer */
             ICustomVideoTransformer customLogo = new LogoTransformer();
             VideoTransformer logo = new VideoTransformer("logo", customLogo);
 
-            List<VideoTransformer> videoTransformers = new List<VideoTransformer>
+            videoTransformers = new List<VideoTransformer>
             {
                 backgroundBlur,
                 logo
             };
 
-            // List of video transformers
+            /* List of video transformers */
             Publisher.VideoTransformers = videoTransformers;
 
-            /* Vonage audio noise suppression transformer */
+            /* Vonage noise suppression audio transformer */
             AudioTransformer audioTransformer = new AudioTransformer("NoiseSuppression", "");
 
-            List<AudioTransformer> audioTransformers = new List<AudioTransformer>
+            audioTransformers = new List<AudioTransformer>
             {
                 audioTransformer
             };
 
-            // List of audio transformers
+            /* List of audio transformers */
             Publisher.AudioTransformers = audioTransformers;
         }
  
         private void Session_Disconnected(object sender, System.EventArgs e)
         {
+            /* Allow internal implementation to free resources allocated for transformers */
+            Publisher.VideoTransformers = null;
+            foreach (VideoTransformer videoTransformer in videoTransformers)
+                videoTransformer.Dispose();
+
+            Publisher.AudioTransformers = null;
+            foreach (AudioTransformer audioTransformer in audioTransformers)
+                audioTransformer.Dispose();
+
             Trace.WriteLine("Session disconnected.");
         }
 

@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Shared.props = Shared.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoTransformers", "VideoTransformers\VideoTransformers.csproj", "{A024FCB3-2AAE-4FC5-A693-AC1EBF2B4EA3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transformers", "Transformers\Transformers.csproj", "{A024FCB3-2AAE-4FC5-A693-AC1EBF2B4EA3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileAudioSource", "FileAudioSource\FileAudioSource.csproj", "{DF44A453-1359-4A30-828F-9D1B169032B8}"
 EndProject
