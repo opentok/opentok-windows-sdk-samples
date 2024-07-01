@@ -15,11 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<< Updated upstream
-    <PackageReference Include="OpenTok.Client" Version="2.27.2" />
-=======
     <PackageReference Include="OpenTok.Client" Version="2.28.0" />
->>>>>>> Stashed changes
   </ItemGroup>
 
 </Project>
