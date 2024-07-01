@@ -93,11 +93,7 @@
       <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="OpenTok.Client">
-<<<<<<< Updated upstream
       <Version>2.27.2</Version>
-=======
-      <Version>2.28.0</Version>
->>>>>>> Stashed changes
     </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.26.0</Version>
