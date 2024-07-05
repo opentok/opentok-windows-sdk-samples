@@ -35,11 +35,6 @@ namespace BasicVideoChat
                 Renderer = PublisherVideo
             }.Build();
 
-            IList<AudioDevice.InputAudioDevice> availableMics = AudioDevice.EnumerateInputAudioDevices();
-            if (availableMics == null || availableMics.Count == 0)
-                throw new Exception("No audio capture devices detected");
-            AudioDevice.SetInputAudioDevice(availableMics[0]);
-
             Session = new Session.Builder(context, API_KEY, SESSION_ID).Build();
             Session.Connected += Session_Connected;
             Session.Disconnected += Session_Disconnected;

@@ -92,6 +92,10 @@ This sample shows how to leverage the media processing API to apply transformati
 The sample uses both custom transformers and standard transformers like blur and noise suppression provided by Vonage.
 For the latter, and additional package "Vonage.Client.Video.Transformers" is required.
 
+### AudioRecording
+
+This sample uses the AudioData API to record the audio received by a subscriber and save it to a wav file.
+
 ## Development and Contributing
 
 Interested in contributing? We :heart: pull requests! See the
