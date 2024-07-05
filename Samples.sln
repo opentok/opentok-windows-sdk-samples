@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transformers", "Transformer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileAudioSource", "FileAudioSource\FileAudioSource.csproj", "{DF44A453-1359-4A30-828F-9D1B169032B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioRecording", "AudioRecording\AudioRecording.csproj", "{1884E8FC-5DF3-4521-81A8-4976C8E94A8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -158,6 +160,18 @@ Global
 		{DF44A453-1359-4A30-828F-9D1B169032B8}.Release|x64.Build.0 = Release|Any CPU
 		{DF44A453-1359-4A30-828F-9D1B169032B8}.Release|x86.ActiveCfg = Release|Any CPU
 		{DF44A453-1359-4A30-828F-9D1B169032B8}.Release|x86.Build.0 = Release|Any CPU
+		{1884E8FC-5DF3-4521-81A8-4976C8E94A8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1884E8FC-5DF3-4521-81A8-4976C8E94A8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1884E8FC-5DF3-4521-81A8-4976C8E94A8B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1884E8FC-5DF3-4521-81A8-4976C8E94A8B}.Debug|x64.Build.0 = Debug|Any CPU
+		{1884E8FC-5DF3-4521-81A8-4976C8E94A8B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1884E8FC-5DF3-4521-81A8-4976C8E94A8B}.Debug|x86.Build.0 = Debug|Any CPU
+		{1884E8FC-5DF3-4521-81A8-4976C8E94A8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1884E8FC-5DF3-4521-81A8-4976C8E94A8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1884E8FC-5DF3-4521-81A8-4976C8E94A8B}.Release|x64.ActiveCfg = Release|Any CPU
+		{1884E8FC-5DF3-4521-81A8-4976C8E94A8B}.Release|x64.Build.0 = Release|Any CPU
+		{1884E8FC-5DF3-4521-81A8-4976C8E94A8B}.Release|x86.ActiveCfg = Release|Any CPU
+		{1884E8FC-5DF3-4521-81A8-4976C8E94A8B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
