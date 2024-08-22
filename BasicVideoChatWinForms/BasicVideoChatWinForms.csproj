@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="OpenTok.Client" Version="2.28.1" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.3" />
   </ItemGroup>
 
 </Project>

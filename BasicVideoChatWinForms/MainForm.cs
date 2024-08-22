@@ -18,7 +18,18 @@ namespace BasicVideoChatWinForms
         {
             InitializeComponent();
 
-            context = new Context(new WinFormsDispatcher(this));            
+            Load += MainForm_Load;                  
+        }
+
+        #region Private
+
+        private Context context;
+        private Session Session;
+        private Publisher Publisher;
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            context = new Context(new WinFormsDispatcher(this));
 
             IList<VideoCapturer.VideoDevice> capturerDevices = VideoCapturer.EnumerateDevices();
             if (capturerDevices == null || capturerDevices.Count == 0)
@@ -41,14 +52,8 @@ namespace BasicVideoChatWinForms
             Session.Error += Session_Error;
             Session.StreamReceived += Session_StreamReceived;
 
-            Session.Connect(TOKEN);         
+            Session.Connect(TOKEN);
         }
-
-        #region Private
-
-        private Context context;
-        private Session Session;
-        private Publisher Publisher;
 
         private void Session_Connected(object sender, System.EventArgs e)
         {
