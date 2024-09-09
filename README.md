@@ -83,8 +83,8 @@ windows OS level.
 
 ### FileAudioSource
 
-This app shows how to leverage IAudioDevice to provide a cusotm audio device that reads audio from
-a file and uses it as input for the audio stream.
+This sample implements the renderer subsystem of a custom audio device (IAudioDevice) to read audio from
+a file and use it as input for the audio stream of a publisher.
 
 ### Transformers
 
@@ -95,6 +95,10 @@ For the latter, and additional package "Vonage.Client.Video.Transformers" is req
 ### AudioRecording
 
 This sample uses the AudioData API to record the audio received by a subscriber and save it to a wav file.
+
+### CustomAudioFileCapturer
+
+This sample implements the capturer subsystem of a custom audio device (IAudioDevice) to record received audio to a wav file.
 
 ## Development and Contributing
 
