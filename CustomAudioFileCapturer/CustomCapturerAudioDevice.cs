@@ -202,7 +202,8 @@ namespace CustomAudioFileCapturer
                             {
                                 try
                                 {
-                                    if (DateTime.Now >= nextBatchTime)
+                                    DateTime now = DateTime.Now;
+                                    if (now >= nextBatchTime)
                                     {
                                         nextBatchTime += new TimeSpan(0, 0, 0, 0, 10);
                                         int samples = audioBus.ReadRenderData((IntPtr)bufferPtr, numberOfSamplesPer10ms);
@@ -212,7 +213,8 @@ namespace CustomAudioFileCapturer
                                             outputFileStream.Flush();
                                         }
                                     }
-                                    Thread.Sleep(1);
+                                    TimeSpan sleepTime = nextBatchTime > now ? nextBatchTime - now : TimeSpan.Zero;
+                                    Thread.Sleep(sleepTime);
                                 }
                                 catch (Exception ex)
                                 {
