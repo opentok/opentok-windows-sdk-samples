@@ -1,0 +1,15 @@
+﻿<Window x:Class="CustomAudioFileCapturer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CustomAudioFileCapturer"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button x:Name="StartRecordingButton" Content="Start Recording" Height="40" HorizontalAlignment="Center" Click="StartRecordingButton_Click" />
+            <Button x:Name="StopRecordingButton" Content="Stop Recording" Height="40" HorizontalAlignment="Center" Click="StopRecordingButton_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
