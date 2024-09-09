@@ -206,7 +206,7 @@ namespace CustomAudioFileCapturer
                                     if (now >= nextBatchTime)
                                     {
                                         nextBatchTime += new TimeSpan(0, 0, 0, 0, 10);
-                                        int samples = audioBus.ReadRenderData((IntPtr)bufferPtr, numberOfSamplesPer10ms);
+                                        audioBus.ReadRenderData((IntPtr)bufferPtr, numberOfSamplesPer10ms);
                                         if (isRecording)
                                         {
                                             outputFileStream.Write(buffer, 0, numberOfSamplesPer10ms * rendererSettings.NumChannels * BYTES_PER_SAMPLE);
