@@ -100,6 +100,13 @@ This sample uses the AudioData API to record the audio received by a subscriber 
 
 This sample implements the capturer subsystem of a custom audio device (IAudioDevice) to record received audio to a wav file.
 
+### ClientObservability
+
+This sample shows how to leverage all the features related to client observability, both old and new:
+- Publisher stats
+- Subscriber Stats
+- RTC stats
+
 ## Development and Contributing
 
 Interested in contributing? We :heart: pull requests! See the
