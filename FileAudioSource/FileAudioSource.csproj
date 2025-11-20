@@ -103,7 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="OpenTok.Client">
-      <Version>2.31.1</Version>
+      <Version>2.32.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
