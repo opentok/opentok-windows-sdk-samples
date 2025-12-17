@@ -101,8 +101,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="OpenTok.Client">
-      <Version>2.32.0</Version>
+    <PackageReference Include="Vonage.Client.Video">
+      <Version>2.32.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
