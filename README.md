@@ -1,3 +1,5 @@
+:warning: **This repository has been deprecated in favour of the [Vonage Windows samples](https://github.com/Vonage/vonage-video-windows-sdk-samples)** :warning:
+
 # OpenTok Windows SDK Samples
 
 <img src="https://assets.tokbox.com/img/vonage/Vonage_VideoAPI_black.svg" height="48px" alt="Tokbox is now known as Vonage" />
